@@ -18,7 +18,8 @@
             <a href="#" class="text-dark text-decoration-none fw-bold small">커뮤니티</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small text-danger">부트캠프</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">이벤트</a>
-            <a href="#" class="text-dark text-decoration-none fw-bold small">칼럼</a>
+            <a hre\
+            f="#" class="text-dark text-decoration-none fw-bold small">칼럼</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">공지사항</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">채용정보</a>
         </div>
@@ -26,7 +27,9 @@
 
     <div class="d-flex align-items-center gap-2">
         <input type="text" class="form-control form-control-sm bg-light border-0" placeholder="검색" style="width: 140px;">
-        <button class="btn btn-sm btn-outline-secondary border-0 fw-bold">로그인</button>
+        
+        <a href="${pageContext.request.contextPath}/login" class="btn btn-sm btn-outline-secondary border-0 fw-bold">로그인</a>
+        
         <button class="btn btn-sm btn-primary px-3 fw-bold shadow-sm">회원가입</button>
     </div>
 </div>

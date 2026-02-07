@@ -16,4 +16,10 @@
         <put-attribute name="title" value="OKKY 클론 - 메인" />
         <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
     </definition>
+    
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+    </definition>
+    
+    
 </tiles-definitions>
