@@ -6,6 +6,15 @@
   version="4.0">
   
   <display-name>myFirstProject</display-name>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring/root-context.xml</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
   
   <servlet>
     <servlet-name>appServlet</servlet-name>
@@ -15,11 +24,11 @@
         <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-</servlet>
+  </servlet>
 
-<servlet-mapping>
+  <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
-</servlet-mapping>
+  </servlet-mapping>
     
 </web-app>
