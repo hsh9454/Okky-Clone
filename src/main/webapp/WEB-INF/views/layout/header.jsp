@@ -17,9 +17,8 @@
             <a href="#" class="text-dark text-decoration-none fw-bold small">지식</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">커뮤니티</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small text-danger">부트캠프</a>
-            <a href="#" class="text-dark text-decoration-none fw-bold small">이벤트</a>
-            <a hre\
-            f="#" class="text-dark text-decoration-none fw-bold small">칼럼</a>
+            <a href="#" class="text-dark text-decoration-none fw-bold small">이벤트</a>          
+            <a href="#" class="text-dark text-decoration-none fw-bold small">칼럼</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">공지사항</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">채용정보</a>
         </div>
