@@ -13,7 +13,7 @@
         <a href="#" class="text-primary fw-bolder fs-4 text-decoration-none me-4">OKKY</a>
         
         <div class="d-none d-lg-flex gap-3 ms-1">
-            <a href="#" class="text-dark text-decoration-none fw-bold small">Q&A</a>
+            <a href="#" class="text-dark text-decoration-none fw-bold small">Q&amp;A</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">지식</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small">커뮤니티</a>
             <a href="#" class="text-dark text-decoration-none fw-bold small text-danger">부트캠프</a>
