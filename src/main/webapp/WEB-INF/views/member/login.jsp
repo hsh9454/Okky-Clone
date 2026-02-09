@@ -5,7 +5,7 @@
             <h3 class="fw-bold text-primary">OKKY</h3>
             <p class="text-muted">개발자 커뮤니티 OKKY에 오신 것을 환영합니다.</p>
         </div>
-        <form action="${pageContext.request.contextPath}/login" method="post" class="p-4 border rounded shadow-sm bg-white">
+        <form action="${pageContext.request.contextPath}/member/login" method="post" class="p-4 border rounded shadow-sm bg-white">
             <div class="mb-3">
                 <label class="form-label small fw-bold">아이디</label>
                 <input type="text" name="id" class="form-control" placeholder="아이디를 입력하세요">
