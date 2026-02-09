@@ -6,4 +6,5 @@ import com.okkyclone.domain.BoardVO;
 
 public interface BoardService {
     public List<BoardVO> getList();
+    public void register(BoardVO board);
 }

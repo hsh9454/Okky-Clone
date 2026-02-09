@@ -3,13 +3,21 @@ package com.okkyclone.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // 데이터 바구니 임포트
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.okkyclone.domain.BoardVO;
 import com.okkyclone.service.BoardService;
 
 @Controller
 public class MainController {
+    
 
+	@GetMapping("/register")
+	public void register() {
+	}
+	
     @Autowired
     private BoardService boardService; 
 
@@ -18,4 +26,12 @@ public class MainController {
         model.addAttribute("boardList", boardService.getList());         
         return "main"; 
     }
+    
+    @PostMapping("/register")
+    public String register(BoardVO board) {
+    	boardService.register(board);
+    	return "redirect:/";
+    }
+    
+    
 }
