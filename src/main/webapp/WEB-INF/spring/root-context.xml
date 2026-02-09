@@ -19,6 +19,6 @@
 	</bean>
 		
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.mytest.mapper" />
+		<property name="basePackage" value="com.okkyclone.mapper" />
 	</bean>
 </beans>

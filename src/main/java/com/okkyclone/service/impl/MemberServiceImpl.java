@@ -1,10 +1,11 @@
-package com.mytest.service.impl;
+package com.okkyclone.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mytest.domain.MemberVO;
-import com.mytest.mapper.MemberMapper;
-import com.mytest.service.MemberService;
+
+import com.okkyclone.domain.MemberVO;
+import com.okkyclone.mapper.MemberMapper;
+import com.okkyclone.service.MemberService;
 
 @Service
 public class MemberServiceImpl implements MemberService {

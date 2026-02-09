@@ -1,4 +1,4 @@
-package com.mytest.domain;
+package com.okkyclone.domain;
 
 public class MemberVO {
 	private String id;

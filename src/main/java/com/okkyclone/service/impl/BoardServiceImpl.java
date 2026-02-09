@@ -1,11 +1,12 @@
-package com.mytest.service.impl;
+package com.okkyclone.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mytest.domain.BoardVO;
-import com.mytest.mapper.BoardMapper;
-import com.mytest.service.BoardService;
+
+import com.okkyclone.domain.BoardVO;
+import com.okkyclone.mapper.BoardMapper;
+import com.okkyclone.service.BoardService;
 
 @Service
 public class BoardServiceImpl implements BoardService {

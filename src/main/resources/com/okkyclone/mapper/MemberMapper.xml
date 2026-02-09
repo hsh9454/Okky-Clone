@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mytest.mapper.MemberMapper">
+<mapper namespace="com.okkyclone.mapper.MemberMapper">
 
-    <select id="login" parameterType="com.mytest.domain.MemberVO" resultType="com.mytest.domain.MemberVO">
+    <select id="login" parameterType="com.okkyclone.domain.MemberVO" resultType="com.okkyclone.domain.MemberVO">
         SELECT 
             USER_ID as id, 
             USER_PW as pw, 

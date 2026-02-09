@@ -1,6 +1,6 @@
-package com.mytest.service;
+package com.okkyclone.service;
 
-import com.mytest.domain.MemberVO;
+import com.okkyclone.domain.MemberVO;
 
 public interface MemberService {
 	public MemberVO login(MemberVO vo);

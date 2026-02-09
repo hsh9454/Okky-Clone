@@ -1,4 +1,4 @@
-package com.mytest.domain;
+package com.okkyclone.domain;
 
 import java.util.Date;
 

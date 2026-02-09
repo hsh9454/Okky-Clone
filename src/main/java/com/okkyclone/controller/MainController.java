@@ -1,10 +1,11 @@
-package com.mytest.controller;
+package com.okkyclone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // 데이터 바구니 임포트
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.mytest.service.BoardService; // 게시판 비서 임포트
+
+import com.okkyclone.service.BoardService;
 
 @Controller
 public class MainController {

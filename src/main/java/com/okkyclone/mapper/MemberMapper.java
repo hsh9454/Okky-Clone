@@ -1,6 +1,6 @@
-package com.mytest.mapper;
+package com.okkyclone.mapper;
 
-import com.mytest.domain.MemberVO;
+import com.okkyclone.domain.MemberVO;
 
 public interface MemberMapper {
     public MemberVO login(MemberVO vo);
