@@ -1,0 +1,8 @@
+/target/
+/.settings/
+/.metadate/
+.classpath
+.project
+.factorypath
+*.log
+db.properties
