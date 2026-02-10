@@ -21,5 +21,8 @@
         <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
     </definition>
     
-    
+    <definition name="mamber/list" extends="baseLayout">
+        <put-attribute name="title" value="게시글 목록" />
+        <put-attribute name="body" value="/WEB-INF/views/member/list.jsp" />
+    </definition>
 </tiles-definitions>
