@@ -28,9 +28,27 @@
         </div>
 
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary">수정 완료</button>
+            <button type="button" class="btn btn-primary" onclick="handleBtn('modify')">수정 완료</button>
+            <button type="button" class="btn btn-danger" onclick="handleBtn('remove')">삭제</button>
             <button type="button" class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'">취소</button>
         </div>
         
     </form> 
+
+<script>
+function handleBtn(type) {
+
+    var formObj = document.querySelector("form");
+   
+    if(type === 'remove') {
+        alert("삭제를 시도합니다!");
+        formObj.action = "${pageContext.request.contextPath}/board/remove";
+    } else if(type === 'modify') {
+        alert("수정을 시도합니다!");
+        formObj.action = "${pageContext.request.contextPath}/board/modify";
+    }  
+    formObj.submit();
+}
+</script>
+    
 </div>
