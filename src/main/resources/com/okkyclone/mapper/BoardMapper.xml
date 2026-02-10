@@ -13,9 +13,13 @@
 		]]>
 	</select>
 
-<insert id="insert">
-    INSERT INTO tbl_board (bno, title, content, writer)
-    VALUES (seq_board.nextval, #{title}, #{content}, #{writer})
-</insert>
+    <insert id="insert">
+        INSERT INTO tbl_board (bno, title, content, writer)
+        VALUES (seq_board.nextval, #{title}, #{content}, #{writer})
+    </insert>
+
+    <select id="read" resultType="com.okkyclone.domain.BoardVO">
+        select * from tbl_board where bno = #{bno}
+    </select>
 
 </mapper>

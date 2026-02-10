@@ -5,6 +5,7 @@ import java.util.List;
 import com.okkyclone.domain.BoardVO;
 
 public interface BoardService {
+	public BoardVO get(Long bno);
     public List<BoardVO> getList();
     public void register(BoardVO board);
 }

@@ -14,9 +14,9 @@
     <tbody>
         <c:forEach items="${list}" var="board">
             <tr>
-                <td>{board.bno}</td>
+                <td>${board.bno}</td>
                 <td>
-                    <a href="/myFiestProject/member/get?bno+${board.bno}">${board.title}</a>
+                    <a href="/myFirstProject/board/get?bno=${board.bno}">${board.title}</a>
                 </td>
                 <td>${board.writer}</td>
             </tr>

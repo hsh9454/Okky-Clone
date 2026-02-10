@@ -22,5 +22,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void register(BoardVO board) {
         mapper.insert(board); 
-    }   
+    } 
+    
+    @Override
+    public BoardVO get(Long bno) {
+        return mapper.read(bno);
+    }
 }
