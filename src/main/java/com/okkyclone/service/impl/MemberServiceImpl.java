@@ -26,6 +26,5 @@ public class MemberServiceImpl implements MemberService {
     public MemberVO get(String userid) {
         return null;
     }
-
-  
+    
 }

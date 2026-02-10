@@ -32,6 +32,6 @@
 
     <div class="mt-3">
         <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/'">목록으로</button>
-        <button class="btn btn-warning" onclick="location.href='${pageContext.request.contextPath}/modify?bno=${board.bno}'">수정하기</button>
+        <button class="btn btn-warning" onclick="location.href='${pageContext.request.contextPath}/board/modify?bno=${board.bno}'">수정하기</button>
     </div>
 </div>

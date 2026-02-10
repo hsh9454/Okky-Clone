@@ -31,4 +31,9 @@ public class BoardServiceImpl implements BoardService {
         return mapper.read(bno);
     }
     
+    @Override
+    public boolean modify(BoardVO board) {
+        return mapper.update(board) == 1; 
+    }
+    
 }

@@ -9,5 +9,5 @@ public interface BoardMapper {
     public void insert(BoardVO board);
     public BoardVO read(Long bno);
     public void updateViewCount(Long bno);
-       
+    public int update(BoardVO board);
 }
