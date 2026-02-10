@@ -2,9 +2,13 @@
 
 <div class="nav flex-column nav-pills gap-1">
     <small class="text-muted fw-bold mb-2 px-3" style="font-size: 0.75rem;">COMMUNITY</small>
-    <a class="nav-link active bg-primary shadow-sm mb-2" href="#">Home</a>
+   
+    <a class="nav-link active bg-primary shadow-sm mb-2" href="/myFirstProject/">Home</a>
+    
     <a class="nav-link link-dark" href="#">Q&amp;A</a>
-    <a class="nav-link link-dark" href="#">커뮤니티</a>
+    
+    <a class="nav-link link-dark" href="/myFirstProject/board/list">커뮤니티)</a>
+    
     <a class="nav-link link-dark" href="#">칼럼</a>
     
     <hr class="my-3">
