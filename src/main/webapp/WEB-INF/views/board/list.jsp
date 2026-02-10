@@ -25,4 +25,4 @@
 </table>                  
 
 <br>
-<a href="/myFirstProject/member/register">글쓰기</a>
+<a href="${pageContext.request.contextPath}/register">글쓰기</a>
