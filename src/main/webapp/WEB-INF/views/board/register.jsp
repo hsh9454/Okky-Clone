@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>글쓰기 - OKKY Clone</title>
 
 <Link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,14 +7,11 @@
 <Link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-</head>
-
-<body>
 <div class="container mt-5">
     <h2>새 글 작성</h2>
     <hr>
     
-    <form action="register" method="post">
+    <form action="${pageContext.request.contextPath}/register" method="post">
         <div class="form-group">
             <label>제목</label>
             <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요">
@@ -49,5 +41,3 @@ $(document).ready(function(){
 	});
 });
 </script>
-</body>
-</html>

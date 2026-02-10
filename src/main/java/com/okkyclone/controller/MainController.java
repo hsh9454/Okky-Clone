@@ -30,7 +30,7 @@ public class MainController {
     
     @PostMapping("/register")
     public String register(BoardVO board) {
-    	boardService.register(board);
+    	 boardService.register(board);
     	return "redirect:/";
     }
     

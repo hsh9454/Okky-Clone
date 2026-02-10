@@ -22,4 +22,10 @@
         select * from tbl_board where bno = #{bno}
     </select>
 
+    <update id="updateViewCount">
+        UPDATE tbl_board
+        SET viewcnt = viewcnt + 1
+        WHERE bno = #{bno}
+    </update>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.okkyclone.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class BoardServiceImpl implements BoardService {
     
     @Override
     public BoardVO get(Long bno) {
+    	mapper.updateViewCount(bno);
         return mapper.read(bno);
     }
+    
 }

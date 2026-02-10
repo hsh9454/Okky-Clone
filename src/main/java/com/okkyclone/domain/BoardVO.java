@@ -8,8 +8,16 @@ public class BoardVO {
     private String content; 
     private String writer; 
     private Date regdate;   
+    private int viewcnt;
+    
 
-    public Long getBno() { return bno; }
+    public int getViewcnt() {
+		return viewcnt;
+	}
+	public void setViewcnt(int viewcnt) {
+		this.viewcnt = viewcnt;
+	}
+	public Long getBno() { return bno; }
     public void setBno(Long bno) { this.bno = bno; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
