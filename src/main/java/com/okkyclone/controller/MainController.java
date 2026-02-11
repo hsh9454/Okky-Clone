@@ -1,38 +1,46 @@
 package com.okkyclone.controller;
 
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.service.BoardService;
+import com.okkyclone.domain.MemberVO;  
 
 @Controller
-public class MainController {
+public class MainController {  
+	
+    @Autowired
+    private BoardService boardService; 
     
+    @Autowired
+    private BoardService service;
+	
+	@RequestMapping("/")
+    public String mainPage(Model model) { 
+        model.addAttribute("boardList", boardService.getList());         
+        return "main"; 
+    }
 
 	@GetMapping("/register")
 	public String register() {
 		return "board/register";
 	}
 	
-    @Autowired
-    private BoardService boardService; 
-
-    @RequestMapping("/")
-    public String mainPage(Model model) { 
-        model.addAttribute("boardList", boardService.getList());         
-        return "main"; 
+	@PostMapping("/register")
+    public String register(BoardVO board, HttpSession session) {
+    	MemberVO loginUser = (MemberVO) session.getAttribute("user");
+    	 if(loginUser == null) {
+    		 return "redirect:/member/login";
+    	 }
+    	 board.setWriter(loginUser.getUserid());
+    	 service.register(board);
+    	 return "redirect:/";
     }
-    
-    @PostMapping("/register")
-    public String register(BoardVO board) {
-    	 boardService.register(board);
-    	return "redirect:/";
-    }
-    
-    
-}
+} 

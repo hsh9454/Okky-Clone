@@ -20,7 +20,11 @@
                 <div class="list-group list-group-flush border-top">
                     <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
                         <div class="text-truncate" style="max-width: 80%;">
+                        
+                        <a href="${pageContext.request.contextPath}/board/get?bno=${board.bno}"
+                            style="text-decoration: none; color: inherit;">  
                             <span class="fw-medium" style="font-size: 0.85rem;">${board.title}</span>
+                        </a>    
                             <span class="text-primary small ms-1">(0)</span>
                             <span class="badge bg-danger ms-1" style="font-size: 0.6rem;">N</span>
                         </div>

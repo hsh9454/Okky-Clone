@@ -23,11 +23,19 @@ public class BoardController {
     public void list(Model model) {
         model.addAttribute("list", service.getList());
     }
-       
-    @GetMapping({"/get", "modify"})
-    public void get(@RequestParam("bno") Long bno, Model model) {
+
+    @GetMapping("/get")
+    public String get(@RequestParam("bno") Long bno, Model model) {
         model.addAttribute("board", service.get(bno));
+        return "board/get";
     }
+    
+    @GetMapping("/modify")
+    public String modify(@RequestParam("bno") Long bno, Model model) {
+        model.addAttribute("board", service.get(bno));
+        return "board/modify";
+    }        
+      
     @PostMapping("/modify")
     public String modify(BoardVO board, RedirectAttributes rttr) {	
     	if (service.modify(board)) {

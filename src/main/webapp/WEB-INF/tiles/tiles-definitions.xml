@@ -21,8 +21,8 @@
         <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
     </definition>
     
-    <definition name="mamber/list" extends="baseLayout">
-        <put-attribute name="title" value="게시글 목록" />
+    <definition name="member/list" extends="baseLayout">
+        <put-attribute name="title" value="회원 목록" />
         <put-attribute name="body" value="/WEB-INF/views/member/list.jsp" />
     </definition>
     
@@ -31,5 +31,8 @@
         <put-attribute name="body" value="/WEB-INF/views/board/get.jsp" />
     </definition>
     
-    
+    <definition name="board/modify" extends="baseLayout">
+        <put-attribute name="title" value="글 수정하기" />
+        <put-attribute name="body" value="/WEB-INF/views/board/modify.jsp" />
+    </definition>
 </tiles-definitions>

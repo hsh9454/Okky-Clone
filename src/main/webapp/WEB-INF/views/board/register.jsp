@@ -19,7 +19,7 @@
 
         <div class="form-group">
             <label>작성자</label>
-            <input type="text" class="form-control" name="writer" placeholder="이름을 입력하세요">
+            <input type="text" class="form-control" name="writer" Value="${user.userid}" readonly>
         </div>
 
         <div class="form-group">
