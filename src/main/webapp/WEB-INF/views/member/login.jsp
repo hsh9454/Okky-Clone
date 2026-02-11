@@ -8,15 +8,15 @@
         <form action="${pageContext.request.contextPath}/member/login" method="post" class="p-4 border rounded shadow-sm bg-white">
             <div class="mb-3">
                 <label class="form-label small fw-bold">아이디</label>
-                <input type="text" name="id" class="form-control" placeholder="아이디를 입력하세요">
+                <input type="text" name="userid" class="form-control" placeholder="아이디를 입력하세요">
             </div>
             <div class="mb-3">
                 <label class="form-label small fw-bold">비밀번호</label>
-                <input type="password" name="pw" class="form-control" placeholder="비밀번호를 입력하세요">
+                <input type="password" name="userpw" class="form-control" placeholder="비밀번호를 입력하세요">
             </div>
             <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mb-3">로그인</button>
-            <div class="d-flex justify-content-between small text-muted">
-                <span>계정이 없으신가요? <a href="#" class="text-decoration-none">회원가입</a></span>
+            <div class="d-flex justify-content-between small text-muted">               
+                <span>계정이 없으신가요? <a href="${pageContext.request.contextPath}/member/join" class="text-decoration-none">회원가입</a></span>
                 <a href="#" class="text-decoration-none">아이디/비밀번호 찾기</a>
             </div>
         </form>

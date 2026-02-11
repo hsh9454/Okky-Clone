@@ -18,7 +18,7 @@ public class BoardController {
 
     @Autowired
     private BoardService service;
-
+    
     @GetMapping("/list")
     public void list(Model model) {
         model.addAttribute("list", service.getList());

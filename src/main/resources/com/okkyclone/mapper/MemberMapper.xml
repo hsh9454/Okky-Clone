@@ -4,13 +4,21 @@
 
 <mapper namespace="com.okkyclone.mapper.MemberMapper">
 
-    <select id="login" parameterType="com.okkyclone.domain.MemberVO" resultType="com.okkyclone.domain.MemberVO">
+    <insert id="join">
+        INSERT INTO tbl_member (userid, userpw, nickname, social_type)
+        VALUES (#{userid}, #{userpw}, #{nickname}, 'LOCAL')
+    </insert>
+
+    <select id="login" resultType="com.okkyclone.domain.MemberVO">
         SELECT 
-            USER_ID as id, 
-            USER_PW as pw, 
-            USER_NAME as name 
-        FROM MEMBER 
-        WHERE USER_ID = #{id} AND USER_PW = #{pw}
+            userid, 
+            userpw, 
+            nickname, 
+            user_point as userPoint, 
+            user_rank as userRank 
+        FROM tbl_member 
+        WHERE userid = #{userid, jdbcType=VARCHAR} AND userpw = #{userpw, jdbcType=VARCHAR}
+        
     </select>
 
 </mapper>
