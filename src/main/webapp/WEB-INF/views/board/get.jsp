@@ -1,43 +1,135 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="container mt-4"> <h2>게시글 상세보기</h2>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="container mt-4"> 
+    <h2>게시글 상세보기</h2>
     <hr>
 
     <div class="form-group">
         <label><b>번호</b></label> 
         <input class="form-control" name="bno" value="${board.bno}" readonly="readonly">
     </div>
-
     <div class="form-group">
         <label><b>제목</b></label> 
         <input class="form-control" name="title" value="${board.title}" readonly="readonly">
     </div>
-
     <div class="form-group">
         <label><b>내용</b></label> 
-        <div class="form-control" style="min-height: 200px; height: auto;">
-            ${board.content}
-        </div>
+        <div class="form-control" style="min-height: 200px; height: auto;">${board.content}</div>
     </div>
-
     <div class="form-group">
         <label><b>작성자</b></label> 
         <input class="form-control" name="writer" value="${board.writer}" readonly="readonly">
     </div>
-    
-    <div class="form-group">
-        <label><b>조회수</b></label> 
-        <input class="form-control" value="${board.viewcnt}" readonly="readonly">
+
+    <div class="mt-4">
+        <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록으로</button>
+        <c:if test="${user.userid == board.writer}">
+            <button class="btn btn-warning" onclick="location.href='${pageContext.request.contextPath}/board/modify?bno=${board.bno}'">수정하기</button>
+        </c:if>
     </div>
 
-    <div class="container mt-4">
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/'">목록으로</button>
-            
-            <c:if test="${user.userid == board.writer}">
-                <button class="btn btn-warning" onclick="location.href='${pageContext.request.contextPath}/board/modify?bno=${board.bno}'">수정하기</button>
-            </c:if>
-        </div>        
+    <hr>
+
+    <div class="card mt-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="fa fa-comments"></i> <b>댓글 남기기</b>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <input class="form-control mb-2" id="replyerName" style="width:200px;" placeholder="작성자 성함">
+                <textarea class="form-control" id="replyText" rows="3" placeholder="댓글 내용을 입력하세요"></textarea>
+            </div>
+            <div class="text-right">
+                <button id="addReplyBtn" class="btn btn-success px-4">댓글 등록</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 mb-5">
+        <h4><i class="fa fa-list"></i> 댓글 목록</h4>
+        <ul class="list-group mt-3" id="replyList">
+            </ul>
     </div>
 </div>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
+
+<script>
+$(document).ready(function() {
+    
+    var bnoValue = $("input[name='bno']").val(); 
+    var replyUL = $("#replyList");
+
+    console.log("현재 게시물 번호(BNO): " + bnoValue);
+
+    showList();
+
+    function showList() {
+        console.log("목록 불러오기 시도 중... BNO: " + bnoValue);
+        
+        replyService.getList({bno: bnoValue, page: 1}, function(list) {
+            
+            console.log("DB에서 가져온 데이터: ", list); //
+
+            var str = "";
+            
+            if(list == null || list.length == 0) {
+                replyUL.html("<li class='list-group-item text-center'>등록된 댓글이 없습니다.</li>");
+                return;
+            }
+
+            for (var i = 0, len = list.length || 0; i < len; i++) {
+                str += "<li class='list-group-item' data-rno='" + list[i].rno + "'>";
+                str += "  <div>";
+                str += "    <div class='header'>";
+                str += "      <strong class='text-primary'>" + list[i].replyer + "</strong>";
+                str += "      <small class='float-right text-muted'>" + list[i].replyDate + "</small>";
+                str += "    </div>";
+                str += "    <p class='mt-2 mb-0'>" + list[i].reply + "</p>";
+                str += "  </div>";
+                str += "</li>";
+            }
+            
+            replyUL.html(str); 
+        });
+    }
+
+    function displayTime(timeValue) {
+        var dateObj = new Date(timeValue);
+        var yy = dateObj.getFullYear();
+        var mm = dateObj.getMonth() + 1;
+        var dd = dateObj.getDate();
+        return [yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd].join('');
+    }
+
+    $("#addReplyBtn").on("click", function(e) {
+        
+        var reply = {
+            reply: $("#replyText").val(),
+            replyer: $("#replyerName").val(),
+            bno: bnoValue
+        };
+
+        if(!reply.reply || !reply.replyer) {
+            alert("내용과 작성자를 모두 입력해주세요!");
+            return;
+        }
+
+        console.log("등록 버튼 클릭! 보낼 데이터: ", reply);
+
+        replyService.add(reply, function(result) {
+            alert("알림: " + result); 
+                   
+            $("#replyText").val("");
+            $("#replyerName").val("");
+                
+            showList();
+        });
+    });
+
+});
+</script>
