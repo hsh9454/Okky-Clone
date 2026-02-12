@@ -6,8 +6,8 @@
 <mapper namespace="com.okkyclone.mapper.ReplyMapper">
  
     <insert id="insert">
-        insert into tbl_reply (rno, bno, reply, replyer)
-        values (seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+        insert into tbl_reply (rno, bno, reply, replyer, parent_rno)
+        values (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno})
     </insert>
 
     <select id="getList" resultType="com.okkyclone.domain.ReplyVO">
@@ -20,12 +20,15 @@
    
     <select id="getListWithPaging" resultType="com.okkyclone.domain.ReplyVO">
         <![CDATA[
-          SELECT rno, bno, reply, replyer, replyDate, updateDate
-          FROM tbl_reply
-          WHERE bno = #{bno}
-         ORDER BY rno ASC
+        SELECT 
+            rno, bno, reply, replyer, replyDate, updateDate, parent_rno as parentRno
+        FROM tbl_reply
+        WHERE bno = #{bno}
+        START WITH parent_rno IS NULL
+        CONNECT BY PRIOR rno = parent_rno
+        ORDER SIBLINGS BY rno ASC
         ]]>
-     </select>
+    </select>
      
     <update id="update">
         update tbl_reply set reply = #{reply}, updateDate = sysdate

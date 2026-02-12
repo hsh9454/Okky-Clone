@@ -97,15 +97,20 @@ $(document).ready(function() {
             }
 
             for (var i = 0, len = list.length || 0; i < len; i++) {
-              
-                str += "<li class='list-group-item' data-rno='" + list[i].rno + "'>"; 
+            	var isChild = list[i].parentRno && list[i].parentRno > 0;
+            	var style = isChild ? "style='margin-left: 60px !important; background-color: #f9f9f9 !important; border-left: 4px solid #007bff !important;'" : "";
+                var icon = list[i].parentRno ? "<i class='fa fa-share fa-flip-vertical'></i> " : "";
+                
+                
+                str += "<li class='list-group-item' data-rno='" + list[i].rno + "' " + style + ">"; 
                 str += "  <div>";
                 str += "    <div class='header'>";
-                str += "      <strong class='text-primary'>" + list[i].replyer + "</strong>";
+                str += "      " + icon + "<strong class='text-primary'>" + list[i].replyer + "</strong>";
                 str += "      <small class='float-right text-muted'>" + list[i].replyDate + "</small>";
                 str += "    </div>";
-
-                str += "    <p class='mt-2 mb-0'>" + list[i].reply + "</p>"; 
+                str += "    <p class='mt-2 mb-0'>" + list[i].reply + "</p>";
+                
+                str += "    <button class='btn btn-xs btn-link replyAddBtn' style='color:gray; font-size:12px;'>답글달기</button>";
                 
                 var loginUser = "${user.userid}"; 
                                              
@@ -173,18 +178,44 @@ $(document).ready(function() {
         });
     });
     
+    $("#replyList").on("click", ".replyAddBtn", function(e) {
+    	var parentRno = $(this).closest("li").data("rno");
+    	
+    	var loginUser = "${user.userid}"; 
+        
+        if(!loginUser) {
+            alert("로그인 후 이용 가능합니다.");
+            return;
+        }
+
+        var replyContent = prompt("답글을 입력하세요:");
+
+        if(!replyContent) return;
+
+        var reply = {
+            reply: replyContent,
+            replyer: loginUser, 
+            bno: bnoValue,      
+            parentRno: parentRno 
+        };
+        
+        replyService.add(reply, function(result) {
+            alert("답글이 등록되었습니다.");
+            showList();
+        });
+    });
+    
     $("#replyList").on("click", ".replyModifyBtn", function(e) {
-        var rno = $(this).data("rno");
-        var originalReply = $(this).closest("li").find("p").text(); 
-
-        var newReply = prompt("댓글을 수정하세요:", originalReply);
-
-        if(!newReply || newReply === originalReply) return; 
-
-        var reply = { rno: rno, reply: newReply };
-
+        var rno = $(this).closest("li").data("rno");
+        var originalReply = $(this).closest("li").find("p").text();
+        var modifyContent = prompt("댓글을 수정하세요:", originalReply);
+        
+        if(!modifyContent || modifyContent === originalReply) return;
+        
+        var reply = { rno: rno, reply: modifyContent };
+        
         replyService.update(reply, function(result) {
-            alert("수정 완료!");
+            alert("수정 결과: " + result);
             showList();
         });
     });

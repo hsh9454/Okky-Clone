@@ -3,12 +3,14 @@ package com.okkyclone.domain;
 import java.util.Date;
 
 public class ReplyVO {
+	
     private Long rno;     
     private Long bno;    
     private String reply;  
     private String replyer;
     private Date replyDate; 
     private Date updateDate;
+    private Long parentRno;
 	public Long getRno() {
 		return rno;
 	}
@@ -44,6 +46,12 @@ public class ReplyVO {
 	}
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+	public Long getParentRno() {
+		return parentRno;
+	}
+	public void setParentRno(Long parentRno) {
+		this.parentRno = parentRno;
 	}
     
 }
