@@ -11,6 +11,15 @@ public class ReplyVO {
     private Date replyDate; 
     private Date updateDate;
     private Long parentRno;
+    private String delYn;
+    
+		
+	public String getDelYn() {
+		return delYn;
+	}
+	public void setDelYn(String delYn) {
+		this.delYn = delYn;
+	}
 	public Long getRno() {
 		return rno;
 	}

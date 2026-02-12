@@ -4,24 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.okkyclone.mapper.ReplyMapper">
- 
+
     <insert id="insert">
-        insert into tbl_reply (rno, bno, reply, replyer, parent_rno)
-        values (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno})
+        INSERT INTO tbl_reply (rno, bno, reply, replyer, parent_rno)
+        VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno, jdbcType=INTEGER})
     </insert>
 
     <select id="getList" resultType="com.okkyclone.domain.ReplyVO">
-        select * from tbl_reply where bno = #{bno} order by rno asc
+        SELECT rno, bno, reply, replyer, replyDate, updateDate, parent_rno as parentRno, del_yn as delYn
+        FROM tbl_reply 
+        WHERE bno = #{bno} 
+        ORDER BY rno ASC
     </select>
 
-    <delete id="delete">
-        delete from tbl_reply where rno = #{rno}
-    </delete>
-   
     <select id="getListWithPaging" resultType="com.okkyclone.domain.ReplyVO">
         <![CDATA[
         SELECT 
-            rno, bno, reply, replyer, replyDate, updateDate, parent_rno as parentRno
+            rno, bno, reply, replyer, replyDate, updateDate, 
+            parent_rno as parentRno, 
+            del_yn as delYn  
         FROM tbl_reply
         WHERE bno = #{bno}
         START WITH parent_rno IS NULL
@@ -29,10 +30,15 @@
         ORDER SIBLINGS BY rno ASC
         ]]>
     </select>
+
+    <update id="delete">
+        UPDATE tbl_reply SET del_yn = 'Y' WHERE rno = #{rno}
+    </update>
      
     <update id="update">
-        update tbl_reply set reply = #{reply}, updateDate = sysdate
-        where rno = #{rno}
+        UPDATE tbl_reply 
+        SET reply = #{reply}, updateDate = sysdate
+        WHERE rno = #{rno}
     </update>
      
 </mapper>
