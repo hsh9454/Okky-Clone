@@ -34,20 +34,34 @@
 
     <hr>
 
-    <div class="card mt-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <i class="fa fa-comments"></i> <b>댓글 남기기</b>
-        </div>
-        <div class="card-body">
-            <div class="form-group">
-                <input class="form-control mb-2" id="replyerName" style="width:200px;" placeholder="작성자 성함">
-                <textarea class="form-control" id="replyText" rows="3" placeholder="댓글 내용을 입력하세요"></textarea>
-            </div>
-            <div class="text-right">
-                <button id="addReplyBtn" class="btn btn-success px-4">댓글 등록</button>
-            </div>
-        </div>
+<div class="card mt-4 shadow-sm">
+    <div class="card-body">
+        <c:choose>
+            <c:when test="${not empty user}">
+                <div class="form-group">
+                    <input class="form-control mb-2" id="replyerName" 
+                           value="${user.userid}" readonly style="width:200px; font-weight:bold;">
+                    <textarea class="form-control" id="replyText" rows="3" placeholder="댓글 내용을 입력하세요"></textarea>
+                </div>
+                <div class="text-right mt-2">
+                    <button id="addReplyBtn" class="btn btn-primary px-4">댓글 등록</button>
+                </div>
+            </c:when>
+
+            <c:otherwise>
+                <div class="form-group p-3" style="border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; cursor: pointer;" 
+                     onclick="location.href='${pageContext.request.contextPath}/login'">
+                    <p class="text-muted mb-0">
+                        <i class="fa fa-question-circle"></i> 댓글을 쓰려면 <strong class="text-primary">로그인</strong>이 필요합니다.
+                    </p>
+                </div>
+                <div class="text-right mt-2">
+                    <button class="btn btn-secondary px-4" disabled style="opacity: 0.5;">댓글 쓰기</button>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
+</div>
 
     <div class="mt-5 mb-5">
         <h4><i class="fa fa-list"></i> 댓글 목록</h4>
@@ -73,27 +87,38 @@ $(document).ready(function() {
         
         replyService.getList({bno: bnoValue, page: 1}, function(list) {
             
-            console.log("DB에서 가져온 데이터: ", list); //
+            console.log("DB에서 가져온 데이터: ", list); 
 
             var str = "";
             
             if(list == null || list.length == 0) {
                 replyUL.html("<li class='list-group-item text-center'>등록된 댓글이 없습니다.</li>");
-                return;
+                return;                
             }
 
             for (var i = 0, len = list.length || 0; i < len; i++) {
-                str += "<li class='list-group-item' data-rno='" + list[i].rno + "'>";
+              
+                str += "<li class='list-group-item' data-rno='" + list[i].rno + "'>"; 
                 str += "  <div>";
                 str += "    <div class='header'>";
                 str += "      <strong class='text-primary'>" + list[i].replyer + "</strong>";
                 str += "      <small class='float-right text-muted'>" + list[i].replyDate + "</small>";
                 str += "    </div>";
-                str += "    <p class='mt-2 mb-0'>" + list[i].reply + "</p>";
+
+                str += "    <p class='mt-2 mb-0'>" + list[i].reply + "</p>"; 
+                
+                var loginUser = "${user.userid}"; 
+                                             
+                if(loginUser && loginUser === list[i].replyer) {
+                    str += "    <div class='text-right'>";
+                    str += "      <button class='btn btn-sm btn-outline-primary replyModifyBtn' data-rno='" + list[i].rno + "'>수정</button>";
+                    str += "      <button class='btn btn-sm btn-outline-danger replyDeleteBtn' data-rno='" + list[i].rno + "'>삭제</button>";
+                    str += "    </div>";
+                }
+                
                 str += "  </div>";
-                str += "</li>";
+                str += "</li>"; 
             }
-            
             replyUL.html(str); 
         });
     }
@@ -125,11 +150,43 @@ $(document).ready(function() {
             alert("알림: " + result); 
                    
             $("#replyText").val("");
-            $("#replyerName").val("");
                 
             showList();
         });
     });
+    
+    $("#replyList").on("click", ".replyDeleteBtn", function(e) {
+        
+        var rno = $(this).data("rno"); 
+        
+        console.log("삭제 버튼 클릭됨! RNO: " + rno);
 
+        if(!confirm("댓글을 삭제하시겠습니까?")) return;
+
+        replyService.remove(rno, function(result) {
+            
+            alert("삭제 결과: " + result);
+            showList(); 
+            
+        }, function(err) {
+            alert("삭제 실패! 본인 댓글만 삭제 가능합니다.");
+        });
+    });
+    
+    $("#replyList").on("click", ".replyModifyBtn", function(e) {
+        var rno = $(this).data("rno");
+        var originalReply = $(this).closest("li").find("p").text(); 
+
+        var newReply = prompt("댓글을 수정하세요:", originalReply);
+
+        if(!newReply || newReply === originalReply) return; 
+
+        var reply = { rno: rno, reply: newReply };
+
+        replyService.update(reply, function(result) {
+            alert("수정 완료!");
+            showList();
+        });
+    });
 });
 </script>

@@ -16,7 +16,7 @@
             <a href="#" class="text-dark text-decoration-none fw-bold small">채용정보</a>
         </div>
     </div>
-
+    
     <div class="d-flex align-items-center gap-2">
         <input type="text" class="form-control form-control-sm bg-light border-0" placeholder="검색" style="width: 140px;">
         

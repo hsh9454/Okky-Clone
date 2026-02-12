@@ -3,6 +3,7 @@ package com.okkyclone.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.okkyclone.domain.MemberVO;
+import com.okkyclone.domain.ReplyVO;
 import com.okkyclone.mapper.MemberMapper;
 import com.okkyclone.service.MemberService;
 
@@ -33,4 +34,7 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
     
+    public int modify(ReplyVO vo) {
+        return mapper.update(vo);
+    } 
 }
