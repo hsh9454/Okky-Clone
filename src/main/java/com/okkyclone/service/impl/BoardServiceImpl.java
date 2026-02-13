@@ -40,7 +40,4 @@ public class BoardServiceImpl implements BoardService {
     public boolean remove(Long bno) {
     	return mapper.delete(bno) == 1;
     }
-    
-    
-    
 }

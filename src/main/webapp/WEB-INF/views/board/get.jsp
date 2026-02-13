@@ -36,7 +36,7 @@
             <span class="meta-divider">•</span>
             <div class="meta-item text-muted" id="articleDate"></div>
             <span class="meta-divider">•</span>
-            <div class="meta-item text-muted"><i class="fa fa-eye mr-1"></i> 조회수 0</div>
+            <div class="meta-item text-muted"><i class="fa fa-eye mr-1"></i> 조회수 ${board.viewcnt}</div>
         </div>
         
         <div class="d-flex align-items-center">
