@@ -10,8 +10,28 @@ public class BoardVO {
     private Date regdate;   
     private int viewcnt;
     private int update;
-
-    public int getViewcnt() {
+    private int likecnt; 
+    private int dislikecnt;
+    
+    public int getDislikecnt() {
+		return dislikecnt;
+	}
+	public void setDislikecnt(int dislikecnt) {
+		this.dislikecnt = dislikecnt;
+	}
+	public int getUpdate() {
+		return update;
+	}
+	public void setUpdate(int update) {
+		this.update = update;
+	}
+	public int getLikecnt() {
+		return likecnt;
+	}
+	public void setLikecnt(int likecnt) {
+		this.likecnt = likecnt;
+	}
+	public int getViewcnt() {
 		return viewcnt;
 	}
 	public void setViewcnt(int viewcnt) {

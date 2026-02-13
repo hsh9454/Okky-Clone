@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.mapper.BoardMapper;
@@ -40,4 +41,43 @@ public class BoardServiceImpl implements BoardService {
     public boolean remove(Long bno) {
     	return mapper.delete(bno) == 1;
     }
+    
+    @Override
+    @Transactional
+    public boolean toggleLike(Long bno, String userid) {
+    	if (mapper.checkLikeLog(bno, userid, 2) > 0) {
+    		return false; 
+        }
+    	
+        int count = mapper.checkLikeLog(bno, userid, 1);   	
+        if (count > 0) {
+    		mapper.removeLikeLog(bno, userid, 1);
+    		mapper.updateLikeCount(bno, -1);
+    		return false;
+    	}else {
+    		mapper.addLikeLog(bno, userid, 1);
+            mapper.updateLikeCount(bno, 1);
+            return true;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean toggleDislike(Long bno, String userid) {
+    	if (mapper.checkLikeLog(bno, userid, 1) > 0) {
+            return false;
+        }
+    	
+    	int count = mapper.checkLikeLog(bno, userid, 2);
+    	if (count > 0) {
+            mapper.removeLikeLog(bno, userid, 2);
+            mapper.updateDislikeCount(bno, -1);
+            return false; 
+        } else {
+            mapper.addLikeLog(bno, userid, 2);
+            mapper.updateDislikeCount(bno, 1);
+            return true; 
+        }
+    }
 }
+    	

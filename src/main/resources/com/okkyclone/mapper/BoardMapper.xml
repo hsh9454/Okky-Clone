@@ -40,4 +40,48 @@
         DELETE FROM tbl_board WHERE bno = #{bno}
     </delete>
 
+    <select id="checkLike" resultType="int">
+        SELECT COUNT(*) FROM tbl_like WHERE bno = #{bno} AND userid = #{userid}
+    </select>
+
+    <insert id="insertLike">
+        INSERT INTO tbl_like (lno, bno, userid) 
+        VALUES (seq_like.nextval, #{bno}, #{userid})
+    </insert>
+
+    <delete id="deleteLike">
+        DELETE FROM tbl_like WHERE bno = #{bno} AND userid = #{userid}
+    </delete>
+
+    <update id="updateDislikeCnt">
+        update tbl_board set dislikecnt = dislikecnt + #{amount} where bno = #{bno}
+    </update>
+        
+    <select id="checkLikeLog" resultType="int">
+        SELECT COUNT(*) FROM tbl_board_like 
+        WHERE bno = #{bno} AND userid = #{userid} AND type = #{type}
+    </select>
+
+    <insert id="addLikeLog">
+        INSERT INTO tbl_board_like (lno, bno, userid, type)
+        VALUES (seq_board_like.nextval, #{bno}, #{userid}, #{type})
+    </insert>
+
+    <delete id="removeLikeLog">
+        DELETE FROM tbl_board_like 
+        WHERE bno = #{bno} AND userid = #{userid} AND type = #{type}
+    </delete>
+
+    <update id="updateLikeCount">
+        UPDATE tbl_board 
+        SET likecnt = likecnt + #{amount} 
+        WHERE bno = #{bno}
+    </update>
+
+    <update id="updateDislikeCount">
+        UPDATE tbl_board 
+        SET dislikecnt = dislikecnt + #{amount} 
+        WHERE bno = #{bno}
+    </update>
+
 </mapper>
