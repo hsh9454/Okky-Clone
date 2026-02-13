@@ -34,8 +34,13 @@
             <img src="https://via.placeholder.com/32" class="author-img" alt="profile">
             <div class="meta-item"><strong>${board.writer}</strong></div>
             <span class="meta-divider">•</span>
-            <div class="meta-item text-muted" id="articleDate"></div>
+            
+            <div class="meta-item text-muted">
+            <i class="fa fa-clock-o"></i> 
+            <span id="articleDate"></span> 
+            </div>
             <span class="meta-divider">•</span>
+           
             <div class="meta-item text-muted"><i class="fa fa-eye mr-1"></i> 조회수 ${board.viewcnt}</div>
         </div>
         
@@ -131,20 +136,37 @@
 
 <script>
 function timeForToday(value) {
-    if (!value) return "";
-    const today = new Date();
-    const timeValue = new Date(value);
-    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-    
-    if (betweenTime < 1) return '방금 전';
-    if (betweenTime < 60) return `${betweenTime}분 전`;
-    const betweenTimeHour = Math.floor(betweenTime / 60);
-    if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
-    const betweenTimeDay = Math.floor(betweenTimeHour / 24);
-    if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
-    return `${Math.floor(betweenTimeDay / 365)}년 전`;
-}
+    if (!value) return '';
 
+    let timeValue = new Date(value);
+
+    if (isNaN(timeValue.getTime())) {
+
+        const cleanedValue = value.toString().replace("KST ", "");
+        timeValue = new Date(cleanedValue);
+    }
+
+    if (isNaN(timeValue.getTime())) {
+        return value;
+    }
+    const today = new Date();
+
+    const diff = Math.floor((today.getTime() - timeValue.getTime()) / 1000);
+
+    const betweenTime = Math.floor(diff / 60);
+
+    if (betweenTime < 1) return '방금 전';
+    if (betweenTime < 60) return betweenTime + '분 전';
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) return betweenTimeHour + '시간 전';
+
+    const betweenTimeDay = Math.floor(betweenTimeHour / 24);
+    if (betweenTimeDay < 365) return betweenTimeDay + '일 전';
+
+    return Math.floor(betweenTimeDay / 365) + '년 전';
+}
+    
 $(document).ready(function() {
     $("#articleDate").text(timeForToday('${board.regdate}'));
     
