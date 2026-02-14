@@ -12,8 +12,15 @@ public class BoardVO {
     private int update;
     private int likecnt; 
     private int dislikecnt;
+    private int replycnt;
     
-    public int getDislikecnt() {
+    public int getReplycnt() {
+		return replycnt;
+	}
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
+	public int getDislikecnt() {
 		return dislikecnt;
 	}
 	public void setDislikecnt(int dislikecnt) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.service.BoardService;
 import com.okkyclone.domain.MemberVO;  
-
+import com.okkyclone.domain.Criteria;
 @Controller
 public class MainController {  
 	
@@ -23,8 +23,8 @@ public class MainController {
     private BoardService service;
 	
 	@RequestMapping("/")
-    public String mainPage(Model model) { 
-        model.addAttribute("boardList", boardService.getList());         
+    public String mainPage(Criteria cri, Model model) { 
+        model.addAttribute("boardList", boardService.getList(cri));         
         return "main"; 
     }
 

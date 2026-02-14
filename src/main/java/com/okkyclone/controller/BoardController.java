@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.service.BoardService;
+import com.okkyclone.domain.Criteria;
 
 @Controller
 @RequestMapping("/board/*")
@@ -20,13 +21,14 @@ public class BoardController {
     private BoardService service;
     
     @GetMapping("/list")
-    public void list(Model model) {
-        model.addAttribute("list", service.getList());
+    public void list(Criteria cri, Model model) {
+        model.addAttribute("list", service.getList(cri));
     }
 
     @GetMapping("/get")
-    public String get(@RequestParam("bno") Long bno, Model model) {
+    public String get(@RequestParam("bno") Long bno, Criteria cri, Model model) {
         model.addAttribute("board", service.get(bno));
+        model.addAttribute("list", service.getList(cri));
         return "board/get";
     }
     

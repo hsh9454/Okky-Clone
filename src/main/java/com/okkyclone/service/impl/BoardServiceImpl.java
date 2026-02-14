@@ -1,12 +1,12 @@
 package com.okkyclone.service.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional; 
 
 import com.okkyclone.domain.BoardVO;
+import com.okkyclone.domain.Criteria; 
 import com.okkyclone.mapper.BoardMapper;
 import com.okkyclone.service.BoardService;
 
@@ -17,8 +17,9 @@ public class BoardServiceImpl implements BoardService {
     private BoardMapper mapper;
 
     @Override
-    public List<BoardVO> getList() {
-        return mapper.getList();
+    public List<BoardVO> getList(Criteria cri) {
+        System.out.println("목록 가져오기 (페이징 포함): " + cri);
+    	return mapper.getList();
     }
     
     @Override

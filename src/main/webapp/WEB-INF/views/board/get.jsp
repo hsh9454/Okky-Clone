@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -31,7 +32,7 @@
         <h1 class="article-title">${board.title}</h1>
         <div class="article-meta d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/32" class="author-img" alt="profile">
+                <span class="author-img" style="display:inline-block; width:32px; height:32px; background:#ccc; border-radius:50%; text-align:center; line-height:32px; font-size:10px;">User</span>
                 <div class="meta-item"><strong>${board.writer}</strong></div>
                 <span class="meta-divider">•</span>
                 <div class="meta-item text-muted"><i class="fa fa-clock-o"></i> <span id="articleDate"></span></div>
@@ -76,12 +77,8 @@
             <span id="dislikeCount">${board.dislikecnt}</span>
         </div>
     </div>
-
-    <div class="mb-4">
-        <button class="btn btn-outline-secondary btn-sm" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록으로</button>
-    </div>
-
-<hr>
+    
+    <hr>
             
     <div class="mt-4 mb-3">
         <c:choose>
@@ -115,11 +112,39 @@
         <h4><i class="fa fa-list"></i> 댓글 목록</h4>
         <ul class="list-group mt-3" id="replyList"></ul>
     </div>
-</div>
 
+    <div class="list-under-article mt-5 p-4" style="background-color: #fff; border: 1px solid #e1e4e8; border-radius: 10px; margin-bottom: 50px;">
+        
+        <div class="list-header mb-4" style="display: flex; align-items: center; cursor: pointer; width: fit-content;" 
+             onclick="location.href='${pageContext.request.contextPath}/'">
+            <span style="font-size: 24px; margin-right: 10px; color: #333; font-weight: bold; line-height: 1;">←</span>
+            <h5 class="mb-0" style="font-weight: bold; color: #333;">커뮤니티 목록</h5>
+        </div>
+
+        <table class="table table-hover">
+            
+            <tbody>
+                <c:forEach items="${list}" var="listItem">
+                    <tr style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${listItem.bno}'">
+                        <td>
+                            ${listItem.title}
+                            <c:if test="${listItem.replycnt > 0}">
+                                <span class="text-primary" style="font-size: 11px; font-weight: bold;"> [${listItem.replycnt}]</span>
+                            </c:if>
+                        </td>
+                        <td>${listItem.writer}</td>
+                        <td class="text-muted" style="font-size: 13px;">
+                            <fmt:formatDate value="${listItem.regdate}" pattern="yyyy-MM-dd"/>
+                        </td>
+                        <td class="text-center">${listItem.likecnt}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script>
-// 시간 계산 함수
 function timeForToday(value) {
     if (!value) return '';
     var timeValue = new Date(value);
