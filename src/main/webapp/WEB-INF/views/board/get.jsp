@@ -102,8 +102,10 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="reply-write-container p-4 text-center" style="background-color: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 10px; cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/login'">
-                    <p class="text-muted mb-0">댓글을 작성하려면 <strong>로그인</strong>이 필요합니다.</p>
+                <div class="reply-write-container p-4 text-center" 
+                 style="background-color: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 10px; cursor: pointer;" 
+                 onclick="location.href='${pageContext.request.contextPath}/member/login'">
+                <p class="text-muted mb-0">댓글을 작성하려면 <strong>로그인</strong>이 필요합니다.</p>
                 </div>
             </c:otherwise>
         </c:choose>
