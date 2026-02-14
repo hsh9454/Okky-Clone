@@ -13,8 +13,15 @@ public class BoardVO {
     private int likecnt; 
     private int dislikecnt;
     private int replycnt;
-    
-    public int getReplycnt() {
+    private String user_img;
+      
+    public String getUser_img() {
+		return user_img;
+	}
+	public void setUser_img(String user_img) {
+		this.user_img = user_img;
+	}
+	public int getReplycnt() {
 		return replycnt;
 	}
 	public void setReplycnt(int replycnt) {

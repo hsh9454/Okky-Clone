@@ -31,9 +31,14 @@
         <span class="category-tag">커뮤니티 | 자유게시판</span>
         <h1 class="article-title">${board.title}</h1>
         <div class="article-meta d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <span class="author-img" style="display:inline-block; width:32px; height:32px; background:#ccc; border-radius:50%; text-align:center; line-height:32px; font-size:10px;">User</span>
-                <div class="meta-item"><strong>${board.writer}</strong></div>
+                     
+            <div class="d-flex align-items-center mb-3"> 
+                <img src="${board.user_img != null ? board.user_img : '/resources/img/default_profile.jpg'}" 
+                     class="rounded-circle me-2"
+                     style="width: 32px; height: 32px; object-fit: cover; border: 1px solid #eee;">
+                <strong>${board.writer}</strong>
+            </div>
+                          
                 <span class="meta-divider">•</span>
                 <div class="meta-item text-muted"><i class="fa fa-clock-o"></i> <span id="articleDate"></span></div>
                 <span class="meta-divider">•</span>
@@ -131,7 +136,7 @@
                     </td>
                     
                     <td style="width: 20%; border-top: none; vertical-align: middle; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        <img src="https://via.placeholder.com/18" style="border-radius: 50%; margin-right: 5px;"> ${listItem.writer}
+                        <img src="${listItem.user_img != null ? listItem.user_img : '/resources/img/default_profile.png'}" style="width: 18px; height: 18px; border-radius: 50%; margin-right: 5px; object-fit: cover;">${listItem.writer}
                     </td>
 
                     <td style="width: 15%; border-top: none; vertical-align: middle; color: #999; font-size: 13px; white-space: nowrap;">
