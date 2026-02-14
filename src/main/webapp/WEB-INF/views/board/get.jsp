@@ -112,37 +112,46 @@
         <h4><i class="fa fa-list"></i> 댓글 목록</h4>
         <ul class="list-group mt-3" id="replyList"></ul>
     </div>
-
-    <div class="list-under-article mt-5 p-4" style="background-color: #fff; border: 1px solid #e1e4e8; border-radius: 10px; margin-bottom: 50px;">
-        
-        <div class="list-header mb-4" style="display: flex; align-items: center; cursor: pointer; width: fit-content;" 
-             onclick="location.href='${pageContext.request.contextPath}/'">
-            <span style="font-size: 24px; margin-right: 10px; color: #333; font-weight: bold; line-height: 1;">←</span>
-            <h5 class="mb-0" style="font-weight: bold; color: #333;">커뮤니티 목록</h5>
-        </div>
-
-        <table class="table table-hover">
-            
-            <tbody>
-                <c:forEach items="${list}" var="listItem">
-                    <tr style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${listItem.bno}'">
-                        <td>
-                            ${listItem.title}
-                            <c:if test="${listItem.replycnt > 0}">
-                                <span class="text-primary" style="font-size: 11px; font-weight: bold;"> [${listItem.replycnt}]</span>
-                            </c:if>
-                        </td>
-                        <td>${listItem.writer}</td>
-                        <td class="text-muted" style="font-size: 13px;">
-                            <fmt:formatDate value="${listItem.regdate}" pattern="yyyy-MM-dd"/>
-                        </td>
-                        <td class="text-center">${listItem.likecnt}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
     </div>
+    <div class="list-under-article mt-5 p-4" style="background-color: #fff; border: 1px solid #e1e4e8; border-radius: 10px; margin-bottom: 50px;">
+    
+    <div class="list-header mb-4" style="display: flex; align-items: center; cursor: pointer; width: fit-content;" 
+         onclick="location.href='${pageContext.request.contextPath}/'">
+        <span style="font-size: 24px; margin-right: 10px; color: #333; font-weight: bold;">&larr;</span>
+        <h5 class="mb-0" style="font-weight: bold; color: #333;">커뮤니티 목록</h5>
+    </div>
+
+    <table class="table table-hover" style="font-size: 14px; border-top: 1px solid #eee; table-layout: fixed; width: 100%;">
+        <tbody>
+            <c:forEach items="${list}" var="listItem">
+                <tr style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${listItem.bno}'">
+                    
+                    <td style="width: 50%; border-top: none; vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <span class="text-dark" style="font-weight: 500;">${listItem.title}</span>
+                    </td>
+                    
+                    <td style="width: 20%; border-top: none; vertical-align: middle; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <img src="https://via.placeholder.com/18" style="border-radius: 50%; margin-right: 5px;"> ${listItem.writer}
+                    </td>
+
+                    <td style="width: 15%; border-top: none; vertical-align: middle; color: #999; font-size: 13px; white-space: nowrap;">
+                        <span class="list-date" data-date="${listItem.regdate}"></span>
+                    </td>
+
+                    <td style="width: 15%; border-top: none; vertical-align: middle; text-align: right; color: #999; white-space: nowrap;">
+                        <span style="margin-right: 8px;">
+                            <i class="far fa-thumbs-up"></i> ${listItem.likecnt}
+                        </span>
+                        <span>
+                            <i class="far fa-comment-dots"></i> ${listItem.replycnt}
+                        </span>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
 </div>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script>
 function timeForToday(value) {
@@ -166,6 +175,11 @@ function timeForToday(value) {
 }
 
 $(document).ready(function() {
+	$(".list-date").each(function() {
+        var dateValue = $(this).data("date");
+        $(this).text(timeForToday(dateValue)); 
+    });
+	
     var bnoValue = "${board.bno}";
     var replyUL = $("#replyList");
     var loginUser = "${user.userid}";
