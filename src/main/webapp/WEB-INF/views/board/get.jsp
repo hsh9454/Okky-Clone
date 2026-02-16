@@ -345,34 +345,84 @@
             }
         });
         
-        function showList() {
-            replyService.getList({ bno: bnoValue, page: 1 }, function(list) {
-                var str = "";
-                if (!list || list.length == 0) {
-                    $("#replyList").html("<li class='list-group-item text-center'>등록된 댓글이 없습니다.</li>");
+        $(document).ready(function() {
+            
+            var bnoValue = '<c:out value="${board.bno}"/>';
+            var replyUL = $("#replyList");
+
+            function showList(page) {
+    replyService.getList({ bno: bnoValue, page: page || 1 }, function(list) {
+        console.log("서버에서 넘어온 데이터 확인: ", list);
+        var str = "";
+
+        if (!list || list.length == 0) {
+            replyUL.html("<li class='list-group-item text-center'>등록된 댓글이 없습니다.</li>");
+            return;
+        }
+
+        for (var i = 0, len = list.length || 0; i < len; i++) {
+            var isChild = (list[i].parentRno && list[i].parentRno > 0);
+            var replyStyle = isChild ? "style='margin-left: 50px !important; background-color: #f8fafc !important; border-left: 3px solid #cbd5e1 !important;'" : "";
+            
+            str += "<li class='list-group-item py-4' data-rno='" + list[i].rno + "' " + replyStyle + ">";
+            str += "  <div class='d-flex align-items-start'>"; 
+            str += "    <img src='/resources/img/default_profile.jpg' class='rounded-circle mr-3' style='width:36px; height:36px; object-fit:cover;'>";
+            str += "    <div class='flex-grow-1'>";
+            
+            str += "      <div class='d-flex justify-content-between align-items-center mb-2'>";
+            str += "        <div>";
+            str += "          <strong style='font-size:14px; color:#334155;'>" + list[i].replyer + "</strong>";
+            str += "          <span class='text-muted ml-2' style='font-size:12px;'>" + timeForToday(list[i].replyDate) + "</span>";
+            str += "        </div>";
+            str += "        <div style='color:#94a3b8; font-size:14px; display:flex; gap:12px; align-items:center;'>";
+            str += "          <span class='reply-like' style='cursor:pointer;' data-rno='"+list[i].rno+"'><i class='far fa-thumbs-up'></i> " + (list[i].likecnt || 0) + "</span>";
+            str += "          <span class='reply-dislike' style='cursor:pointer;' data-rno='"+list[i].rno+"'><i class='far fa-thumbs-down'></i> 0</span>";
+            
+            if (loginUser && loginUser === list[i].replyer) {
+                str += "      <div class='dropdown'>";
+                str += "        <span style='cursor:pointer;' data-toggle='dropdown'><i class='fas fa-ellipsis-h'></i></span>";
+                str += "        <div class='dropdown-menu dropdown-menu-right shadow-sm'>";
+                str += "          <a class='dropdown-item replyModifyBtn' href='javascript:void(0);'>수정하기</a>";
+                str += "          <a class='dropdown-item replyDeleteBtn' href='javascript:void(0);' style='color:#ef4444;'>삭제하기</a>";
+                str += "        </div>";
+                str += "      </div>";
+            } else {
+                str += "      <span style='cursor:pointer;' title='신고'><i class='far fa-flag'></i></span>";
+            }
+            str += "        </div>";
+            str += "      </div>";
+
+            if (list[i].delYn === 'Y' || list[i].delYn === 'y') {
+                str += "      <div style='color:#94a3b8; font-style:italic; font-size:14px;'>삭제된 댓글입니다.</div>";
+            } else {
+                str += "      <div class='reply-content' style='font-size:15px; color:#1e293b; line-height:1.5;'>" + list[i].reply + "</div>";
+                str += "      <div class='mt-2'><span class='replyAddBtn' style='cursor:pointer; font-weight:500; color:#94a3b8; font-size:12px;'>답글쓰기</span></div>";
+            }
+            str += "    </div></div></li>";
+        }
+        $("#replyList").html(str);
+    });
+}
+            showList(1);
+            console.log("리스트 호출 직전 bnoValue : " + bnoValue);
+        
+
+            $(document).on("click", ".reply-like, .reply-dislike", function(e) {
+                if(!loginUser) {
+                    alert("로그인 후 이용 가능합니다");
                     return;
                 }
-                for (var i = 0, len = list.length || 0; i < len; i++) {
-                    var isChild = list[i].parentRno && list[i].parentRno > 0;
-                    var style = isChild ? "style='margin-left: 60px !important; background-color: #f9f9f9 !important; border-left: 4px solid #007bff !important;'" : "";
-                    str += "<li class='list-group-item' data-rno='" + list[i].rno + "' " + style + ">";
-                    str += "<div><div class='header'><strong class='text-primary'>" + list[i].replyer + "</strong>";
-                    str += "<small class='float-right text-muted'>" + timeForToday(list[i].replyDate) + "</small></div>";
-                    if (list[i].delYn === 'Y' || list[i].delYn === 'y') {
-                        str += "<p class='mt-2 mb-0' style='color: gray;'>삭제된 댓글입니다.</p>";
-                    } else {
-                        str += "<p class='mt-2 mb-0'>" + list[i].reply + "</p>";
-                        str += "<button class='btn btn-xs btn-link replyAddBtn' style='color:gray; font-size:12px;'>답글달기</button>";
-                        if (loginUser && loginUser === list[i].replyer) {
-                            str += "<div class='text-right'><button class='btn btn-sm btn-outline-primary replyModifyBtn'>수정</button>";
-                            str += "<button class='btn btn-sm btn-outline-danger replyDeleteBtn ml-1'>삭제</button></div>";
-                        }
-                    }
-                    str += "</div></li>";
-                }
-                $("#replyList").html(str);
+
+                var rno = $(this).data("rno");
+                var type = $(this).hasClass("reply-like") ? "L" : "D"; 
+                
+                var data = { rno: rno, userid: loginUser, like_type: type };
+                
+                replyService.updateLike(data, function(result) {
+                    alert("반영되었습니다.");
+                    showList(1);
+                });
             });
-        }
         $(document).off("click", ".replyAddBtn").on("click", ".replyAddBtn", function(e) {
             e.preventDefault();
             var $li = $(this).closest("li");
@@ -495,4 +545,6 @@
 
         showList();
     });
+});
+
 </script>

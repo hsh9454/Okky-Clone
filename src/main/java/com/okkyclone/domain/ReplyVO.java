@@ -12,8 +12,14 @@ public class ReplyVO {
     private Date updateDate;
     private Long parentRno;
     private String delYn;
-    
+    private int likecnt;
 		
+	public int getLikecnt() {
+		return likecnt;
+	}
+	public void setLikecnt(int likecnt) {
+		this.likecnt = likecnt;
+	}
 	public String getDelYn() {
 		return delYn;
 	}

@@ -8,6 +8,8 @@ import com.okkyclone.domain.Criteria;
 import com.okkyclone.domain.ReplyVO;
 import com.okkyclone.mapper.ReplyMapper;
 import com.okkyclone.service.ReplyService;
+import com.okkyclone.domain.ReplyLikeVO;
+
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
@@ -44,4 +46,9 @@ public class ReplyServiceImpl implements ReplyService {
 		System.out.println("서비스에서 수정 처리 중... VO: " + vo);
 		return mapper.update(vo);
 	}
+	
+	@Override
+    public int updateLike(ReplyLikeVO vo) {
+        return mapper.updateLikeCount(vo.getRno());
+    }
 }

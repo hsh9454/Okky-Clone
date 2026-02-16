@@ -11,7 +11,8 @@
     </insert>
 
     <select id="getList" resultType="com.okkyclone.domain.ReplyVO">
-        SELECT rno, bno, reply, replyer, replyDate, updateDate, parent_rno as parentRno, del_yn as delYn
+        SELECT rno, bno, reply, replyer, replyDate, updateDate, 
+               parent_rno as parentRno, del_yn as delYn, likecnt 
         FROM tbl_reply 
         WHERE bno = #{bno} 
         ORDER BY rno ASC
@@ -22,7 +23,8 @@
         SELECT 
             rno, bno, reply, replyer, replyDate, updateDate, 
             parent_rno as parentRno, 
-            del_yn as delYn  
+            del_yn as delYn,
+            likecnt
         FROM tbl_reply
         WHERE bno = #{bno}
         START WITH parent_rno IS NULL
@@ -39,6 +41,12 @@
         UPDATE tbl_reply 
         SET reply = #{reply}, updateDate = sysdate
         WHERE rno = #{rno}
+    </update>
+    
+    <update id="updateLikeCount">
+        update tbl_reply 
+        set likecnt = likecnt + 1 
+        where rno = #{rno}
     </update>
      
 </mapper>

@@ -19,4 +19,6 @@ public interface ReplyMapper {
             @Param("bno") Long bno);
     
     public int update(ReplyVO vo);
+    
+    public int updateLikeCount(@Param("rno") Long rno);
 }
