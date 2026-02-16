@@ -124,7 +124,7 @@
 
 <div class="container mt-4">
     <div class="article-header border-bottom">
-        <span class="category-tag">커뮤니티 | 자유게시판</span>
+        
         <h1 class="article-title">${board.title}</h1>
         <div class="article-meta d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
@@ -244,7 +244,12 @@
     <hr style="border-top: 1px solid #f1f5f9; margin: 50px 0;">
 
     <div class="list-under-article">
-        <div class="list-group list-group-flush border-top" style="border-top: 2px solid #334155 !important;">
+    <div style="margin-bottom: 15px;">
+        <span style="cursor: pointer; color: #64748b; font-size: 14px; font-weight: 500;" 
+              onclick="location.href='${pageContext.request.contextPath}/'">
+            <i class="fa fa-chevron-left" style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
+        </span>
+    </div>  
             <c:forEach items="${list}" var="boardList">
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3" 
                      style="cursor: pointer; border-bottom: 1px solid #f1f5f9; ${boardList.bno == board.bno ? 'background-color: #f8fafc;' : ''}"
@@ -277,21 +282,16 @@
             </c:forEach>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <button class="btn btn-outline-secondary btn-sm" onclick="location.href='${pageContext.request.contextPath}/board/list'">
-                <i class="fa fa-list"></i> 목록으로
-            </button>
-            
+        <div class="d-flex justify-content-end align-items-center mt-4">
             <nav>
                 <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                </ul>
-            </nav>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+           </nav>
         </div>
     </div>
-</div>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script>
