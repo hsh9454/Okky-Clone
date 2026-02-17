@@ -24,10 +24,11 @@ body {
     background-color: #ffffff !important;  
     border: 1px solid #e2e8f0 !important;  
     border-radius: 8px !important;         
-    padding: 30px !important;             
+    padding: 30px !important;              
     margin-bottom: 20px !important;         
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important; 
-    width: 100% !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    display: block; 
+    box-sizing: border-box;
 }
 
 .reply-form-scontainer {
@@ -557,15 +558,12 @@ body {
 
 		<div class="d-flex justify-content-end align-items-center mt-4">
 			<nav>
-				<ul class="pagination pagination-sm mb-0">
-					<li class="page-item active"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
+                <ul class="pagination pagination-sm mb-0">
+
+                </ul>
+            </nav>
+        </div>
+    </div> 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script>
