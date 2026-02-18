@@ -13,8 +13,12 @@ public class MemberVO {
     private String socialType; 
     private Date regdate;
     private Date updatedate;
- 
-	public String getUserid() {
+    private String profileImg;
+    
+    public String getProfileImg() { return profileImg; }
+    public void setProfileImg(String profileImg) { this.profileImg = profileImg; }
+	
+    public String getUserid() {
 		return userid;
 	}
 	public void setUserid(String userid) {

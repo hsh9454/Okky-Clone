@@ -4,40 +4,56 @@
   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition name="baseLayout" template="/WEB-INF/views/layout/baseLayout.jsp">
-        <put-attribute name="title" value="" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />
-        <put-attribute name="body" value="" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
+	<definition name="baseLayout"
+		template="/WEB-INF/views/layout/baseLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/layout/menu.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
 
-    <definition name="main" extends="baseLayout">
-        <put-attribute name="title" value="OKKY 클론 - 메인" />
-        <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
-    </definition>
-    
-    <definition name="login" extends="baseLayout">
-        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
-    </definition>
-    
-    <definition name="member/list" extends="baseLayout">
-        <put-attribute name="title" value="회원 목록" />
-        <put-attribute name="body" value="/WEB-INF/views/member/list.jsp" />
-    </definition>
-    
-    <definition name="board/list" extends="baseLayout">
-        <put-attribute name="title" value="게시글 목록" />
-        <put-attribute name="body" value="/WEB-INF/views/board/list.jsp" />
-    </definition> 
-        
-    <definition name="board/get" extends="baseLayout">
-        <put-attribute name="title" value="글 상세보기" />
-        <put-attribute name="body" value="/WEB-INF/views/board/get.jsp" />
-    </definition>
-    
-    <definition name="board/modify" extends="baseLayout">
-        <put-attribute name="title" value="글 수정하기" />
-        <put-attribute name="body" value="/WEB-INF/views/board/modify.jsp" />
-    </definition>
+	<definition name="main" extends="baseLayout">
+		<put-attribute name="title" value="OKKY 클론 - 메인" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/main.jsp" />
+	</definition>
+
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/login.jsp" />
+	</definition>
+
+	<definition name="member/list" extends="baseLayout">
+		<put-attribute name="title" value="회원 목록" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/member/list.jsp" />
+	</definition>
+
+	<definition name="board/list" extends="baseLayout">
+		<put-attribute name="title" value="게시글 목록" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/list.jsp" />
+	</definition>
+
+	<definition name="board/get" extends="baseLayout">
+		<put-attribute name="title" value="글 상세보기" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/get.jsp" />
+	</definition>
+
+	<definition name="board/modify" extends="baseLayout">
+		<put-attribute name="title" value="글 수정하기" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/modify.jsp" />
+	</definition>
+
+	<definition name="member/mypage" extends="baseLayout">
+		<put-attribute name="title" value="마이페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/member/mypage.jsp" />
+	</definition>
 </tiles-definitions>

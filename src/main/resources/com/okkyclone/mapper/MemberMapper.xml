@@ -4,21 +4,47 @@
 
 <mapper namespace="com.okkyclone.mapper.MemberMapper">
 
-    <insert id="join">
-        INSERT INTO tbl_member (userid, userpw, nickname, social_type)
-        VALUES (#{userid}, #{userpw}, #{nickname}, 'LOCAL')
-    </insert>
+	<insert id="join">
+		INSERT INTO tbl_member (userid, userpw, nickname,
+		social_type)
+		VALUES (#{userid}, #{userpw}, #{nickname}, 'LOCAL')
+	</insert>
 
-    <select id="login" resultType="com.okkyclone.domain.MemberVO">
-        SELECT 
-            userid, 
-            userpw, 
-            nickname, 
-            user_point as userPoint, 
-            user_rank as userRank 
-        FROM tbl_member 
-        WHERE userid = #{userid, jdbcType=VARCHAR} AND userpw = #{userpw, jdbcType=VARCHAR}
-        
-    </select>
+	<resultMap id="memberMap"
+		type="com.okkyclone.domain.MemberVO">
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="nickname" column="nickname" />
+		<result property="userImg" column="USER_IMG" />
+		<result property="userPoint" column="USER_POINT" />
+		<result property="userRank" column="USER_RANK" />
+		<result property="regdate" column="REGDATE" />
+		<result property="updatedate" column="UPDATEDATE" />
+	</resultMap>
+
+	<select id="read" resultMap="memberMap">
+		SELECT * FROM TBL_MEMBER WHERE
+		USERID = #{userid}
+	</select>
+
+	<select id="login" resultType="com.okkyclone.domain.MemberVO">
+		SELECT
+		userid,
+		userpw,
+		nickname,
+		user_img as userImg,
+		user_point as userPoint,
+		user_rank as userRank,
+		regdate, updatedate
+		FROM tbl_member
+		WHERE userid = #{userid} AND userpw = #{userpw}
+	</select>
+
+	<update id="updateProfileImg">
+		UPDATE TBL_MEMBER
+		SET USER_IMG = #{userImg},
+		UPDATEDATE = SYSDATE
+		WHERE USERID = #{userid}
+	</update>
 
 </mapper>

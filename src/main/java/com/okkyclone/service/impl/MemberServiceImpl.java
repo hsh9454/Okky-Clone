@@ -9,7 +9,13 @@ import com.okkyclone.service.MemberService;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-
+	
+	@Override
+    public MemberVO read(String userid) {
+        System.out.println("서비스에서 회원 정보 읽기 시도: " + userid);
+        return mapper.read(userid); 
+    }
+	
     @Autowired
     private MemberMapper mapper;
     
@@ -37,4 +43,9 @@ public class MemberServiceImpl implements MemberService {
     public int modify(ReplyVO vo) {
         return mapper.update(vo);
     } 
+    
+    @Override
+    public void modifyProfileImg(String userid, String userImg) {
+        mapper.updateProfileImg(userid, userImg);
+    }
 }

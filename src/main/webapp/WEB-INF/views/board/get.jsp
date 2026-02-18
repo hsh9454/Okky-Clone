@@ -343,11 +343,11 @@ body {
 }
 
 .reaction-wrapper {
-    display: flex;
-    justify-content: flex-end; 
-    gap: 20px;                 
-    margin-top: 30px;         
-    padding-bottom: 10px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+	margin-top: 30px;
+	padding-bottom: 10px;
 }
 
 .reaction-item {
@@ -401,23 +401,13 @@ body {
 
 		<div
 			class="article-meta d-flex justify-content-between align-items-center pb-3">
-			<div class="d-flex align-items-center" style="gap: 8px;">
-				<div class="d-flex align-items-center">
-					<img
-						src="${board.user_img != null ? board.user_img : '/resources/img/default_profile.jpg'}"
-						class="rounded-circle mr-2"
-						style="width: 26px; height: 26px; object-fit: cover; border: 1px solid #f1f5f9;">
-					<strong style="color: #334155; font-size: 14px; font-weight: 600;">${board.writer}</strong>
-				</div>
-
-				<span style="color: #cbd5e1; font-size: 13px;">·</span> <span
-					id="articleDate" style="color: #64748b; font-size: 14px;"></span> <span
-					style="color: #cbd5e1; font-size: 13px;">·</span>
-				<div
-					style="color: #64748b; font-size: 14px; display: flex; align-items: center; gap: 5px;">
-					<i class="far fa-eye" style="font-size: 14px; color: #94a3b8;"></i>
-					<span>${board.viewcnt}</span>
-				</div>
+			<div class="d-flex align-items-center">
+				<img
+					src="${board.user_img != null ? (pageContext.request.contextPath.concat('/member/display?fileName=').concat(board.user_img)) : '/resources/img/default_profile.jpg'}"
+					class="rounded-circle mr-2"
+					style="width: 26px; height: 26px; object-fit: cover; border: 1px solid #f1f5f9;"
+					onerror="this.src='/resources/img/default_profile.jpg'"> <strong
+					style="color: #334155; font-size: 14px; font-weight: 600;">${board.writer}</strong>
 			</div>
 
 			<div class="btn-group shadow-sm"

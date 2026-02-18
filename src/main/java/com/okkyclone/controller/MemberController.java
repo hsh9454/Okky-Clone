@@ -1,10 +1,27 @@
 package com.okkyclone.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.Principal;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.MemberService;
@@ -14,51 +31,102 @@ import com.okkyclone.service.MemberService;
 
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
+	@Autowired
+	private MemberService memberService;
 
-  
-    @GetMapping("/join")
-    public void joinPage() {
-        System.out.println("=== È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ÀÌµ¿ ===");
-    }
-    
- 
-    @PostMapping("/join")
-    public String joinProcess(MemberVO vo) {
-        System.out.println("=== È¸¿ø°¡ÀÔ ½Ãµµ ¾ÆÀÌµğ: " + vo.getUserid() + " ===");
-        memberService.join(vo);
-        return "redirect:/member/login";
-    }
-    
+	@GetMapping("/join")
+	public void joinPage() {
+		System.out.println("=== íšŒì›ê°€ì… í˜ì´ì§€ë¡œ ì´ë™ ===");
+	}
 
-    @GetMapping("/login")
-    public void loginPage() {
-        System.out.println("=== ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿ ===");
-    }
+	@PostMapping("/join")
+	public String joinProcess(MemberVO vo) {
+		System.out.println("=== íšŒì›ê°€ì… ì‹œë„ ì•„ì´ë””: " + vo.getUserid() + " ===");
+		memberService.join(vo);
+		return "redirect:/member/login";
+	}
 
+	@GetMapping("/login")
+	public void loginPage() {
+		System.out.println("=== ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™ ===");
+	}
 
-    @PostMapping("/login")
-    public String loginPROCESS(MemberVO vo, javax.servlet.http.HttpSession session) {
-        System.out.println("=== ·Î±×ÀÎ ½Ãµµ ¾ÆÀÌµğ: " + vo.getUserid() + " ===");
-        
-        MemberVO loginUser = memberService.login(vo);        
-        
-        if(loginUser != null) {
-           
-            System.out.println("·Î±×ÀÎ ¼º°ø! È¯¿µÇÕ´Ï´Ù!"); 
-            session.setAttribute("user", loginUser);
-            return "redirect:/";
-        } else {
-            System.out.println("·Î±×ÀÎ ½ÇÆĞ!");
-            return "redirect:/member/login?error=y";
-        }      
-    }   
-    
-    @GetMapping("/logout")
-    public String logout(javax.servlet.http.HttpSession session) {
-        session.invalidate();
-        System.out.println("=== ·Î±×¾Æ¿ô ¿Ï·á ===");
-        return "redirect:/";
-    }
+	@PostMapping("/login")
+	public String loginPROCESS(MemberVO vo, javax.servlet.http.HttpSession session) {
+		System.out.println("=== ë¡œê·¸ì¸ ì‹œë„ ì•„ì´ë””: " + vo.getUserid() + " ===");
+
+		MemberVO loginUser = memberService.login(vo);
+
+		if (loginUser != null) {
+
+			System.out.println("ë¡œê·¸ì¸ ì„±ê³µ! í™˜ì˜í•©ë‹ˆë‹¤!");
+			session.setAttribute("user", loginUser);
+			return "redirect:/";
+		} else {
+			System.out.println("ë¡œê·¸ì¸ ì‹¤íŒ¨!");
+			return "redirect:/member/login?error=y";
+		}
+	}
+
+	@PostMapping("/modifyImg")
+	public String modifyImg(@RequestParam("uploadFile") MultipartFile uploadFile, // @RequestParam ì¶”ê°€
+			@RequestParam("userid") String userid, // @RequestParam ì¶”ê°€
+			RedirectAttributes rttr, HttpSession session) {
+
+		if (uploadFile == null || uploadFile.isEmpty()) {
+			return "redirect:/member/mypage";
+		}
+		String uploadFolder = "C:\\upload\\profile";
+		File uploadPath = new File(uploadFolder);
+		if (!uploadPath.exists()) {
+			uploadPath.mkdirs();
+		}
+
+		String uuid = UUID.randomUUID().toString();
+		String uploadFileName = uuid + "_" + uploadFile.getOriginalFilename();
+		File saveFile = new File(uploadPath, uploadFileName);
+
+		try {
+			uploadFile.transferTo(saveFile);
+			memberService.modifyProfileImg(userid, uploadFileName);
+
+			MemberVO user = (MemberVO) session.getAttribute("user");
+			if (user != null) {
+				user.setUserImg(uploadFileName);
+			}
+
+		} catch (Exception e) {
+			System.out.println("ì—ëŸ¬ ë°œìƒ: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:/member/mypage";
+	}
+
+	@GetMapping("/mypage")
+	public void mypage(Principal principal, HttpSession session, Model model) {
+		if (principal != null) {
+			String userid = principal.getName();
+			MemberVO vo = memberService.read(userid);
+
+			session.setAttribute("user", vo);
+
+			model.addAttribute("user", vo);
+		}
+	}
+
+	@GetMapping("/display")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName) {
+		File file = new File("C:\\upload\\profile\\" + fileName);
+		ResponseEntity<byte[]> result = null;
+
+		try {
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
