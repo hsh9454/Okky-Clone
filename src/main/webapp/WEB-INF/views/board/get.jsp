@@ -17,23 +17,23 @@
 
 <style>
 body {
-    background-color: #f1f5f9 !important; 
+	background-color: #f1f5f9 !important;
 }
 
 .article-box, .reply-section, .list-under-article {
-    background-color: #ffffff !important;  
-    border: 1px solid #e2e8f0 !important;  
-    border-radius: 8px !important;         
-    padding: 30px !important;              
-    margin-bottom: 20px !important;         
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-    display: block; 
-    box-sizing: border-box;
+	background-color: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 8px !important;
+	padding: 30px !important;
+	margin-bottom: 20px !important;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+	display: block;
+	box-sizing: border-box;
 }
 
 .reply-form-scontainer {
-    width: 100% !important;
-    margin: 0 auto !important;
+	width: 100% !important;
+	margin: 0 auto !important;
 }
 
 .list-under-article {
@@ -42,10 +42,10 @@ body {
 }
 
 .container {
-    max-width: 1440px !important;  
-    width: 100% !important;         
-    margin: 0 auto !important;
-    padding: 0 15px !important;
+	max-width: 1440px !important;
+	width: 100% !important;
+	margin: 0 auto !important;
+	padding: 0 15px !important;
 }
 
 #replyList {
@@ -168,9 +168,9 @@ body {
 }
 
 .article-header {
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
+	border: none !important;
+	background: transparent !important;
+	padding: 0 !important;
 }
 
 .article-title {
@@ -333,29 +333,72 @@ body {
 	overflow: hidden;
 }
 
+.article-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 18px !important;
+	margin-bottom: 25px !important;
+	border-bottom: 1.5px solid #e2e8f0 !important;
+}
+
+.reaction-wrapper {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 20px;                 
+    margin-top: 30px;         
+    padding-bottom: 10px;
+}
+
+.reaction-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	color: #334155;
+	transition: opacity 0.2s ease;
+	user-select: none;
+}
+
+.reaction-item i {
+	font-size: 20px;
+}
+
+.reaction-item span {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.reaction-item:hover {
+	opacity: 0.5;
+	transform: none !important;
+}
 </style>
 
-<div class="ad-wrapper-top mt-3 mb-2" style="max-width: 1100px; margin: 0 auto;">
-    <div class="article-header" style="padding: 20px !important; margin-bottom: 10px !important;">
-        <div class="ad-content" style="background-color: #f8fafc; border: 1px dashed #e2e8f0; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
-            <span class="text-muted" style="font-size: 13px;">광고 영역 (상단)</span>
-        </div>
-    </div>
+<div class="ad-wrapper-top mt-3 mb-2"
+	style="max-width: 1100px; margin: 0 auto;">
+	<div class="article-header"
+		style="padding: 20px !important; margin-bottom: 10px !important;">
+		<div class="ad-content"
+			style="background-color: #f8fafc; border: 1px dashed #e2e8f0; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+			<span class="text-muted" style="font-size: 13px;">광고 영역 (상단)</span>
+		</div>
+	</div>
 </div>
 
-<div class="container mt-2">  
-    <div class="article-box">
-        
-        <div class="breadcrumb-wrapper mb-3">
-            <div class="breadcrumb-box">
-                <a href="${pageContext.request.contextPath}/" class="breadcrumb-item">커뮤니티</a> 
-                <span class="breadcrumb-split">|</span>
-                <a href="/board/list?category=free" class="breadcrumb-item">게시물</a>
-            </div>
-        </div>
+<div class="container mt-2">
+	<div class="article-box">
+
+		<div class="breadcrumb-wrapper mb-3">
+			<div class="breadcrumb-box">
+				<a href="${pageContext.request.contextPath}/"
+					class="breadcrumb-item">커뮤니티</a> <span class="breadcrumb-split">|</span>
+				<a href="/board/list?category=free" class="breadcrumb-item">게시물</a>
+			</div>
+		</div>
 
 		<h1 class="article-title">${board.title}</h1>
-		
+
 		<div
 			class="article-meta d-flex justify-content-between align-items-center pb-3">
 			<div class="d-flex align-items-center" style="gap: 8px;">
@@ -417,153 +460,151 @@ body {
 		</div>
 
 		<div class="article-content">${board.content}</div>
-        
-		<div style="display: flex; justify-content: flex-end; gap: 20px; margin: 30px 0;">
-            <div id="likeBtn" style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                <i class="far fa-thumbs-up" style="font-size: 22px;"></i> 
-                <span id="likeCount">${board.likecnt}</span>
-            </div>
-            <div id="dislikeBtn" style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                <i class="far fa-thumbs-down" style="font-size: 22px;"></i> 
-                <span id="dislikeCount">${board.dislikecnt}</span>
-            </div>
-        </div> </div> <div class="ad-wrapper-middle mt-4">
-        </div>
 
-		<hr>
-
-		<div class="mt-4 mb-3">
-			<c:choose>
-				<c:when test="${not empty user}">
-
-					<div class="ad-wrapper-middle mb-4">
-						<div class="ad-content"
-							style="background-color: #f8fafc; border: 1px dashed #e2e8f0; height: 120px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">
-							<div class="text-center">
-								<span class="d-block text-muted" style="font-size: 12px;">ADVERTISEMENT</span>
-								<span class="text-secondary"
-									style="font-size: 14px; font-weight: 500;">여기에 광고가 들어갑니다</span>
-							</div>
-						</div>
-					</div>
-
-					<div class="reply-section mt-4">
-						<div class="reply-count mb-3"
-							style="font-size: 16px; font-weight: 700; color: #334155;">
-							총 <span class="text-primary">${replyList.size()}</span>개의 댓글
-						</div>
-
-						<div class="reply-form-container"
-							style="border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; overflow: hidden;">
-							<div id="replyEditor"
-								style="height: 120px; border: none; font-size: 15px;"></div>
-
-							<div
-								class="d-flex justify-content-between align-items-center p-2"
-								style="border-top: 1px solid #f1f5f9; background: #fafafa;">
-								<div id="toolbar-container"></div>
-
-								<div class="d-flex align-items-center" style="gap: 12px;">
-									<span id="char-count" style="font-size: 12px; color: #94a3b8;">0
-										/ 2000</span>
-									<button id="addReplyBtn" class="btn btn-primary btn-sm px-3"
-										style="border-radius: 6px; font-weight: 600;">작성</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</c:when>
-				<c:otherwise>
-					<div class="reply-write-container p-4 text-center"
-						style="background-color: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 10px; cursor: pointer;"
-						onclick="location.href='${pageContext.request.contextPath}/member/login'">
-						<p class="text-muted mb-0">로그인이 필요합니다.</p>
-					</div>
-				</c:otherwise>
-			</c:choose>
+		<div class="reaction-wrapper">
+			<div id="likeBtn" class="reaction-item" onclick="like()">
+				<i class="far fa-thumbs-up"></i> <span id="likeCount">${board.likecnt}</span>
+			</div>
+			<div id="dislikeBtn" class="reaction-item" onclick="dislike()">
+				<i class="far fa-thumbs-down"></i> <span id="dislikeCount">${board.dislikecnt}</span>
+			</div>
 		</div>
+	</div>
+	<div class="ad-wrapper-middle mt-4"></div>
 
-		<div class="mt-5 mb-5">
-			<ul id="replyList" class="list-group list-group-flush mt-3">
+	<hr>
+
+	<div class="mt-4 mb-3">
+		<c:choose>
+			<c:when test="${not empty user}">
+
+				<div class="ad-wrapper-middle mb-4">
+					<div class="ad-content"
+						style="background-color: #f8fafc; border: 1px dashed #e2e8f0; height: 120px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">
+						<div class="text-center">
+							<span class="d-block text-muted" style="font-size: 12px;">ADVERTISEMENT</span>
+							<span class="text-secondary"
+								style="font-size: 14px; font-weight: 500;">여기에 광고가 들어갑니다</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="reply-section mt-4">
+					<div class="reply-count mb-3"
+						style="font-size: 16px; font-weight: 700; color: #334155;">
+						총 <span class="text-primary">${replyList.size()}</span>개의 댓글
+					</div>
+
+					<div class="reply-form-container"
+						style="border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; overflow: hidden;">
+						<div id="replyEditor"
+							style="height: 120px; border: none; font-size: 15px;"></div>
+
+						<div class="d-flex justify-content-between align-items-center p-2"
+							style="border-top: 1px solid #f1f5f9; background: #fafafa;">
+							<div id="toolbar-container"></div>
+
+							<div class="d-flex align-items-center" style="gap: 12px;">
+								<span id="char-count" style="font-size: 12px; color: #94a3b8;">0
+									/ 2000</span>
+								<button id="addReplyBtn" class="btn btn-primary btn-sm px-3"
+									style="border-radius: 6px; font-weight: 600;">작성</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="reply-write-container p-4 text-center"
+					style="background-color: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 10px; cursor: pointer;"
+					onclick="location.href='${pageContext.request.contextPath}/member/login'">
+					<p class="text-muted mb-0">로그인이 필요합니다.</p>
+				</div>
+			</c:otherwise>
+		</c:choose>
+	</div>
+
+	<div class="mt-5 mb-5">
+		<ul id="replyList" class="list-group list-group-flush mt-3">
+		</ul>
+	</div>
+
+	<div id="reReplyEditorTemplate" style="display: none;">
+		<div class="re-reply-box-wrapper"
+			style="border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; overflow: hidden; margin-top: 10px;">
+			<div class="re-reply-quill" style="height: 100px; border: none;"></div>
+
+			<div class="d-flex justify-content-between align-items-center px-3"
+				style="border-top: 1px solid #f1f5f9; background: #fcfcfc; height: 48px;">
+
+				<div class="re-toolbar-container"></div>
+
+				<div class="d-flex align-items-center" style="gap: 10px;">
+					<button class="btn re-reply-cancel"
+						style="font-size: 13px; color: #64748b; background: none; border: none;">취소</button>
+					<button class="btn re-reply-submit"
+						style="background-color: #3b82f6; color: white; border-radius: 6px; padding: 5px 14px; font-weight: 600; font-size: 13px; border: none;">
+						작성</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr style="border-top: 1px solid #f1f5f9; margin: 50px 0;">
+
+	<div class="list-under-article">
+		<div style="margin-bottom: 15px;">
+			<span
+				style="cursor: pointer; color: #64748b; font-size: 14px; font-weight: 500;"
+				onclick="location.href='${pageContext.request.contextPath}/'">
+				<i class="fa fa-chevron-left"
+				style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
+			</span>
+		</div>
+		<c:forEach items="${list}" var="boardList">
+			<div
+				class="list-group-item d-flex justify-content-between align-items-center py-3"
+				style="cursor: pointer; border-bottom: 1px solid #f1f5f9; ${boardList.bno == board.bno ? 'background-color: #f8fafc;' : ''}"
+				onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${boardList.bno}'">
+
+				<div class="text-truncate"
+					style="max-width: 60%; font-size: 15px; font-weight: ${boardList.bno == board.bno ? '700' : '500'}; color: #334155;">
+					${boardList.title}</div>
+
+				<div class="d-flex align-items-center text-muted"
+					style="font-size: 13px; gap: 15px;">
+
+					<div class="d-flex align-items-center" style="width: 100px;">
+						<img src="/resources/img/default_profile.jpg"
+							class="rounded-circle mr-2" style="width: 20px; height: 20px;">
+						<span class="text-truncate">${boardList.writer}</span>
+					</div>
+
+					<div class="list-item-date"
+						style="width: 80px; text-align: center;"
+						data-date="${boardList.regdate}"></div>
+
+					<div style="width: 40px; text-align: center;">
+						<i class="far fa-thumbs-up"></i> ${boardList.likecnt}
+					</div>
+
+					<div style="width: 40px; text-align: center;">
+						<i class="far fa-comment-dots"></i> ${boardList.replycnt}
+					</div>
+
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+
+	<div class="d-flex justify-content-end align-items-center mt-4">
+		<nav>
+			<ul class="pagination pagination-sm mb-0">
+
 			</ul>
-		</div>
-
-		<div id="reReplyEditorTemplate" style="display: none;">
-			<div class="re-reply-box-wrapper"
-				style="border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; overflow: hidden; margin-top: 10px;">
-				<div class="re-reply-quill" style="height: 100px; border: none;"></div>
-
-				<div class="d-flex justify-content-between align-items-center px-3"
-					style="border-top: 1px solid #f1f5f9; background: #fcfcfc; height: 48px;">
-
-					<div class="re-toolbar-container"></div>
-
-					<div class="d-flex align-items-center" style="gap: 10px;">
-						<button class="btn re-reply-cancel"
-							style="font-size: 13px; color: #64748b; background: none; border: none;">취소</button>
-						<button class="btn re-reply-submit"
-							style="background-color: #3b82f6; color: white; border-radius: 6px; padding: 5px 14px; font-weight: 600; font-size: 13px; border: none;">
-							작성</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<hr style="border-top: 1px solid #f1f5f9; margin: 50px 0;">
-
-		<div class="list-under-article">
-			<div style="margin-bottom: 15px;">
-				<span
-					style="cursor: pointer; color: #64748b; font-size: 14px; font-weight: 500;"
-					onclick="location.href='${pageContext.request.contextPath}/'">
-					<i class="fa fa-chevron-left"
-					style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
-				</span>
-			</div>
-			<c:forEach items="${list}" var="boardList">
-				<div
-					class="list-group-item d-flex justify-content-between align-items-center py-3"
-					style="cursor: pointer; border-bottom: 1px solid #f1f5f9; ${boardList.bno == board.bno ? 'background-color: #f8fafc;' : ''}"
-					onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${boardList.bno}'">
-
-					<div class="text-truncate"
-						style="max-width: 60%; font-size: 15px; font-weight: ${boardList.bno == board.bno ? '700' : '500'}; color: #334155;">
-						${boardList.title}</div>
-
-					<div class="d-flex align-items-center text-muted"
-						style="font-size: 13px; gap: 15px;">
-
-						<div class="d-flex align-items-center" style="width: 100px;">
-							<img src="/resources/img/default_profile.jpg"
-								class="rounded-circle mr-2" style="width: 20px; height: 20px;">
-							<span class="text-truncate">${boardList.writer}</span>
-						</div>
-
-						<div class="list-item-date"
-							style="width: 80px; text-align: center;"
-							data-date="${boardList.regdate}"></div>
-
-						<div style="width: 40px; text-align: center;">
-							<i class="far fa-thumbs-up"></i> ${boardList.likecnt}
-						</div>
-
-						<div style="width: 40px; text-align: center;">
-							<i class="far fa-comment-dots"></i> ${boardList.replycnt}
-						</div>
-
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-
-		<div class="d-flex justify-content-end align-items-center mt-4">
-			<nav>
-                <ul class="pagination pagination-sm mb-0">
-
-                </ul>
-            </nav>
-        </div>
-    </div> 
+		</nav>
+	</div>
+</div>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script>

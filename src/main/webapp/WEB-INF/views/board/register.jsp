@@ -17,7 +17,8 @@
 	<hr>
 
 	<form action="${pageContext.request.contextPath}/register"
-		method="post">
+		method="post">l
+		
 		<div class="form-group">
 			<label>제목</label> <input type="text" class="form-control"
 				name="title" placeholder="제목을 입력하세요">
