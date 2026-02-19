@@ -28,7 +28,6 @@
 			placeholder="검색" style="width: 140px;">
 
 		<c:choose>
-
 			<c:when test="${empty sessionScope.user}">
 				<a href="${pageContext.request.contextPath}/member/login"
 					class="btn btn-sm btn-outline-secondary border-0 fw-bold">로그인</a>
@@ -37,16 +36,37 @@
 			</c:when>
 
 			<c:otherwise>
-				<a href="${pageContext.request.contextPath}/member/mypage"
-					class="small fw-bold text-dark text-decoration-none me-2">
-					${sessionScope.user.nickname}님 </a>
+				<div class="dropdown">
+					<a href="#"
+						class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle small fw-bold"
+						id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 
-				<form action="${pageContext.request.contextPath}/member/logout"
-					method="post" style="display: inline;">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-					<button type="submit" class="btn btn-sm btn-light border fw-bold">로그아웃</button>
-				</form>
+						<c:if test="${not empty sessionScope.user.userImg}">
+							<img
+								src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}"
+								class="rounded-circle me-2"
+								style="width: 28px; height: 28px; object-fit: cover;">
+						</c:if> ${sessionScope.user.nickname}님
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-end shadow-sm border"
+						aria-labelledby="userDropdown">
+						<li><a class="dropdown-item small"
+							href="${pageContext.request.contextPath}/member/mypage">프로필</a></li>
+						<li><a class="dropdown-item small"
+							href="${pageContext.request.contextPath}/member/mypage">마이페이지</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<form action="${pageContext.request.contextPath}/member/logout"
+								method="post" class="px-3 py-1 m-0">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+								<button type="submit"
+									class="btn btn-sm btn-link text-danger text-decoration-none p-0 small fw-bold">로그아웃</button>
+							</form>
+						</li>
+					</ul>
+				</div>
 			</c:otherwise>
 		</c:choose>
 	</div>
