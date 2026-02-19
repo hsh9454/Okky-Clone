@@ -51,8 +51,19 @@
 			value="/WEB-INF/views/board/modify.jsp" />
 	</definition>
 
-	<definition name="member/mypage" extends="baseLayout">
-		<put-attribute name="title" value="마이페이지" />
+	<definition name="noSideLayout"
+		template="/WEB-INF/views/layout/baseLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="menu" value="${null}" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+
+	<definition name="member/mypage" extends="noSideLayout">
+		<put-attribute name="title" value="마이페이지 - 광고없음" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/member/mypage.jsp" />
 	</definition>

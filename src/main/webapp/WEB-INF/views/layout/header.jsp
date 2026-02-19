@@ -67,30 +67,52 @@
         </a>
 
         <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.user.userImg}">
-                        <img src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}" 
-                             class="rounded-3 border shadow-sm" 
-                             style="width: 38px; height: 38px; object-fit: cover;">
-                    </c:when>
-                    <c:otherwise>
-                        <i class="bi bi-person-square fs-2 text-secondary"></i>
-                    </c:otherwise>
-                </c:choose>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown" style="min-width: 180px;">
-                <li><div class="dropdown-header fw-bold text-dark">${sessionScope.user.nickname}님</div></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item small py-2" href="${pageContext.request.contextPath}/member/mypage">마이페이지</a></li>
-                <li>
-                    <form action="${pageContext.request.contextPath}/member/logout" method="post" class="m-0 px-3 py-1">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                        <button type="submit" class="btn btn-link dropdown-item p-0 small text-danger fw-bold text-decoration-none" style="border:none; background:none;">로그아웃</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+    <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <c:choose>
+            <c:when test="${not empty sessionScope.user.userImg}">
+                <img src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}" 
+                     class="rounded-2 border shadow-sm" style="width: 38px; height: 38px; object-fit: cover;">
+            </c:when>
+            <c:otherwise>
+                <i class="bi bi-person-square fs-2 text-secondary"></i>
+            </c:otherwise>
+        </c:choose>
+    </a>
+    
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-3" aria-labelledby="userDropdown" style="min-width: 240px; border-radius: 12px;">
+        <li><div class="dropdown-header fw-bold text-dark fs-5 p-0 mb-1">${sessionScope.user.nickname}</div></li>
+        <li><div class="text-muted small mb-3">내 계정</div></li>
+        
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="${pageContext.request.contextPath}/member/mypage">
+            <span>프로필</span> <i class="bi bi-person text-muted"></i></a></li>
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#">
+            <span>계정 관리</span> <i class="bi bi-gear text-muted"></i></a></li>
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="${pageContext.request.contextPath}/member/mypage">
+            <span>마이페이지</span> <i class="bi bi-arrow-repeat text-muted"></i></a></li>
+            
+        <li><hr class="dropdown-divider my-3"></li>
+        <li><div class="text-muted small mb-2">Jobs</div></li>
+        
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#">
+            <span>이력서 관리</span> <i class="bi bi-file-earmark-text text-muted"></i></a></li>
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#">
+            <span>구직 내역 관리</span> <i class="bi bi-briefcase text-muted"></i></a></li>
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#">
+            <span>관심 포지션</span> <i class="bi bi-bookmark text-muted"></i></a></li>
+        <li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#">
+            <span>포지션 지원이력</span> <i class="bi bi-card-list text-muted"></i></a></li>
+            
+        <li><hr class="dropdown-divider my-3"></li>
+        <li>
+            <form action="${pageContext.request.contextPath}/member/logout" method="post" class="m-0 p-0">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <button type="submit" class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0 text-danger fw-bold" style="border:none; background:none; width:100%;">
+                    <span>로그아웃</span> <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
     </div>
 </c:otherwise>
 		</c:choose>
