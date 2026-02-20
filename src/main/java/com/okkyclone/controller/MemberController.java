@@ -129,4 +129,20 @@ public class MemberController {
 		}
 		return result;
 	}
+	
+	@PostMapping("modify")
+	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) {
+		System.out.println("=== 프로필 정보 수정 시도: " + vo.getUserid() + " ===");
+	    boolean isModified = memberService.modifyProfile(vo);
+	    if (isModified) {
+	        MemberVO updatedUser = memberService.read(vo.getUserid());
+	        session.setAttribute("user", updatedUser);
+	        
+	        rttr.addFlashAttribute("result", "success");
+	    } else {
+	        rttr.addFlashAttribute("result", "fail");
+	    }
+	    
+	    return "redirect:/member/mypage";
+	}
 }

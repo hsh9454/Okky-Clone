@@ -37,7 +37,8 @@
 		user_rank as userRank,
 		regdate, updatedate
 		FROM tbl_member
-		WHERE userid = #{userid} AND userpw = #{userpw}
+		WHERE userid = #{userid} AND userpw
+		= #{userpw}
 	</select>
 
 	<update id="updateProfileImg">
@@ -47,4 +48,15 @@
 		WHERE USERID = #{userid}
 	</update>
 
+	<update id="updateMemberProfile">
+		UPDATE tbl_member
+		SET userName = #{userName},
+		nickname = #{nickname},
+		job = #{job, jdbcType=VARCHAR},
+		bio = #{bio, jdbcType=VARCHAR},
+		user_img = #{userImg, jdbcType=VARCHAR},
+		ad_agree = #{adAgree, jdbcType=VARCHAR}, push_agree = #{pushAgree,
+		jdbcType=VARCHAR}, updatedate = SYSDATE
+		WHERE userid = #{userid}
+	</update>
 </mapper>

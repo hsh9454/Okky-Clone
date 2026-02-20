@@ -48,4 +48,9 @@ public class MemberServiceImpl implements MemberService {
     public void modifyProfileImg(String userid, String userImg) {
         mapper.updateProfileImg(userid, userImg);
     }
+      
+    @Override
+    public boolean modifyProfile(MemberVO vo) { 
+        return mapper.updateMemberProfile(vo) == 1; 
+    } 
 }

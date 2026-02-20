@@ -10,4 +10,5 @@ public interface MemberMapper {
 	public int update(ReplyVO vo);
 	public int updateProfileImg(@Param("userid") String userid, @Param("userImg") String userImg);
 	public MemberVO read(String userid);
+	public int updateMemberProfile(MemberVO vo);
 	}

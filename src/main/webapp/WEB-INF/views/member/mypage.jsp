@@ -309,160 +309,169 @@ input:checked+.slider:before {
 	<div class="okky-main-content">
 		<h1 class="main-title">회원정보</h1>
 
-		<form action="/member/modify" method="post">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
+		<div class="okky-main-content">
+			<h1 class="main-title">회원정보</h1>
 
-			<div class="form-container-flex">
+			<form action="/member/modify" method="post">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /> <input type="hidden" name="userid"
+					value="${sessionScope.user.userid}" />
 
-				<div class="form-fields">
-					<div class="form-group">
-						<label class="okky-label">이름</label> <input type="text"
-							name="userName" class="okky-input" value=""
-							placeholder="이름을 입력하세요">
-					</div>
-
-					<div class="form-group">
-						<label class="okky-label">닉네임</label> <input type="text"
-							name="nickname" class="okky-input" value=""
-							placeholder="닉네임을 입력하세요">
-					</div>
-
-					<div class="form-group">
-						<label class="okky-label">대표 직무</label> <select class="okky-input">
-							<option value="">직무를 선택해 주세요.</option>
-							<option value="1">백엔드 개발자</option>
-							<option value="2">프론트엔드 개발자</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label class="okky-label">관심 있는 기술 태그 입력</label>
-						<p class="help-text">사용 중인 기술이나 관심있는 기술 태그를 선택해주세요.</p>
-						<div
-							style="border: 1px solid #d1d5db; border-radius: 8px; padding: 15px; color: #9ca3af; font-size: 14px; background: #fff;">
-							기술 태그를 입력하세요...</div>
-					</div>
-
-					<div class="form-group">
-						<label class="okky-label">한 줄 소개 <span
-							style="float: right; font-weight: 400;">0/150</span></label>
-						<textarea class="okky-input" rows="4" placeholder="나를 소개해 주세요."></textarea>
-					</div>
-
-					<div class="form-group">
-						<label class="okky-label">링크</label>
-						<div class="link-group">
-							<i class="bi bi-link-45deg"></i> <input type="text"
-								class="link-input" placeholder="Link to social profile">
+				<div class="form-container-flex">
+					<div class="form-fields">
+						<div class="form-group">
+							<label class="okky-label">이름</label> <input type="text"
+								name="userName" class="okky-input"
+								value="${sessionScope.user.userName}" placeholder="이름을 입력하세요">
 						</div>
-						<div class="link-group">
-							<i class="bi bi-link-45deg"></i> <input type="text"
-								class="link-input" placeholder="Link to social profile">
+
+						<div class="form-group">
+							<label class="okky-label">닉네임</label> <input type="text"
+								name="nickname" class="okky-input"
+								value="${sessionScope.user.nickname}" placeholder="닉네임을 입력하세요">
 						</div>
-						<div class="link-group">
-							<i class="bi bi-link-45deg"></i> <input type="text"
-								class="link-input" placeholder="Link to social profile">
+
+						<div class="form-group">
+							<label class="okky-label">대표 직무</label> <select name="job"
+								class="okky-input">
+								<option value="">직무를 선택해 주세요.</option>
+								<option value="백엔드">백엔드 개발자</option>
+								<option value="프론트엔드">프론트엔드 개발자</option>
+							</select>
 						</div>
+
+						<div class="form-group">
+							<label class="okky-label">관심 있는 기술 태그 입력</label>
+							<p class="help-text">사용 중인 기술이나 관심있는 기술 태그를 선택해주세요.</p>
+							<div
+								style="border: 1px solid #d1d5db; border-radius: 8px; padding: 15px; color: #9ca3af; font-size: 14px; background: #fff;">
+								기술 태그를 입력하세요...</div>
+						</div>
+
+						<div class="form-group">
+							<label class="okky-label">한 줄 소개 <span
+								style="float: right; font-weight: 400;">0/150</span></label>
+							<textarea name="bio" class="okky-input" rows="4"
+								placeholder="나를 소개해 주세요.">${sessionScope.user.bio}</textarea>
+						</div>
+
+						<div class="form-group">
+							<label class="okky-label">링크</label>
+							<div class="link-group">
+								<i class="bi bi-link-45deg"></i> <input type="text"
+									class="link-input" placeholder="Link to social profile">
+							</div>
+							<div class="link-group">
+								<i class="bi bi-link-45deg"></i> <input type="text"
+									class="link-input" placeholder="Link to social profile">
+							</div>
+							<div class="link-group">
+								<i class="bi bi-link-45deg"></i> <input type="text"
+									class="link-input" placeholder="Link to social profile">
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-box" style="position: relative;">
+						<div class="profile-img-circle"
+							onclick="toggleProfilePopup(event)">
+							<c:choose>
+								<c:when test="${not empty sessionScope.user.userImg}">
+									<img
+										src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}"
+										id="profilePreview"
+										style="width: 100%; height: 100%; object-fit: cover;">
+								</c:when>
+
+								<c:otherwise>
+									<div class="default-avatar" id="defaultIcon">
+										<i class="bi bi-person-fill"></i>
+									</div>
+									<img id="profilePreview"
+										style="width: 100%; height: 100%; object-fit: cover; display: none;">
+								</c:otherwise>
+							</c:choose>
+						</div>
+
+						<div class="profile-upload-popup" id="profilePopup">
+							<div class="gravatar-info">
+								<img src="https://www.gravatar.com/avatar?d=mp"
+									style="width: 24px; border-radius: 4px;"> Gravatar
+							</div>
+							<button type="button" class="upload-blue-btn"
+								onclick="document.getElementById('fileInput').click();">
+								이미지 업로드 <span>권장 사이즈 150px<br>최대 250KB
+								</span>
+							</button>
+						</div>
+
+						<input type="file" id="fileInput" name="uploadFile"
+							accept="image/*" style="display: none;">
 					</div>
 				</div>
-
-				<div class="profile-box" style="position: relative;">
-					<div class="profile-img-circle" onclick="toggleProfilePopup(event)">
-						<c:choose>
-							<c:when test="${not empty sessionScope.user.userImg}">
-								<img src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}"
-									id="profilePreview"
-									style="width: 100%; height: 100%; object-fit: cover;">
-							</c:when>
-
-							<c:otherwise>
-								<div class="default-avatar" id="defaultIcon">
-									<i class="bi bi-person-fill"></i>
-								</div>
-								<img id="profilePreview"
-									style="width: 100%; height: 100%; object-fit: cover; display: none;">
-							</c:otherwise>
-						</c:choose>
-					</div>
-
-					<div class="profile-upload-popup" id="profilePopup">
-						<div class="gravatar-info">
-							<img src="https://www.gravatar.com/avatar?d=mp"
-								style="width: 24px; border-radius: 4px;"> Gravatar
+				<div class="consent-box">
+					<div class="toggle-row">
+						<div class="toggle-info">
+							<h4>광고 정보 수신 동의</h4>
+							<p>OKKY에서 발행하는 뉴스레터 및 이벤트/프로모션 혜택 정보를 이메일로 보내드립니다.</p>
 						</div>
-						<button type="button" class="upload-blue-btn"
-							onclick="document.getElementById('fileInput').click();">
-							이미지 업로드 <span>권장 사이즈 150px<br>최대 250KB
-							</span>
-						</button>
+						<label class="switch"> <input type="checkbox"
+							name="adAgree"> <span class="slider"></span>
+						</label>
 					</div>
 
-					<input type="file" id="fileInput" name="uploadFile"
-						accept="image/*" style="display: none;">
-				</div>
-			</div>
-			<div class="consent-box">
-				<div class="toggle-row">
-					<div class="toggle-info">
-						<h4>광고 정보 수신 동의</h4>
-						<p>OKKY에서 발행하는 뉴스레터 및 이벤트/프로모션 혜택 정보를 이메일로 보내드립니다.</p>
+					<div class="toggle-row">
+						<div class="toggle-info">
+							<h4>푸시 알림 동의</h4>
+							<p>OKKY 콘텐츠, 커뮤니티 리액션, 유저 활동 내역 등을 푸시 알림으로 보내드립니다.</p>
+						</div>
+						<label class="switch"> <input type="checkbox"
+							name="pushAgree" checked> <span class="slider"></span>
+						</label>
 					</div>
-					<label class="switch"> <input type="checkbox"
-						name="adAgree"> <span class="slider"></span>
-					</label>
+
+					<button type="submit" class="btn-submit">저장</button>
 				</div>
-
-				<div class="toggle-row">
-					<div class="toggle-info">
-						<h4>푸시 알림 동의</h4>
-						<p>OKKY 콘텐츠, 커뮤니티 리액션, 유저 활동 내역 등을 푸시 알림으로 보내드립니다.</p>
-					</div>
-					<label class="switch"> <input type="checkbox"
-						name="pushAgree" checked> <span class="slider"></span>
-					</label>
-				</div>
-
-				<button type="submit" class="btn-submit">저장</button>
-			</div>
-		</form>
-		<script>
-			function toggleProfilePopup(event) {
-				event.stopPropagation();
-				const popup = document.getElementById('profilePopup');
-				popup.classList.toggle('active');
-			}
-
-			window.onclick = function(event) {
-				const popup = document.getElementById('profilePopup');
-				if (!event.target.matches('.profile-img-circle')
-						&& !event.target.closest('.profile-upload-popup')) {
-					popup.classList.remove('active');
+			</form>
+			<script>
+				function toggleProfilePopup(event) {
+					event.stopPropagation();
+					const popup = document.getElementById('profilePopup');
+					popup.classList.toggle('active');
 				}
-			}
 
-			document.getElementById('fileInput').addEventListener(
-					'change',
-					function(e) {
-						const file = e.target.files[0];
-						if (file) {
-							const reader = new FileReader();
-							reader.onload = function(e) {
-								const preview = document
-										.getElementById('profilePreview');
-								const defaultIcon = document
-										.getElementById('defaultIcon');
-								const popup = document
-										.getElementById('profilePopup');
+				window.onclick = function(event) {
+					const popup = document.getElementById('profilePopup');
+					if (!event.target.matches('.profile-img-circle')
+							&& !event.target.closest('.profile-upload-popup')) {
+						popup.classList.remove('active');
+					}
+				}
 
-								preview.src = e.target.result;
-								preview.style.display = 'block';
-								if (defaultIcon)
-									defaultIcon.style.display = 'none';
+				document.getElementById('fileInput').addEventListener(
+						'change',
+						function(e) {
+							const file = e.target.files[0];
+							if (file) {
+								const reader = new FileReader();
+								reader.onload = function(e) {
+									const preview = document
+											.getElementById('profilePreview');
+									const defaultIcon = document
+											.getElementById('defaultIcon');
+									const popup = document
+											.getElementById('profilePopup');
 
-								popup.classList.remove('active');
+									preview.src = e.target.result;
+									preview.style.display = 'block';
+									if (defaultIcon)
+										defaultIcon.style.display = 'none';
+
+									popup.classList.remove('active');
+								}
+								reader.readAsDataURL(file);
 							}
-							reader.readAsDataURL(file);
-						}
-					});
-		</script>
+						});
+			</script>
+		</div>
+	</div>

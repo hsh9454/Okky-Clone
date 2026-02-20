@@ -9,4 +9,6 @@ public interface MemberService {
     public MemberVO get(String userid);
     public void modifyProfileImg(String userid, String userImg);
 	public MemberVO read(String userid);
+	public boolean modifyProfile(MemberVO vo);
+
 }

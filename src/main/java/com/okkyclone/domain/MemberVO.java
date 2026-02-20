@@ -5,7 +5,10 @@ import java.util.Date;
 public class MemberVO {
     private String userid;      
     private String userpw;     
+    private String userName;
     private String nickname;   
+    private String job;
+    private String bio;
     private String userImg;     
     private int userPoint;     
     private int userRank;       
@@ -14,8 +17,40 @@ public class MemberVO {
     private Date regdate;
     private Date updatedate;
     private String profileImg;
+    private String adAgree;
+    private String pushAgree;
     
-    public String getProfileImg() { return profileImg; }
+    public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getJob() {
+		return job;
+	}
+	public void setJob(String job) {
+		this.job = job;
+	}
+	public String getBio() {
+		return bio;
+	}
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+	public String getAdAgree() {
+		return adAgree;
+	}
+	public void setAdAgree(String adAgree) {
+		this.adAgree = adAgree;
+	}
+	public String getPushAgree() {
+		return pushAgree;
+	}
+	public void setPushAgree(String pushAgree) {
+		this.pushAgree = pushAgree;
+	}
+	public String getProfileImg() { return profileImg; }
     public void setProfileImg(String profileImg) { this.profileImg = profileImg; }
 	
     public String getUserid() {
