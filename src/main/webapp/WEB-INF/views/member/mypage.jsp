@@ -312,11 +312,14 @@ input:checked+.slider:before {
 		<div class="okky-main-content">
 			<h1 class="main-title">회원정보</h1>
 
-			<form action="/member/modify" method="post">
+			<form action="/member/modify" method="post"
+				enctype="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" /> <input type="hidden" name="userid"
-					value="${sessionScope.user.userid}" />
-
+					value="${_csrf.token}" /> <input type="hidden"
+					name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
+					type="hidden" name="userid" value="${sessionScope.user.userid}" />
+				<input type="hidden" name="userImg"
+					value="${sessionScope.user.userImg}" />
 				<div class="form-container-flex">
 					<div class="form-fields">
 						<div class="form-group">
@@ -331,12 +334,17 @@ input:checked+.slider:before {
 								value="${sessionScope.user.nickname}" placeholder="닉네임을 입력하세요">
 						</div>
 
+
 						<div class="form-group">
 							<label class="okky-label">대표 직무</label> <select name="job"
 								class="okky-input">
 								<option value="">직무를 선택해 주세요.</option>
-								<option value="백엔드">백엔드 개발자</option>
-								<option value="프론트엔드">프론트엔드 개발자</option>
+								<option value="백엔드"
+									${sessionScope.user.job == '백엔드' ? 'selected' : ''}>백엔드
+									개발자</option>
+								<option value="프론트엔드"
+									${sessionScope.user.job == '프론트엔드' ? 'selected' : ''}>프론트엔드
+									개발자</option>
 							</select>
 						</div>
 
@@ -475,3 +483,4 @@ input:checked+.slider:before {
 			</script>
 		</div>
 	</div>
+</div>

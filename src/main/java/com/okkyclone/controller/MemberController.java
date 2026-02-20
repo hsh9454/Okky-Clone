@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.util.UUID;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,20 +129,38 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	@PostMapping("modify")
-	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) {
-		System.out.println("=== 프로필 정보 수정 시도: " + vo.getUserid() + " ===");
-	    boolean isModified = memberService.modifyProfile(vo);
-	    if (isModified) {
-	        MemberVO updatedUser = memberService.read(vo.getUserid());
-	        session.setAttribute("user", updatedUser);
-	        
-	        rttr.addFlashAttribute("result", "success");
-	    } else {
-	        rttr.addFlashAttribute("result", "fail");
-	    }
-	    
-	    return "redirect:/member/mypage";
+
+	@PostMapping("/modify")
+	public String modify(MemberVO vo, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+			HttpSession session, RedirectAttributes rttr) {
+		MemberVO sessionUser = (MemberVO) session.getAttribute("user");
+		if (sessionUser == null)
+			return "redirect:/member/login";
+		vo.setUserid(sessionUser.getUserid());
+		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String uploadFolder = "C:\\upload\\profile";
+			File uploadPath = new File(uploadFolder);
+
+			if (!uploadPath.exists())
+				uploadPath.mkdirs();
+			String uuid = UUID.randomUUID().toString();
+			String uploadFileName = uuid + "_" + uploadFile.getOriginalFilename();
+			File saveFile = new File(uploadPath, uploadFileName);
+
+			try {
+				uploadFile.transferTo(saveFile);
+				vo.setUserImg(uploadFileName);
+			} catch (Exception e) {
+				System.out.println("파일 저장 중 에러: " + e.getMessage());
+			}
+		} else {
+			vo.setUserImg(sessionUser.getUserImg());
+		}
+		if (memberService.modifyProfile(vo)) {
+			session.setAttribute("user", memberService.read(vo.getUserid()));
+			rttr.addFlashAttribute("result", "success");
+		}
+
+		return "redirect:/member/mypage";
 	}
 }

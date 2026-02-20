@@ -3,6 +3,7 @@ package com.okkyclone.domain;
 import java.util.Date;
 
 public class MemberVO {
+	
     private String userid;      
     private String userpw;     
     private String userName;
@@ -20,6 +21,11 @@ public class MemberVO {
     private String adAgree;
     private String pushAgree;
     
+	@Override
+	public String toString() {
+	    return "MemberVO [userid=" + userid + ", userName=" + userName + ", nickname=" + nickname + "]";
+	}
+	
     public String getUserName() {
 		return userName;
 	}
