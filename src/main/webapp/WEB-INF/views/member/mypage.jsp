@@ -370,10 +370,12 @@ input:checked+.slider:before {
 				<div class="profile-box" style="position: relative;">
 					<div class="profile-img-circle" onclick="toggleProfilePopup(event)">
 						<c:choose>
-							<c:when test="${not empty user.userImg}">
-								<img src="/display?fileName=${user.userImg}" id="profilePreview"
+							<c:when test="${not empty sessionScope.user.userImg}">
+								<img src="${pageContext.request.contextPath}/member/display?fileName=${sessionScope.user.userImg}"
+									id="profilePreview"
 									style="width: 100%; height: 100%; object-fit: cover;">
 							</c:when>
+
 							<c:otherwise>
 								<div class="default-avatar" id="defaultIcon">
 									<i class="bi bi-person-fill"></i>
