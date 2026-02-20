@@ -4,8 +4,11 @@
   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+
 	<definition name="baseLayout"
 		template="/WEB-INF/views/layout/baseLayout.jsp">
+		<put-attribute name="showBanner" value="true" />
+		<put-attribute name="title" value="" />
 		<put-attribute name="title" value="" />
 		<put-attribute name="header"
 			value="/WEB-INF/views/layout/header.jsp" />
@@ -14,6 +17,13 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer"
 			value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+
+	<definition name="member/profile" extends="baseLayout">
+		<put-attribute name="showBanner" value="false" />
+		<put-attribute name="title" value="내 프로필 - 광고 없음" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/member/profile.jsp" />
 	</definition>
 
 	<definition name="main" extends="baseLayout">
@@ -67,4 +77,5 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/member/mypage.jsp" />
 	</definition>
+
 </tiles-definitions>
