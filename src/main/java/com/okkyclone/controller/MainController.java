@@ -18,6 +18,7 @@ import java.util.List;
 @Controller
 public class MainController {
 
+	
 	@Autowired
 	private BoardService boardService;
 
@@ -53,4 +54,11 @@ public class MainController {
 		service.register(board);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/main")
+	public void main(Model model) {
+		model.addAttribute("boardList", service.getList());
+		model.addAttribute("techList1", service.getTechList()); 
+	}
+	
 }

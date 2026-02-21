@@ -12,4 +12,6 @@ public interface BoardService {
     public boolean remove(Long bno);
     public boolean toggleLike(Long bno, String userid);
 	public boolean toggleDislike(Long bno, String userid);
-    }
+	public List<BoardVO> getList();
+	public List<BoardVO> getTechList();
+}

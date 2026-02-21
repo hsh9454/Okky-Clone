@@ -81,5 +81,18 @@ public class BoardServiceImpl implements BoardService {
             return true; 
         }
     }
+    
+    @Override
+    public List<BoardVO> getList() {
+        System.out.println("메인 페이지용 전체 목록 가져오기"); 
+        return mapper.getList();
+    }
+    
+    @Override
+    public List<BoardVO> getTechList() {
+        System.out.println("테크 지식/뉴스 목록 가져오기");
+        return mapper.getTechList(); 
+    }
 }
+
     	

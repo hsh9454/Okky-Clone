@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 public interface BoardMapper {
    
 	public List<BoardVO> getList(); 
+	public List<BoardVO> getTechList();
+	
     public void insert(BoardVO board);
     public BoardVO read(Long bno);
     public void updateViewCount(Long bno);
