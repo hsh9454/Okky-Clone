@@ -16,9 +16,23 @@
 	<h2>새 글 작성</h2>
 	<hr>
 
-	<form action="${pageContext.request.contextPath}/register"
-		method="post">l
-		
+	<form action="${pageContext.request.contextPath}/board/register" method="post">
+
+		<div class="form-group mb-3">
+			<label>게시판 선택</label> <select name="cat_id" class="form-select"
+				required>
+				<option value="">-- 게시판을 선택하세요 --</option>
+				<optgroup label="Q&A">
+					<option value="11">기술</option>
+					<option value="12">커리어</option>
+					<option value="13">기타</option>
+				</optgroup>
+				<optgroup label="커뮤니티">
+					<option value="31">사는얘기</option>
+				</optgroup>
+			</select>
+		</div>
+
 		<div class="form-group">
 			<label>제목</label> <input type="text" class="form-control"
 				name="title" placeholder="제목을 입력하세요">
@@ -37,6 +51,7 @@
 		<button type="submit" class="btn btn-primary">등록</button>
 		<button type="reset" class="btn btn-secondary">다시 쓰기</button>
 	</form>
+
 </div>
 
 <script>

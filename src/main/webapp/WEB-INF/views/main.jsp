@@ -33,39 +33,39 @@
 
 	<div class="row g-4 mb-5">
 		<div class="col-md-6">
-			<div class="list-group list-group-flush border-top">
-				<c:forEach items="${leftList}" var="board">
-					<div
-						class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
-						<div class="text-truncate" style="max-width: 75%;">
-							<a href="/board/get?bno=${board.bno}"
-								class="text-decoration-none text-dark fw-bold"
-								style="font-size: 0.85rem;">${board.title}</a><span
-								class="text-primary small ms-1">(${board.replycnt})</span>
-						</div>
-						<span class="badge bg-light text-secondary border fw-normal"
-							style="font-size: 0.7rem;">${board.writer}</span>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
+    <div class="list-group list-group-flush border-top">
+        <c:forEach items="${leftList}" var="board">
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
+                <div class="text-truncate" style="max-width: 75%;">
+                    <a href="/board/get?bno=${board.bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">
+                        ${board.title}
+                    </a>
+                    <span class="text-primary small ms-1">(${board.replycnt})</span>
+                </div>
+                <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">
+                    ${board.cat_name}
+                </span>
+            </div>
+        </c:forEach>
+    </div>
+</div>
 		<div class="col-md-6">
-			<div class="list-group list-group-flush border-top">
-				<c:forEach items="${rightList}" var="board">
-					<div
-						class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
-						<div class="text-truncate" style="max-width: 75%;">
-							<a href="/board/get?bno=${board.bno}"
-								class="text-decoration-none text-dark fw-bold"
-								style="font-size: 0.85rem;">${board.title}</a><span
-								class="text-primary small ms-1">(${board.replycnt})</span>
-						</div>
-						<span class="badge bg-light text-secondary border fw-normal"
-							style="font-size: 0.7rem;">${board.writer}</span>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
+    <div class="list-group list-group-flush border-top">
+        <c:forEach items="${rightList}" var="board">
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
+                <div class="text-truncate" style="max-width: 75%;">
+                    <a href="/board/get?bno=${board.bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">
+                        ${board.title}
+                    </a>
+                    <span class="text-primary small ms-1">(${board.replycnt})</span>
+                </div>
+                <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">
+                    ${board.cat_name}
+                </span>
+            </div>
+        </c:forEach>
+    </div>
+</div>
 	</div>
 
 	<div class="mt-5 mb-5 px-0">

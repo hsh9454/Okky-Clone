@@ -14,8 +14,25 @@ public class BoardVO {
     private int dislikecnt;
     private int replycnt;
     private String user_img;
+    private Integer cat_id;
+    private String cat_name;
       
-    public String getUser_img() {
+    public String getCat_name() {
+		return cat_name;
+	}
+	public void setCat_name(String cat_name) {
+		this.cat_name = cat_name;
+	}
+	public void setCat_id(Integer cat_id) {
+		this.cat_id = cat_id;
+	}
+	public Integer getCat_id() {
+		return cat_id;
+	}
+	public void setCat_id(int cat_id) {
+		this.cat_id = cat_id;
+	}
+	public String getUser_img() {
 		return user_img;
 	}
 	public void setUser_img(String user_img) {

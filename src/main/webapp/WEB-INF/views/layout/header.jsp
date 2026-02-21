@@ -2,13 +2,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+<style>
+.okky-nav-group {
+    position: relative; 
+    padding-bottom: 20px; 
+    margin-bottom: -20px; 
+}
+.mega-dropdown-panel {
+    display: none;
+    position: absolute;
+    top: 90%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    background: white;
+    padding-top: 20px; 
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 1px solid #0d6efd; 
+}
+.mega-dropdown-panel .container {
+    margin-top: 10px; 
+}
+.okky-nav-group:hover .mega-dropdown-panel {
+    display: block !important;
+}
+</style>
+
 <div class="d-flex align-items-center justify-content-between w-100 py-1 px-4">
     <div class="d-flex align-items-center" style="min-width: 200px;"> 
         <a href="${pageContext.request.contextPath}/"
             class="text-primary fw-bolder fs-4 text-decoration-none">OKKY</a>
     </div>
 
-    <div class="d-none d-lg-flex gap-4 okky-nav-group mx-auto"> 
+    <div class="d-none d-lg-flex gap-4 okky-nav-group mx-auto nav-item dropdown"> 
         <a href="#" class="nav-link text-dark fw-bold small">Q&A</a>
         <a href="#" class="nav-link text-dark fw-bold small">지식</a>
         <a href="${pageContext.request.contextPath}/board/list" class="nav-link text-dark fw-bold small">커뮤니티</a>
@@ -165,3 +192,21 @@
         </c:choose>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    let timer;
+    $('.nav-item.dropdown').hover(
+        function() {
+            clearTimeout(timer);
+            $(this).find('.dropdown-menu, .mega-dropdown-content').stop(true, true).fadeIn(200);
+        }, 
+        function() {
+            const $target = $(this).find('.dropdown-menu, .mega-dropdown-content');
+            timer = setTimeout(function() {
+                $target.stop(true, true).fadeOut(200);
+            }, 300);
+        }
+    );
+});
+</script>

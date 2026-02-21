@@ -8,96 +8,146 @@
 <mapper namespace="com.okkyclone.mapper.BoardMapper">
 
 	<select id="getList" resultType="com.okkyclone.domain.BoardVO">
-		<![CDATA[
-	        SELECT
-	            b.*, m.user_img
-	        FROM
-	            tbl_board b
-	        LEFT JOIN
-	            tbl_member m on b.writer = m.userid
-	        WHERE
-	            b.bno > 0
-	        ORDER BY
-	            b.bno DESC
-	     ]]>
+    <![CDATA[
+    SELECT
+        b.*, m.user_img, c.cat_name
+    FROM
+        tbl_board b
+    LEFT JOIN tbl_member m on b.writer = m.userid
+    LEFT JOIN tbl_category c ON b.cat_id = c.cat_id 
+    WHERE
+        b.bno > 0
+    ORDER BY
+        b.bno DESC
+    ]]>
 	</select>
 
-    <insert id="insert">
-        INSERT INTO tbl_board (bno, title, content, writer)
-        VALUES (seq_board.nextval, #{title}, #{content}, #{writer})
-    </insert>
+	<insert id="insert">
+		INSERT INTO tbl_board (bno, title, content, writer,
+		cat_id)
+		VALUES (seq_board.nextval, #{title}, #{content},
+		#{writer},#{cat_id})
+	</insert>
 
-    <select id="read" resultType="com.okkyclone.domain.BoardVO">
-        select 
-            b.*, m.user_img
-        FROM
-            tbl_board b
-        LEFT JOIN
-            tbl_member m on b.writer = m.userid
-        WHERE
-            b.bno = #{bno}
-    </select>
+	<select id="read" resultType="com.okkyclone.domain.BoardVO">
+		select
+		b.*, m.user_img
+		FROM
+		tbl_board
+		b
+		LEFT JOIN
+		tbl_member m on b.writer = m.userid
+		WHERE
+		b.bno = #{bno}
+	</select>
 
-    <update id="updateViewCount">
-        UPDATE tbl_board
-        SET viewcnt = viewcnt + 1
-        WHERE bno = #{bno}
-    </update>
+	<update id="updateViewCount">
+		UPDATE tbl_board
+		SET viewcnt = viewcnt + 1
+		WHERE bno =
+		#{bno}
+	</update>
 
-    <update id="update">
-        UPDATE tbl_board 
-        SET title = #{title},
-            content = #{content},
-            writer = #{writer}
-        WHERE bno = #{bno}
-    </update>
+	<update id="update">
+		UPDATE tbl_board
+		SET title = #{title},
+		content =
+		#{content},
+		writer = #{writer}
+		WHERE bno = #{bno}
+	</update>
 
-    <delete id="delete">
-        DELETE FROM tbl_board WHERE bno = #{bno}
-    </delete>
+	<delete id="delete">
+		DELETE FROM tbl_board WHERE bno = #{bno}
+	</delete>
 
-    <select id="checkLike" resultType="int">
-        SELECT COUNT(*) FROM tbl_like WHERE bno = #{bno} AND userid = #{userid}
-    </select>
+	<select id="checkLike" resultType="int">
+		SELECT COUNT(*) FROM tbl_like
+		WHERE bno = #{bno} AND userid = #{userid}
+	</select>
 
-    <insert id="insertLike">
-        INSERT INTO tbl_like (lno, bno, userid) 
-        VALUES (seq_like.nextval, #{bno}, #{userid})
-    </insert>
+	<insert id="insertLike">
+		INSERT INTO tbl_like (lno, bno, userid)
+		VALUES
+		(seq_like.nextval, #{bno}, #{userid})
+	</insert>
 
-    <delete id="deleteLike">
-        DELETE FROM tbl_like WHERE bno = #{bno} AND userid = #{userid}
-    </delete>
+	<delete id="deleteLike">
+		DELETE FROM tbl_like WHERE bno = #{bno} AND userid =
+		#{userid}
+	</delete>
 
-    <update id="updateDislikeCnt">
-        update tbl_board set dislikecnt = dislikecnt + #{amount} where bno = #{bno}
-    </update>
-        
-    <select id="checkLikeLog" resultType="int">
-        SELECT COUNT(*) FROM tbl_board_like 
-        WHERE bno = #{bno} AND userid = #{userid} AND type = #{type}
-    </select>
+	<update id="updateDislikeCnt">
+		update tbl_board set dislikecnt = dislikecnt +
+		#{amount} where bno = #{bno}
+	</update>
 
-    <insert id="addLikeLog">
-        INSERT INTO tbl_board_like (lno, bno, userid, type)
-        VALUES (seq_board_like.nextval, #{bno}, #{userid}, #{type})
-    </insert>
+	<select id="checkLikeLog" resultType="int">
+		SELECT COUNT(*) FROM
+		tbl_board_like
+		WHERE bno = #{bno} AND userid = #{userid} AND type =
+		#{type}
+	</select>
 
-    <delete id="removeLikeLog">
-        DELETE FROM tbl_board_like 
-        WHERE bno = #{bno} AND userid = #{userid} AND type = #{type}
-    </delete>
+	<insert id="addLikeLog">
+		INSERT INTO tbl_board_like (lno, bno, userid, type)
+		VALUES (seq_board_like.nextval, #{bno}, #{userid}, #{type})
+	</insert>
 
-    <update id="updateLikeCount">
-        UPDATE tbl_board 
-        SET likecnt = likecnt + #{amount} 
-        WHERE bno = #{bno}
-    </update>
+	<delete id="removeLikeLog">
+		DELETE FROM tbl_board_like
+		WHERE bno = #{bno} AND
+		userid = #{userid} AND type = #{type}
+	</delete>
 
-    <update id="updateDislikeCount">
-        UPDATE tbl_board 
-        SET dislikecnt = dislikecnt + #{amount} 
-        WHERE bno = #{bno}
-    </update>
+	<update id="updateLikeCount">
+		UPDATE tbl_board
+		SET likecnt = likecnt + #{amount}
+		WHERE bno = #{bno}
+	</update>
 
+	<update id="updateDislikeCount">
+		UPDATE tbl_board
+		SET dislikecnt = dislikecnt +
+		#{amount}
+		WHERE bno = #{bno}
+	</update>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board (bno, title, content, writer, cat_id)
+		values
+		(#{bno}, #{title}, #{content}, #{writer}, #{cat_id})
+	</insert>
+
+	<select id="getTechList"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT * FROM (
+		SELECT
+		b.*, c.cat_name
+		FROM tbl_board b
+		LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
+		WHERE b.cat_id = 11
+		ORDER BY b.bno DESC
+		)
+		WHERE rownum <![CDATA[ <= ]]>
+		3
+	</select>
+
+	<select id="getListWithPaging"
+		resultType="com.okkyclone.domain.BoardVO">
+    <![CDATA[
+    SELECT * FROM (
+        SELECT /*+INDEX_DESC(tbl_board pk_board) */
+            rownum rn, b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, b.cat_id, c.cat_name
+        FROM tbl_board b
+        LEFT JOIN tbl_category c ON b.cat_id = c.cat_id  
+        WHERE b.cat_id = 11 
+        AND rownum <= #{pageNum} * #{amount}
+    ) WHERE rn > (#{pageNum} - 1) * #{amount}
+    ]]>
+	</select>
 </mapper>
