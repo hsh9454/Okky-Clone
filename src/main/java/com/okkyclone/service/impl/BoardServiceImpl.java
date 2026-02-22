@@ -2,12 +2,13 @@
 package com.okkyclone.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
 
 import com.okkyclone.domain.BoardVO;
-import com.okkyclone.domain.Criteria; 
+import com.okkyclone.domain.Criteria;
 import com.okkyclone.mapper.BoardMapper;
 import com.okkyclone.service.BoardService;
 
@@ -92,6 +93,12 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardVO> getTechList() {
         System.out.println("테크 지식/뉴스 목록 가져오기");
         return mapper.getTechList(); 
+    }
+    
+    @Override
+    public List<BoardVO> getListWithCategory(Criteria cri, String category) {
+        System.out.println("카테고리별 목록 가져오기: " + category); 
+        return mapper.getListWithCategory(cri, category);
     }
 }
 

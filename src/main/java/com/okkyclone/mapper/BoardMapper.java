@@ -3,9 +3,10 @@ package com.okkyclone.mapper;
 import java.util.List;
 import com.okkyclone.domain.BoardVO;
 import org.apache.ibatis.annotations.Param;
+import com.okkyclone.domain.Criteria;
 
 public interface BoardMapper {
-   
+	public List<BoardVO> getListWithCategory(@Param("cri") Criteria cri, @Param("category") String category);
 	public List<BoardVO> getList(); 
 	public List<BoardVO> getTechList();
 	

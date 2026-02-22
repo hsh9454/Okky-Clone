@@ -54,63 +54,69 @@
                         <li><a href="/board/list?category=etc" class="dropdown-item">기타</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col">
                     <h6 class="fw-bold mb-3">지식</h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">Tech 뉴스</a></li>
-                        <li><a href="#" class="dropdown-item">팁</a></li>
-                        <li><a href="#" class="dropdown-item">칼럼</a></li>
-                        <li><a href="#" class="dropdown-item">리뷰</a></li>
-                        <li><a href="#" class="dropdown-item">IT보도자료</a></li>
+                        <li><a href="/board/list?category=news" class="dropdown-item">Tech 뉴스</a></li>
+                        <li><a href="/board/list?category=tips" class="dropdown-item">팁</a></li>
+                        <li><a href="/board/list?category=columns" class="dropdown-item">칼럼</a></li>
+                        <li><a href="/board/list?category=reviews" class="dropdown-item">리뷰</a></li>
+                        <li><a href="/board/list?category=press" class="dropdown-item">IT보도자료</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col" style="min-width: 150px;">
                     <h6 class="fw-bold mb-3">커뮤니티</h6>
                     <ul class="list-unstyled small mb-4">
-                        <li><a href="#" class="dropdown-item">사는얘기</a></li>
-                        <li><a href="#" class="dropdown-item">AI</a></li>
-                        <li><a href="#" class="dropdown-item">연봉·단가</a></li>
-                        <li><a href="#" class="dropdown-item">취준생</a></li>
-                        <li><a href="#" class="dropdown-item">IT 정책토론</a></li>
-                        <li><a href="#" class="dropdown-item">피드백</a></li>
+                        <li><a href="/board/list?category=life" class="dropdown-item">사는얘기</a></li>
+                        <li><a href="/board/list?category=ai" class="dropdown-item">AI</a></li>
+                        <li><a href="/board/list?category=salary" class="dropdown-item">연봉·단가</a></li>
+                        <li><a href="/board/list?category=jobs" class="dropdown-item">취준생</a></li>
+                        <li><a href="/board/list?category=policy" class="dropdown-item">IT 정책토론</a></li>
+                        <li><a href="/board/list?category=feedback" class="dropdown-item">피드백</a></li>
                     </ul>
                     <h6 class="fw-bold mb-3">모임</h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">스터디</a></li>
-                        <li><a href="#" class="dropdown-item">프로젝트</a></li>
-                        <li><a href="#" class="dropdown-item">모각코·모각공</a></li>
+                        <li><a href="/board/list?category=studies" class="dropdown-item">스터디</a></li>
+                        <li><a href="/board/list?category=projects" class="dropdown-item">프로젝트</a></li>
+                        <li><a href="/board/list?category=gathering" class="dropdown-item">모각코·모각공</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col">
                     <h6 class="fw-bold mb-3">이벤트</h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">IT 행사</a></li>
-                        <li><a href="#" class="dropdown-item">홍보·광고</a></li>
+                        <li><a href="/board/list?category=events" class="dropdown-item">IT 행사</a></li>
+                        <li><a href="/board/list?category=promotion" class="dropdown-item">홍보·광고</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col">
                     <h6 class="fw-bold mb-3 text-orange"><i class="bi bi-mortarboard-fill me-1"></i>부트캠프</h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">교육과정</a></li>
+                        <li><a href="/board/list?category=education" class="dropdown-item">교육과정</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col">
                     <h6 class="fw-bold mb-3 text-purple">OKKY JOBS <i class="bi bi-box-arrow-up-right small"></i></h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">계약직</a></li>
-                        <li><a href="#" class="dropdown-item">정규직</a></li>
-                        <li><a href="#" class="dropdown-item">Talent</a></li>
-                        <li><a href="#" class="dropdown-item">좋은회사/나쁜회사</a></li>
+                        <li><a href="/board/list?category=contract" class="dropdown-item">계약직</a></li>
+                        <li><a href="/board/list?category=fulltime" class="dropdown-item">정규직</a></li>
+                        <li><a href="/board/list?category=talent" class="dropdown-item">Talent</a></li>
+                        <li><a href="/board/list?category=company_reviews" class="dropdown-item">좋은회사/나쁜회사</a></li>
                     </ul>
                 </div>
+
                 <div class="menu-col">
                     <h6 class="fw-bold mb-3">Contact</h6>
                     <ul class="list-unstyled small">
-                        <li><a href="#" class="dropdown-item">Releases</a></li>
-                        <li><a href="#" class="dropdown-item">버그 및 제안</a></li>
-                        <li><a href="#" class="dropdown-item">게시판 생성 요청</a></li>
-                        <li><a href="#" class="dropdown-item">공지사항</a></li>
-                        <li><a href="#" class="dropdown-item">OKKY 행사</a></li>
+                        <li><a href="/board/list?category=notice" class="dropdown-item">공지사항</a></li>
+                        <li><a href="/board/list?category=releases" class="dropdown-item">Releases</a></li>
+                        <li><a href="/board/list?category=suggestions" class="dropdown-item">버그 및 제안</a></li>
+                        <li><a href="/board/list?category=req_board" class="dropdown-item">게시판 생성 요청</a></li>
+                        <li><a href="/board/list?category=okky_event" class="dropdown-item">OKKY 행사</a></li>
                     </ul>
                 </div>
             </div>

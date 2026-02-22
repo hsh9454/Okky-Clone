@@ -11,6 +11,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 import com.okkyclone.service.BoardService;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +27,18 @@ public class BoardController {
 	private BoardService service;
 
 	@GetMapping("/list")
-	public void list(Criteria cri, Model model) {
-		model.addAttribute("list", service.getList(cri));
+	public void list(Criteria cri, 
+	                 @RequestParam(value="category", required=false) String category, 
+	                 Model model) {
+	    
+	    log.info("접속 카테고리: " + category);
+	    if (category == null || category.isEmpty()) {
+	        model.addAttribute("list", service.getList(cri));
+	    } else {
+	        model.addAttribute("list", service.getListWithCategory(cri, category));
+	    }
+
+	    model.addAttribute("curCategory", category);
 	}
 
 	@GetMapping("/get")
@@ -62,10 +75,15 @@ public class BoardController {
 	}
 
 	@PostMapping("/register")
-	public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("register: " + board); 	    
-	    service.register(board);
-		rttr.addFlashAttribute("result", board.getBno());
+	public String register(BoardVO board, HttpSession session, RedirectAttributes rttr) {
+	    com.okkyclone.domain.MemberVO user = (com.okkyclone.domain.MemberVO) session.getAttribute("user");	    
+	    if (user == null) {
+	        return "redirect:/member/login";
+	    }	    
+	    board.setWriter(user.getUserid()); 	    
+	    log.info("register (writer 세팅 완료): " + board);      	    
+	    service.register(board);	    
+	    rttr.addFlashAttribute("result", board.getBno());
 	    return "redirect:/board/list?cat_id=" + board.getCat_id();
 	}
 }

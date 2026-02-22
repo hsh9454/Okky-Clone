@@ -16,7 +16,8 @@
 	<h2>새 글 작성</h2>
 	<hr>
 
-	<form action="${pageContext.request.contextPath}/board/register" method="post">
+	<form action="${pageContext.request.contextPath}/board/register"
+		method="post">
 
 		<div class="form-group mb-3">
 			<label>게시판 선택</label> <select name="cat_id" class="form-select"
@@ -27,8 +28,37 @@
 					<option value="12">커리어</option>
 					<option value="13">기타</option>
 				</optgroup>
+				<optgroup label="지식">
+					<option value="21">Tech 뉴스</option>
+					<option value="22">팁</option>
+					<option value="23">칼럼</option>
+					<option value="24">리뷰</option>
+					<option value="25">IT보도자료</option>
+				</optgroup>
+
 				<optgroup label="커뮤니티">
 					<option value="31">사는얘기</option>
+					<option value="32">AI</option>
+					<option value="33">연봉·단가</option>
+					<option value="34">취준생</option>
+					<option value="35">IT 정책토론</option>
+					<option value="36">피드백</option>
+				</optgroup>
+
+				<optgroup label="이벤트">
+					<option value="41">IT 행사</option>
+					<option value="42">홍보·광고</option>
+				</optgroup>
+
+				<optgroup label="모임">
+					<option value="51">스터디</option>
+					<option value="52">프로젝트</option>
+					<option value="53">모각코·모각공</option>
+				</optgroup>
+
+				<optgroup label="기타">
+					<option value="61">교육과정</option>
+					<option value="62">공지사항</option>
 				</optgroup>
 			</select>
 		</div>

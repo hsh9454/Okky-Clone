@@ -14,4 +14,5 @@ public interface BoardService {
 	public boolean toggleDislike(Long bno, String userid);
 	public List<BoardVO> getList();
 	public List<BoardVO> getTechList();
+	public List<BoardVO> getListWithCategory(Criteria cri, String category);
 }
