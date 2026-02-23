@@ -1,9 +1,7 @@
 package com.okkyclone.controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,32 +12,57 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.okkyclone.domain.BoardVO;
-import com.okkyclone.domain.Criteria;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.BoardService;
 
 @Controller
 public class MainController {
 
-	
-	@Autowired
-	private BoardService boardService;
-
 	@Autowired
 	private BoardService service;
 
 	@RequestMapping("/")
-	public String mainPage(Criteria cri, Model model) {
-		cri.setAmount(10);
-		List<BoardVO> allList = boardService.getList(cri);
-		if (allList != null && !allList.isEmpty()) {
-			int totalSize = allList.size();
-			model.addAttribute("leftList", allList.subList(0, Math.min(totalSize, 5)));
-			if (totalSize > 5) {
-				model.addAttribute("rightList", allList.subList(5, Math.min(totalSize, 10)));
+	public String mainPage(@RequestParam(value = "type", required = false, defaultValue = "daily") String type,
+			Model model) {
+
+		model.addAttribute("boardList", service.getList());
+		model.addAttribute("techList1", service.getTechList());
+
+		List<BoardVO> popularList = service.getPopularList(type);
+
+		long now = System.currentTimeMillis();
+		if (popularList != null) {
+			for (BoardVO board : popularList) {
+				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+					board.setIsNew(true);
+				}
 			}
 		}
+		// ----------------------------------------------------------
+
+		if (popularList != null && !popularList.isEmpty()) {
+			int half = (int) Math.ceil(popularList.size() / 2.0);
+			model.addAttribute("leftList", popularList.subList(0, half));
+			model.addAttribute("rightList", popularList.subList(half, popularList.size()));
+		}
+
+		model.addAttribute("currentType", type);
 		return "main";
+	}
+
+	@GetMapping(value = "/main/data", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<BoardVO> getMainData(@RequestParam("type") String type) {
+		List<BoardVO> list = service.getPopularList(type);
+		long now = System.currentTimeMillis();
+		if (list != null) {
+			for (BoardVO board : list) {
+				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+					board.setIsNew(true);
+				}
+			}
+		}
+		return list;
 	}
 
 	@GetMapping("/register")
@@ -57,19 +80,4 @@ public class MainController {
 		service.register(board);
 		return "redirect:/";
 	}
-	
-	@GetMapping("/main")
-	public void main(@RequestParam(value = "type", required = false, defaultValue = "daily") String type, Model model){
-		model.addAttribute("boardList", service.getList());
-		model.addAttribute("techList1", service.getTechList()); 
-		model.addAttribute("popularList", service.getPopularList(type));
-		model.addAttribute("currentType", type);
-	}
-	
-	@GetMapping(value = "/main/data", produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public List<BoardVO> getMainData(@RequestParam("type") String type) {
-	    return service.getPopularList(type);
-	}
-	
 }

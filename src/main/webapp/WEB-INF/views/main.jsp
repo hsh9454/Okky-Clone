@@ -237,12 +237,12 @@
 										<div class="card h-100 border-0 shadow-sm overflow-hidden"
 											style="border-radius: 12px;">
 											<div class="tech-card-img"
-												style="background-image: url('${tech.thumbnail}'); height: 180px; background-size: cover; background-position: center;">
-												<span class="badge bg-dark opacity-75 m-2 float-end">${tech.tag}</span>
+												style="background-image: url('https://via.placeholder.com/180'); height: 180px; background-size: cover; background-position: center;">
+												<span class="badge bg-dark opacity-75 m-2 float-end">${tech.cat_name}</span>
 											</div>
 											<div class="card-body">
 												<h6 class="fw-bold text-truncate">${tech.title}</h6>
-												<p class="card-text small text-muted text-truncate-2">${tech.summary}</p>
+												<p class="card-text small text-muted text-truncate-2">${tech.title}</p>
 											</div>
 										</div>
 									</div>
@@ -361,21 +361,7 @@
 	</div>
 
 	<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const tabs = document.querySelectorAll('.filter-tab');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();            
-            tabs.forEach(t => t.classList.remove('active'));           
-            this.classList.add('active');            
-            this.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        });
-    });
-});
-
 function loadData(type, element) {
-	
     const allLinks = element.closest('.nav').querySelectorAll('.nav-link');
     allLinks.forEach(link => {
         link.classList.remove('active', 'shadow-sm');
@@ -401,21 +387,27 @@ function loadData(type, element) {
 
             let leftHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
             let rightHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
-
+            
             data.forEach((board, index) => {
                 const bno = board.bno || 0;
                 const title = board.title || '제목 없음';
-                const replycnt = board.replycnt || 0;
-                const catName = board.cat_name || '기술'; 
+                
+                const now = new Date().getTime();
+                const regDate = board.regdate;
+                const isNewArticle = board.isNew === true || (now - regDate < (1000 * 60 * 60 * 24));
+                
+                const nBadge = isNewArticle ? '<span class="badge-n" style="color: #ff5e11; font-weight: bold; font-size: 0.75rem; margin-left: 3px;">N</span>' : '';
+
                 const itemHtml = `
                     <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
                         <div class="text-truncate" style="max-width: 75%;">
                             <a href="/board/get?bno=\${bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">
                                 \${title}
                             </a>
-                            <span class="text-primary small ms-1">(\${replycnt})</span>
+                            \${nBadge} 
+                            <span class="text-primary small ms-1">(\${board.replycnt || 0})</span>
                         </div>
-                        <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">\${catName}</span>
+                        <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">\${board.cat_name || '기술'}</span>
                     </div>`;
                 
                 if (index < data.length / 2) {
@@ -432,4 +424,16 @@ function loadData(type, element) {
         })
         .catch(err => console.error("데이터 로드 실패:", err));
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const tabs = document.querySelectorAll('.filter-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();            
+            tabs.forEach(t => t.classList.remove('active'));           
+            this.classList.add('active');            
+            this.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+    });
+});
 </script>

@@ -3,52 +3,136 @@ package com.okkyclone.domain;
 import java.util.Date;
 
 public class BoardVO {
-    private Long bno;       
-    private String title;   
-    private String content; 
-    private String writer;  
-    private Date regdate;   
-    private int viewcnt;
-    private int update;
-    private int likecnt; 
-    private int dislikecnt;
-    private int replycnt;
-    private String user_img;
-    private Integer cat_id;
-    private String cat_name;
+	private Long bno;
+	private String title;
+	private String content;
+	private String writer;
+	private Date regdate;
+	private int viewcnt;
+	private int update;
+	private int likecnt;
+	private int dislikecnt;
+	private int replycnt;
+	private String user_img;
+	private Integer cat_id;
+	private String cat_name;
+	private boolean isNew;
 
-    public boolean isNew() {
-        if (regdate == null) return false;
-        long now = System.currentTimeMillis(); 
-        long reg = regdate.getTime();         
-        long gap = 24 * 60 * 60 * 1000;       
-        
-        return (now - reg) < gap;           
-    }
-    public String getCat_name() { return cat_name; }
-    public void setCat_name(String cat_name) { this.cat_name = cat_name; }
-    public Integer getCat_id() { return cat_id; }
-    public void setCat_id(Integer cat_id) { this.cat_id = cat_id; }
-    public String getUser_img() { return user_img; }
-    public void setUser_img(String user_img) { this.user_img = user_img; }
-    public int getReplycnt() { return replycnt; }
-    public void setReplycnt(int replycnt) { this.replycnt = replycnt; }
-    public int getDislikecnt() { return dislikecnt; }
-    public void setDislikecnt(int dislikecnt) { this.dislikecnt = dislikecnt; }
-    public int getUpdate() { return update; }
-    public void setUpdate(int update) { this.update = update; }
-    public int getLikecnt() { return likecnt; }
-    public void setLikecnt(int likecnt) { this.likecnt = likecnt; }
-    public int getViewcnt() { return viewcnt; }
-    public void setViewcnt(int viewcnt) { this.viewcnt = viewcnt; }
-    public Long getBno() { return bno; }
-    public void setBno(Long bno) { this.bno = bno; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
-    public String getWriter() { return writer; }
-    public void setWriter(String writer) { this.writer = writer; }
-    public Date getRegdate() { return regdate; }
-    public void setRegdate(Date regdate) { this.regdate = regdate; }
+	public void setIsNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
+	public boolean isNew() {
+		if (regdate == null)
+			return false;
+		long now = System.currentTimeMillis();
+		long reg = regdate.getTime();
+		long gap = 24 * 60 * 60 * 1000;
+
+		return (now - reg) < gap;
+	}
+
+	public String getCat_name() {
+		return cat_name;
+	}
+
+	public void setCat_name(String cat_name) {
+		this.cat_name = cat_name;
+	}
+
+	public Integer getCat_id() {
+		return cat_id;
+	}
+
+	public void setCat_id(Integer cat_id) {
+		this.cat_id = cat_id;
+	}
+
+	public String getUser_img() {
+		return user_img;
+	}
+
+	public void setUser_img(String user_img) {
+		this.user_img = user_img;
+	}
+
+	public int getReplycnt() {
+		return replycnt;
+	}
+
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
+
+	public int getDislikecnt() {
+		return dislikecnt;
+	}
+
+	public void setDislikecnt(int dislikecnt) {
+		this.dislikecnt = dislikecnt;
+	}
+
+	public int getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(int update) {
+		this.update = update;
+	}
+
+	public int getLikecnt() {
+		return likecnt;
+	}
+
+	public void setLikecnt(int likecnt) {
+		this.likecnt = likecnt;
+	}
+
+	public int getViewcnt() {
+		return viewcnt;
+	}
+
+	public void setViewcnt(int viewcnt) {
+		this.viewcnt = viewcnt;
+	}
+
+	public Long getBno() {
+		return bno;
+	}
+
+	public void setBno(Long bno) {
+		this.bno = bno;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
+	public Date getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
 }

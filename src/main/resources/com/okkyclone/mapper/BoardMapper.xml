@@ -205,7 +205,7 @@
 		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
 		WHERE
 		<choose>
-		 	<when test="type == 'daily'">
+			<when test="type == 'daily'">
 				b.REGDATE >= TRUNC(SYSDATE)
 			</when>
 			<when test="type == 'weekly'">
@@ -218,7 +218,7 @@
 				b.CAT_ID = 1
 			</when>
 			<otherwise>
-				b.REGDATE >= SYSDATE - 1
+				b.REGDATE >= TRUNC(SYSDATE)
 			</otherwise>
 		</choose>
 		ORDER BY score DESC, b.VIEWCNT DESC
