@@ -12,6 +12,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 <style>
 body {
 	background-color: #f2f4f7;
@@ -41,7 +43,7 @@ body {
 
 .center-content {
 	flex: 1;
-	max-width: 800px;
+	min-width: 0;
 }
 
 .content-card {

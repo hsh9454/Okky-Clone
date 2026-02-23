@@ -173,4 +173,19 @@
     WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
     ]]>
 	</select>
+
+	<select id="getMainLatestList"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT * FROM (
+		SELECT
+		b.BNO,
+		b.TITLE,
+		b.REGDATE,
+		b.REPLYCNT, c.CAT_NAME FROM TBL_BOARD b
+		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
+		WHERE b.CAT_ID = #{cat_id}
+		ORDER BY b.REGDATE DESC
+		)
+		WHERE ROWNUM &lt;= 5
+	</select>
 </mapper>
