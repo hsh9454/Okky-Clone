@@ -15,4 +15,5 @@ public interface BoardService {
 	public List<BoardVO> getList();
 	public List<BoardVO> getTechList();
 	public List<BoardVO> getListWithCategory(Criteria cri, String category);
+	public List<BoardVO> getPopularList(String type);
 }

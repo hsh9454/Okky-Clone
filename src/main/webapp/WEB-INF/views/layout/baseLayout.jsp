@@ -14,8 +14,10 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBT9761QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAnSURBVDhPY/z//z8DJYCJgUIAn7fB8P///8v///+fBv9RMApGwSgAAK9fEA8S+XmNAAAAAElFTkSuQmCC">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
-body {
+.body {
 	background-color: #f2f4f7;
 	font-family: 'Apple SD Gothic Neo', sans-serif;
 	margin: 0;

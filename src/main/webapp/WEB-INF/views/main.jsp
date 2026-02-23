@@ -3,6 +3,121 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<style>
+.badge-n {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	width: 18px !important;
+	height: 18px !important;
+	background-color: #f8d7da !important;
+	color: #dc3545 !important;
+	font-size: 10px !important;
+	font-weight: bold !important;
+	border-radius: 50% !important;
+	margin: 0 4px !important;
+	vertical-align: middle !important;
+	line-height: 1 !important;
+}
+
+.text-truncate-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.custom-dot-indicators {
+	bottom: -45px !important;
+}
+
+.custom-dot-indicators button {
+	width: 8px !important;
+	height: 8px !important;
+	border-radius: 50% !important;
+	background-color: #dee2e6 !important;
+	border: none !important;
+	margin: 0 4px !important;
+	opacity: 1 !important;
+	transition: background-color 0.3s ease;
+}
+
+.custom-dot-indicators button.active {
+	background-color: #0d6efd !important;
+}
+
+.tech-overlap-btn {
+	width: 45px !important;
+	opacity: 1 !important;
+}
+
+.carousel-control-prev.tech-overlap-btn {
+	left: -22px;
+}
+
+.carousel-control-next.tech-overlap-btn {
+	right: -22px;
+}
+
+.btn-round {
+	width: 40px;
+	height: 40px;
+	background: white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #eee;
+	color: #333;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.text-truncate-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.filter-bar-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background-color: #f8f9fa;
+	border-radius: 12px;
+	padding: 10px 15px;
+	border: 1px solid #eee;
+}
+
+.filter-tab {
+	text-decoration: none;
+	color: #666;
+	font-size: 14px;
+	white-space: nowrap;
+	padding: 8px 16px;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.filter-tab.active {
+	background-color: #fff !important;
+	color: #0d6efd !important;
+	font-weight: bold;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+
+
 <div class="container-fluid mt-4">
 	<div class="rounded-3 mb-4 overflow-hidden shadow-sm"
 		style="height: 160px; background: linear-gradient(90deg, #0d6efd, #000);">
@@ -13,27 +128,34 @@
 		</div>
 	</div>
 
-	<div class="mb-2 d-flex justify-content-between align-items-end">
-		<ul class="nav nav-pills p-1"
-			style="background-color: #f1f3f5; border-radius: 12px; display: inline-flex;">
-			<li class="nav-item"><a class="nav-link active shadow-sm"
-				href="#"
-				style="background-color: #fff !important; color: #333 !important; font-weight: 600; border-radius: 10px; font-size: 14px; padding: 6px 16px;">오늘의
-					인기글</a></li>
-			<li class="nav-item"><a class="nav-link text-muted" href="#"
-				style="font-weight: 500; font-size: 14px; padding: 6px 16px;">이번주
-					인기글</a></li>
-			<li class="nav-item"><a class="nav-link text-muted" href="#"
-				style="font-weight: 500; font-size: 14px; padding: 6px 16px;">이달의
-					인기글</a></li>
-			<li class="nav-item"><a class="nav-link text-muted" href="#"
-				style="font-weight: 500; font-size: 14px; padding: 6px 16px;">공지사항</a></li>
-		</ul>
-		<a href="/board/list" class="text-muted text-decoration-none"
-			style="font-size: 0.75rem; padding-bottom: 8px;">더보기 ></a>
-	</div>
+	<ul class="nav nav-pills p-1"
+		style="background-color: #f1f3f5; border-radius: 12px; display: inline-flex;">
+		<li class="nav-item"><a
+			class="nav-link ${currentType == 'daily' || currentType == null ? 'active shadow-sm' : 'text-muted'}"
+			href="javascript:void(0);" onclick="loadData('daily', this)"
+			style="${currentType == 'daily' || currentType == null ? 'background-color: #fff !important; color: #333 !important; font-weight: 600;' : 'font-weight: 500;'} border-radius: 10px; font-size: 14px; padding: 6px 16px;">
+				오늘의 인기글 </a></li>
+		<li class="nav-item"><a
+			class="nav-link ${currentType == 'weekly' ? 'active shadow-sm' : 'text-muted'}"
+			href="javascript:void(0);" onclick="loadData('weekly', this)"
+			style="${currentType == 'weekly' ? 'background-color: #fff !important; color: #333 !important; font-weight: 600;' : 'font-weight: 500;'} border-radius: 10px; font-size: 14px; padding: 6px 16px;">
+				이번주 인기글 </a></li>
+		<li class="nav-item"><a
+			class="nav-link ${currentType == 'monthly' ? 'active shadow-sm' : 'text-muted'}"
+			href="javascript:void(0);" onclick="loadData('monthly', this)"
+			style="${currentType == 'monthly' ? 'background-color: #fff !important; color: #333 !important; font-weight: 600;' : 'font-weight: 500;'} border-radius: 10px; font-size: 14px; padding: 6px 16px;">
+				이달의 인기글 </a></li>
+		<li class="nav-item"><a
+			class="nav-link ${currentType == 'notice' ? 'active shadow-sm' : 'text-muted'}"
+			href="javascript:void(0);" onclick="loadData('notice', this)"
+			style="${currentType == 'notice' ? 'background-color: #fff !important; color: #333 !important; font-weight: 600;' : 'font-weight: 500;'} border-radius: 10px; font-size: 14px; padding: 6px 16px;">
+				공지사항 </a></li>
+	</ul>
+	<a href="/board/list" class="text-muted text-decoration-none"
+		style="font-size: 0.75rem; padding-bottom: 8px;">더보기 ></a>
 
-	<div class="row g-4 mb-5">
+
+	<div id="popular-list-area" class="row g-4 mb-5">
 		<div class="col-md-6">
 			<div class="list-group list-group-flush border-top">
 				<c:forEach items="${leftList}" var="board">
@@ -237,121 +359,8 @@
 			</c:choose>
 		</div>
 	</div>
-</div>
-<style>
-.badge-n {
-	display: inline-flex !important;
-	align-items: center;
-	justify-content: center;
-	width: 18px !important;
-	height: 18px !important;
-	background-color: #f8d7da !important;
-	color: #dc3545 !important;
-	font-size: 10px !important;
-	font-weight: bold !important;
-	border-radius: 50% !important;
-	margin: 0 4px !important;
-	vertical-align: middle !important;
-	line-height: 1 !important;
-}
 
-.text-truncate-2 {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-}
-
-.custom-dot-indicators {
-	bottom: -45px !important;
-}
-
-.custom-dot-indicators button {
-	width: 8px !important;
-	height: 8px !important;
-	border-radius: 50% !important;
-	background-color: #dee2e6 !important;
-	border: none !important;
-	margin: 0 4px !important;
-	opacity: 1 !important;
-	transition: background-color 0.3s ease;
-}
-
-.custom-dot-indicators button.active {
-	background-color: #0d6efd !important;
-}
-
-.tech-overlap-btn {
-	width: 45px !important;
-	opacity: 1 !important;
-}
-
-.carousel-control-prev.tech-overlap-btn {
-	left: -22px;
-}
-
-.carousel-control-next.tech-overlap-btn {
-	right: -22px;
-}
-
-.btn-round {
-	width: 40px;
-	height: 40px;
-	background: white;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 1px solid #eee;
-	color: #333;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.text-truncate-2 {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-	display: none;
-}
-
-.no-scrollbar {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
-.filter-bar-container {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	background-color: #f8f9fa;
-	border-radius: 12px;
-	padding: 10px 15px;
-	border: 1px solid #eee;
-}
-
-.filter-tab {
-	text-decoration: none;
-	color: #666;
-	font-size: 14px;
-	white-space: nowrap;
-	padding: 8px 16px;
-	border-radius: 8px;
-	transition: all 0.2s ease;
-}
-
-.filter-tab.active {
-	background-color: #fff !important;
-	color: #0d6efd !important;
-	font-weight: bold;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-</style>
-
-<script>
+	<script>
 document.addEventListener("DOMContentLoaded", function() {
     const tabs = document.querySelectorAll('.filter-tab');
     
@@ -364,4 +373,63 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+function loadData(type, element) {
+	
+    const allLinks = element.closest('.nav').querySelectorAll('.nav-link');
+    allLinks.forEach(link => {
+        link.classList.remove('active', 'shadow-sm');
+        link.classList.add('text-muted');
+        link.style.cssText = "font-weight: 500; border-radius: 10px; font-size: 14px; padding: 6px 16px; background-color: transparent !important;";
+    });
+    element.classList.add('active', 'shadow-sm');
+    element.classList.remove('text-muted');
+    element.style.cssText = "background-color: #fff !important; color: #333 !important; font-weight: 600; border-radius: 10px; font-size: 14px; padding: 6px 16px;";
+    
+    fetch('/main/data?type=' + type)
+        .then(res => res.json())
+        .then(data => {
+            console.log(type + " 로드 데이터:", data); 
+            
+            const container = document.getElementById('popular-list-area');
+            if (!container) return;
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center py-5 text-muted">등록된 게시물이 없습니다.</div>';
+                return;
+            }
+
+            let leftHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+            let rightHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+
+            data.forEach((board, index) => {
+                const bno = board.bno || 0;
+                const title = board.title || '제목 없음';
+                const replycnt = board.replycnt || 0;
+                const catName = board.cat_name || '기술'; 
+                const itemHtml = `
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
+                        <div class="text-truncate" style="max-width: 75%;">
+                            <a href="/board/get?bno=\${bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">
+                                \${title}
+                            </a>
+                            <span class="text-primary small ms-1">(\${replycnt})</span>
+                        </div>
+                        <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">\${catName}</span>
+                    </div>`;
+                
+                if (index < data.length / 2) {
+                    leftHtml += itemHtml;
+                } else {
+                    rightHtml += itemHtml;
+                }
+            });
+
+            leftHtml += '</div></div>';
+            rightHtml += '</div></div>';
+
+            container.innerHTML = leftHtml + rightHtml;
+        })
+        .catch(err => console.error("데이터 로드 실패:", err));
+}
 </script>

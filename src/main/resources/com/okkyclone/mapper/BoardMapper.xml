@@ -113,6 +113,11 @@
 		WHERE bno = #{bno}
 	</update>
 
+	<update id="updateReplyCnt">
+		update tbl_board set replycnt = replycnt + #{amount}
+		where bno = #{bno}
+	</update>
+
 	<insert id="insertSelectKey">
 		<selectKey keyProperty="bno" order="BEFORE"
 			resultType="long">
@@ -181,10 +186,64 @@
 		b.BNO,
 		b.TITLE,
 		b.REGDATE,
-		b.REPLYCNT, c.CAT_NAME FROM TBL_BOARD b
-		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
+		b.REPLYCNT,
+		c.CAT_NAME FROM TBL_BOARD b
+		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID =
+		c.CAT_ID
 		WHERE b.CAT_ID = #{cat_id}
 		ORDER BY b.REGDATE DESC
+		)
+		WHERE ROWNUM
+		&lt;= 5
+	</select>
+
+	<select id="getPopularList"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT * FROM (
+		SELECT b.*, c.CAT_NAME, (b.LIKECNT + b.REPLYCNT) as score
+		FROM TBL_BOARD b
+		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
+		WHERE
+		<choose>
+		 	<when test="type == 'daily'">
+				b.REGDATE >= TRUNC(SYSDATE)
+			</when>
+			<when test="type == 'weekly'">
+				b.REGDATE >= SYSDATE - 7
+			</when>
+			<when test="type == 'monthly'">
+				b.REGDATE >= ADD_MONTHS(SYSDATE, -1)
+			</when>
+			<when test="type == 'notice'">
+				b.CAT_ID = 1
+			</when>
+			<otherwise>
+				b.REGDATE >= SYSDATE - 1
+			</otherwise>
+		</choose>
+		ORDER BY score DESC, b.VIEWCNT DESC
+		)
+		WHERE ROWNUM &lt;= 10
+	</select>
+
+	<select id="getHotList"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT * FROM (
+		SELECT
+		b.*, c.cat_name,
+		(b.likecnt + b.replycnt) as
+		hot_score
+		FROM tbl_board b
+		LEFT JOIN tbl_category c ON b.cat_id =
+		c.cat_id
+		WHERE
+		<choose>
+			<when test="type == 'daily'"> b.regdate >= TRUNC(SYSDATE) </when>
+			<when test="test == 'weekly'"> b.regdate >= SYSDATE - 7 </when>
+			<when test="test == 'monthly'"> b.regdate >= ADD_MONTHS(SYSDATE, -1) </when>
+			<otherwise> b.regdate >= SYSDATE - 365 </otherwise>
+		</choose>
+		ORDER BY hot_score DESC, b.viewcnt DESC
 		)
 		WHERE ROWNUM &lt;= 5
 	</select>

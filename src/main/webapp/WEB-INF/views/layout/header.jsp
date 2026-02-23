@@ -36,7 +36,7 @@
     </div>
 
     <div class="d-none d-lg-flex gap-4 okky-nav-group mx-auto nav-item dropdown"> 
-        <a href="#" class="nav-link text-dark fw-bold small">Q&A</a>
+        <a href="#" class="nav-link text-dark fw-bold small">Q&amp;A</a>
         <a href="#" class="nav-link text-dark fw-bold small">지식</a>
         <a href="${pageContext.request.contextPath}/board/list" class="nav-link text-dark fw-bold small">커뮤니티</a>
         <a href="#" class="nav-link text-dark fw-bold small">이벤트</a>
@@ -47,7 +47,7 @@
         <div class="mega-dropdown-panel shadow border-top">
             <div class="container-fluid d-flex py-4 px-5 justify-content-between text-start">
                 <div class="menu-col">
-                    <h6 class="fw-bold mb-3">Q&A</h6>
+                    <h6 class="fw-bold mb-3">Q&amp;A</h6>
                     <ul class="list-unstyled small">
                         <li><a href="/board/list?category=tech" class="dropdown-item">기술</a></li>
                         <li><a href="/board/list?category=career" class="dropdown-item">커리어</a></li>
@@ -141,7 +141,7 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2" style="min-width: 220px;">
                             <li><div class="dropdown-header fw-bold text-dark mb-1">새글 쓰기</div></li>
                             <li><hr class="dropdown-divider mx-2"></li>
-                            <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">Q&A</b>에 글쓰기</span> <i class="bi bi-question-circle text-muted ms-3"></i></a></li>
+                            <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">Q&amp;A</b>에 글쓰기</span> <i class="bi bi-question-circle text-muted ms-3"></i></a></li>
                             <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">지식</b>에 글쓰기</span> <i class="bi bi-newspaper text-muted ms-3"></i></a></li>
                             <li><a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">커뮤니티</b>에 글쓰기</span> <i class="bi bi-emoji-smile text-muted ms-3"></i></a></li>
                             <li><hr class="dropdown-divider mx-2"></li>

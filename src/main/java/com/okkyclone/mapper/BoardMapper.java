@@ -9,12 +9,13 @@ public interface BoardMapper {
 	public List<BoardVO> getListWithCategory(@Param("cri") Criteria cri, @Param("category") String category);
 	public List<BoardVO> getList(); 
 	public List<BoardVO> getTechList();
-	
+	public List<BoardVO> getPopularList(String type);
     public void insert(BoardVO board);
     public BoardVO read(Long bno);
     public void updateViewCount(Long bno);
     public int update(BoardVO board);
     public int delete(Long bno);
+    public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
     
     int checkLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
     void addLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
