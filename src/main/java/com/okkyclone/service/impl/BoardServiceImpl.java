@@ -107,6 +107,11 @@ public class BoardServiceImpl implements BoardService {
         return mapper.getPopularList(type);
     }
     
+    @Override
+    public List<BoardVO> getCategoryList(String category) {
+        System.out.println("카테고리별 리스트 조회 시작잇!: " + category);
+        return mapper.getCategoryList(category);
+    }
 }
 
     	

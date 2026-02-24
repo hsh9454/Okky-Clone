@@ -16,6 +16,7 @@ public interface BoardMapper {
     public int update(BoardVO board);
     public int delete(Long bno);
     public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
+    public List<BoardVO> getCategoryList(String category);
     
     int checkLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
     void addLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);

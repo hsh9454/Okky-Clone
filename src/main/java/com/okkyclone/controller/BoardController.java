@@ -13,7 +13,10 @@ import com.okkyclone.domain.Criteria;
 import com.okkyclone.service.BoardService;
 
 import javax.servlet.http.HttpSession;
-
+import java.util.List;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,5 +88,22 @@ public class BoardController {
 	    service.register(board);	    
 	    rttr.addFlashAttribute("result", board.getBno());
 	    return "redirect:/board/list?cat_id=" + board.getCat_id();
+	}
+	
+	@GetMapping("/main/categoryData")
+	@ResponseBody
+	public List<BoardVO> getCategoryData(@RequestParam(value="category", required=false, defaultValue="전체") String category) {
+	    System.out.println("컨트롤러 도착! 카테고리: " + category);
+	    
+	    try {
+	        List<BoardVO> list = service.getCategoryList(category);
+	        for(BoardVO board : list) {
+	            board.setIsNew(board.checkIsNew()); 
+	        }
+	        return list;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 }

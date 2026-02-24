@@ -200,7 +200,8 @@
 	<select id="getPopularList"
 		resultType="com.okkyclone.domain.BoardVO">
 		SELECT * FROM (
-		SELECT b.*, c.CAT_NAME, (b.LIKECNT + b.REPLYCNT) as score
+		SELECT b.*, c.CAT_NAME, (b.LIKECNT + b.REPLYCNT) as
+		score
 		FROM TBL_BOARD b
 		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
 		WHERE
@@ -246,5 +247,24 @@
 		ORDER BY hot_score DESC, b.viewcnt DESC
 		)
 		WHERE ROWNUM &lt;= 5
+	</select>
+
+	<select id="getCategoryList"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT * FROM (
+		SELECT
+		b.bno, b.title, b.writer, b.regdate, b.replycnt,
+		c.cat_name, c.cat_slug FROM
+		tbl_board b
+		LEFT JOIN
+		tbl_category c ON b.cat_id = c.cat_id
+		<where>
+			<if test='category != null and category != "전체"'>
+				AND c.cat_name = #{category}
+			</if>
+		</where>
+		ORDER BY b.bno DESC
+		)
+		WHERE ROWNUM &lt;= 20
 	</select>
 </mapper>

@@ -165,7 +165,7 @@
 							<a href="/board/get?bno=${board.bno}"
 								class="text-decoration-none text-dark fw-bold"
 								style="font-size: 0.85rem;"> ${board.title} </a>
-							<c:if test="${board['new']}">
+							<c:if test="${board.isNew}">
 								<span class="badge-n">N</span>
 							</c:if>
 							<span class="text-primary small ms-1">(${board.replycnt})</span>
@@ -185,7 +185,7 @@
 							<a href="/board/get?bno=${board.bno}"
 								class="text-decoration-none text-dark fw-bold"
 								style="font-size: 0.85rem;"> ${board.title} </a>
-							<c:if test="${board['new']}">
+							<c:if test="${board.isNew}">
 								<span class="badge-n">N</span>
 							</c:if>
 							<span class="text-primary small ms-1">(${board.replycnt})</span>
@@ -296,21 +296,50 @@
 				class="d-flex align-items-center gap-2 p-2 no-scrollbar shadow-sm w-100"
 				style="background-color: #f8f9fa; border-radius: 12px; overflow-x: auto; border: 1px solid #eee;">
 
-				<a href="#" class="filter-tab active">전체</a> <a href="#"
-					class="filter-tab">사는얘기</a> <a href="#" class="filter-tab">AI</a> <a
-					href="#" class="filter-tab">연봉·단가</a> <a href="#"
-					class="filter-tab">취준생</a> <a href="#" class="filter-tab">스터디</a> <a
-					href="#" class="filter-tab">프로젝트</a> <a href="#" class="filter-tab">모각코·모각공</a>
-				<a href="#" class="filter-tab">멘토링·튜터링</a> <a href="#"
-					class="filter-tab">모임·네트워킹</a> <a href="#" class="filter-tab">공모전·해커톤</a>
-				<a href="#" class="filter-tab">IT 정책토론</a> <a href="#"
-					class="filter-tab">피드백</a> <a href="#" class="filter-tab">Tech
-					뉴스</a> <a href="#" class="filter-tab">팀</a> <a href="#"
-					class="filter-tab">칼럼</a> <a href="#" class="filter-tab">리뷰</a> <a
-					href="#" class="filter-tab">IT보도자료</a> <a href="#"
-					class="filter-tab">기술</a> <a href="#" class="filter-tab">커리어</a> <a
-					href="#" class="filter-tab">기타</a> <a href="#" class="filter-tab">IT
-					행사</a> <a href="#" class="filter-tab">홍보·광고</a>
+				<a href="#" class="filter-tab active"
+					onclick="loadCategoryData('전체'); return false;">전체</a> <a href="#"
+					class="filter-tab"
+					onclick="loadCategoryData('사는얘기'); return false;">사는얘기</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('AI'); return false;">AI</a> <a href="#"
+					class="filter-tab"
+					onclick="loadCategoryData('연봉·단가'); return false;">연봉·단가</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('취준생'); return false;">취준생</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('스터디'); return false;">스터디</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('프로젝트'); return false;">프로젝트</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('모각코·모각공'); return false;">모각코·모각공</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('멘토링·튜터링'); return false;">멘토링·튜터링</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('모임·네트워킹'); return false;">모임·네트워킹</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('공모전·해커톤'); return false;">공모전·해커톤</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('IT 정책토론'); return false;">IT 정책토론</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('피드백'); return false;">피드백</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('Tech 뉴스'); return false;">Tech 뉴스</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('팀'); return false;">팀</a> <a href="#"
+					class="filter-tab" onclick="loadCategoryData('칼럼'); return false;">칼럼</a>
+				<a href="#" class="filter-tab"
+					onclick="loadCategoryData('리뷰'); return false;">리뷰</a> <a href="#"
+					class="filter-tab"
+					onclick="loadCategoryData('IT보도자료'); return false;">IT보도자료</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('기술'); return false;">기술</a> <a href="#"
+					class="filter-tab" onclick="loadCategoryData('커리어'); return false;">커리어</a>
+				<a href="#" class="filter-tab"
+					onclick="loadCategoryData('기타'); return false;">기타</a> <a href="#"
+					class="filter-tab"
+					onclick="loadCategoryData('IT 행사'); return false;">IT 행사</a> <a
+					href="#" class="filter-tab"
+					onclick="loadCategoryData('홍보·광고'); return false;">홍보·광고</a>
 			</div>
 			<button class="btn btn-white border ms-2 shadow-sm"
 				style="padding: 10px 14px; border-radius: 12px; background: #fff; height: 50px;">
@@ -318,7 +347,7 @@
 			</button>
 		</div>
 
-		<div class="post-list-container">
+		<div class="post-list-container board-list-area">
 			<c:choose>
 				<c:when test="${not empty boardList}">
 					<c:forEach items="${boardList}" var="board">
@@ -334,7 +363,7 @@
 							</div>
 							<h6 class="fw-bold mb-1" style="font-size: 15px;">
 								${board.title}
-								<c:if test="${board['new']}">
+								<c:if test="${board.isNew}">
 									<span class="badge-n">N</span>
 								</c:if>
 								<c:if test="${board.replycnt > 0}">
@@ -361,6 +390,91 @@
 	</div>
 
 	<script>
+	function loadCategoryData(category) {
+	    console.log("선택된 카테고리: " + category); 
+	    
+	    fetch('/board/main/categoryData?category=' + encodeURIComponent(category))
+	        .then(res => {
+	            if (!res.ok) throw new Error('서버 에러 발생!');
+	            return res.json();
+	        })
+	        .then(data => {
+	            console.log("서버에서 받은 데이터: ", data);
+	            const listArea = document.querySelector(".board-list-area"); 
+	            
+	            if(!listArea) return;
+
+	            let html = "";
+	            
+	            if(data.length === 0) {
+	                html = '<div class="text-center py-5 border rounded-3 bg-light text-muted">해당 카테고리에 게시물이 없습니다.</div>';
+	            } else {
+	                data.forEach(board => {
+	                    let date = new Date(board.regdate).toLocaleDateString();
+	                    html += `
+	                    <div class="post-item p-3 mb-2 border-bottom bg-white" style="cursor: pointer;" 
+	                         onclick="location.href='/board/get?bno=\${board.bno}'">
+	                        <div class="d-flex align-items-center gap-2 mb-1">
+	                            <span class="text-muted" style="font-size: 12px; border: 1px solid #eee; padding: 2px 6px; border-radius: 4px;">\${board.cat_name || '커뮤니티'}</span>
+	                            <span class="text-muted" style="font-size: 12px;">\${board.writer} · \${date}</span>
+	                        </div>
+	                        <h6 class="fw-bold mb-1" style="font-size: 15px;">
+	                            \${board.title}
+	                            \${board.isNew ? '<span class="badge-n">N</span>' : ''}
+	                            <span style="color: #0d6efd; font-size: 13px; margin-left: 3px;">(\${board.replycnt || 0})</span>
+	                        </h6>
+	                        <p class="text-muted mb-2 text-truncate-2" style="font-size: 13px;">\${board.content || ''}</p>
+	                    </div>`;
+	                });
+
+	                if (category !== '전체') {
+	                    const slugMap = {
+	                        "Q&A": "qna",
+	                        "기술": "tech",
+	                        "커리어": "career",
+	                        "기타": "etc",
+	                        "지식": "knowledge",
+	                        "Tech 뉴스": "news",
+	                        "팁": "tips",
+	                        "칼럼": "columns",
+	                        "리뷰": "reviws",
+	                        "IT보도자료": "press",
+	                        "커뮤니티": "community",
+	                        "사는얘기": "life",
+	                        "AI": "ai",
+	                        "연봉·단가": "salary",
+	                        "취준생": "jobs",
+	                        "피드백": "feedback",
+	                        "IT 정책토론": "policy",
+	                        "이벤트": "event",
+	                        "IT 행사": "events",
+	                        "홍보·광고": "promotion",
+	                        "모임": "group",
+	                        "스터디": "studies",
+	                        "프로젝트": "projects",
+	                        "모각코·모각공": "gathering",
+	                        "교육과정": "education",
+	                        "공지사항": "notice"
+	                    };
+	                    
+	                    const slug = slugMap[category] || encodeURIComponent(category);
+	                    
+	                    html += `
+	                    	<div class="text-center py-3">
+	                    	    <a href="/board/list?category=\${slug}" 
+	                    	       onmouseover="this.style.textDecoration='underline'" 
+	                    	       onmouseout="this.style.textDecoration='none'"
+	                    	       style="color: #888; text-decoration: none; font-size: 14px; display: inline-block; padding: 5px 10px; transition: all 0.2s;">
+	                    	        더 보기 
+	                    	    </a>
+	                    	</div>`;
+	                }
+	            }
+	            listArea.innerHTML = html;
+	        })
+	        .catch(err => console.error("데이터 로딩 실패:", err));
+	}
+	
 function loadData(type, element) {
     const allLinks = element.closest('.nav').querySelectorAll('.nav-link');
     allLinks.forEach(link => {
