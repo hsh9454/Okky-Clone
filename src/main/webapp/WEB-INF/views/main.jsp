@@ -114,9 +114,12 @@
 	font-weight: bold;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.more-view-link:hover {
+	text-decoration: underline !important;
+	color: #333 !important;
+}
 </style>
-
-
 
 <div class="container-fluid mt-4">
 	<div class="rounded-3 mb-4 overflow-hidden shadow-sm"
@@ -351,32 +354,55 @@
 			<c:choose>
 				<c:when test="${not empty boardList}">
 					<c:forEach items="${boardList}" var="board">
-						<div class="post-item p-3 mb-2 border-bottom bg-white"
+						<div class="post-item p-4 mb-3 border-bottom bg-white"
 							style="cursor: pointer;"
 							onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'">
-							<div class="d-flex align-items-center gap-2 mb-1">
-								<span class="text-muted"
-									style="font-size: 12px; border: 1px solid #eee; padding: 2px 6px; border-radius: 4px;">커뮤니티</span>
-								<span class="text-muted" style="font-size: 12px;">${board.writer}
-									· <fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd" />
+
+							<div class="d-flex align-items-center gap-2 mb-2">
+								<div
+									style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
+									<span style="color: #aaa; font-size: 11px;">커뮤니티</span> <span
+										style="color: #eee; font-size: 11px; margin: 0 4px;">|</span>
+									<span style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
+								</div>
+								<span class="text-muted" style="font-size: 12px;">
+									${board.writer} · <span class="date-display"
+									data-regdate="${board.regdate.time}"></span>
 								</span>
 							</div>
-							<h6 class="fw-bold mb-1" style="font-size: 15px;">
+
+							<h6 class="fw-bold mb-2"
+								style="font-size: 17px; color: #212529; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 								${board.title}
-								<c:if test="${board.isNew}">
+								<jsp:useBean id="now" class="java.util.Date" />
+								<fmt:parseNumber value="${now.time - board.regdate.time}"
+									var="diff" />
+								<c:if test="${diff < (1000 * 60 * 60 * 24)}">
 									<span class="badge-n">N</span>
 								</c:if>
 								<c:if test="${board.replycnt > 0}">
 									<span
-										style="color: #0d6efd; font-size: 13px; margin-left: 3px;">(${board.replycnt})</span>
+										style="color: #0d6efd; font-size: 14px; margin-left: 3px;">(${board.replycnt})</span>
 								</c:if>
 							</h6>
-							<p class="text-muted mb-2 text-truncate-2"
-								style="font-size: 13px;">${board.content}</p>
-							<div class="d-flex gap-3 text-muted" style="font-size: 12px;">
-								<span><i class="bi bi-hand-thumbs-up"></i> 0</span> <span><i
-									class="bi bi-chat-dots"></i> ${board.replycnt}</span> <span><i
-									class="bi bi-eye"></i> 0</span>
+
+							<p class="text-muted mb-3 text-truncate-2"
+								style="font-size: 14px; line-height: 1.6; color: #666 !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all;">
+								${board.content.replaceAll("<[^>]*>", "")}</p>
+
+							<div class="d-flex align-items-center gap-3">
+								<div
+									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
+									<i class="bi bi-hand-thumbs-up"></i> 0
+								</div>
+								<div
+									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
+									<i class="bi bi-chat-dots"></i> ${board.replycnt != null ? board.replycnt : 0}
+								</div>
+								<div
+									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
+									<i class="bi bi-share"></i> 공유
+								</div>
 							</div>
 						</div>
 					</c:forEach>
@@ -388,91 +414,109 @@
 			</c:choose>
 		</div>
 	</div>
+</div>
+<script>
+	
+	function timeForToday(value) {
+	    if (!value) return '';
+	    const today = new Date();
+	    const timeValue = new Date(value);
 
-	<script>
+	    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+	    if (betweenTime < 1) return '방금전';
+	    if (betweenTime < 60) {
+	        return betweenTime + '분 전';
+	    }
+
+	    const betweenTimeHour = Math.floor(betweenTime / 60);
+	    if (betweenTimeHour < 24) {
+	        return '약 ' + betweenTimeHour + '시간 전';
+	    }
+
+	    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+	    if (betweenTimeDay < 365) {
+	        return betweenTimeDay + '일 전';
+	    }
+
+	    return Math.floor(betweenTimeDay / 365) + '년 전';
+	}
+	
 	function loadCategoryData(category) {
-	    console.log("선택된 카테고리: " + category); 
-	    
+		const slugMap = {
+		        "전체": "all",
+		        "사는얘기": "life",
+		        "AI": "ai",
+		        "연봉·단가": "salary",
+		        "취준생": "jobseeker",
+		        "스터디": "study",
+		        "프로젝트": "project",
+		        "모각코·모각공": "coding-study",
+		        "멘토링·튜터링": "mentoring",
+		        "모임·네트워킹": "networking",
+		        "공모전·해커톤": "contest",
+		        "IT 정책토론": "policy",
+		        "피드백": "feedback",
+		        "Tech 뉴스": "tech-news",
+		        "팀": "team",
+		        "칼럼": "column",
+		        "리뷰": "review",
+		        "IT보도자료": "press",
+		        "기술": "tech",
+		        "커리어": "career",
+		        "기타": "etc",
+		        "IT 행사": "event",
+		        "홍보·광고": "promo"
+		    };
+		const categorySlug = slugMap[category] || "all";
+		
+		console.log("선택된 카테고리: " + category + " -> 슬러그: " + categorySlug); 
 	    fetch('/board/main/categoryData?category=' + encodeURIComponent(category))
-	        .then(res => {
-	            if (!res.ok) throw new Error('서버 에러 발생!');
-	            return res.json();
-	        })
+	        .then(res => res.json())
 	        .then(data => {
-	            console.log("서버에서 받은 데이터: ", data);
 	            const listArea = document.querySelector(".board-list-area"); 
-	            
 	            if(!listArea) return;
-
 	            let html = "";
-	            
-	            if(data.length === 0) {
+	            if(!data || data.length === 0) {
 	                html = '<div class="text-center py-5 border rounded-3 bg-light text-muted">해당 카테고리에 게시물이 없습니다.</div>';
 	            } else {
 	                data.forEach(board => {
-	                    let date = new Date(board.regdate).toLocaleDateString();
+	                    let dateDisplay = timeForToday(board.regdate);
+	                    let cleanContent = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '내용이 없습니다.';
 	                    html += `
-	                    <div class="post-item p-3 mb-2 border-bottom bg-white" style="cursor: pointer;" 
-	                         onclick="location.href='/board/get?bno=\${board.bno}'">
-	                        <div class="d-flex align-items-center gap-2 mb-1">
-	                            <span class="text-muted" style="font-size: 12px; border: 1px solid #eee; padding: 2px 6px; border-radius: 4px;">\${board.cat_name || '커뮤니티'}</span>
-	                            <span class="text-muted" style="font-size: 12px;">\${board.writer} · \${date}</span>
+	                    <div class="post-item p-4 mb-3 border-bottom bg-white" style="cursor: pointer;" onclick="location.href='/board/get?bno=\${board.bno}'">
+	                        <div class="d-flex align-items-center gap-2 mb-2">
+	                            <div style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
+	                                <span style="color: #aaa; font-size: 11px;">커뮤니티</span>
+	                                <span style="color: #eee; font-size: 11px; margin: 0 4px;">|</span>
+	                                <span style="color: #666; font-size: 11px; font-weight: 600;">\${board.cat_name || category}</span>
+	                            </div>
+	                            <span style="color: #adb5bd; font-size: 12px;">\${board.writer} · \${dateDisplay}</span>
 	                        </div>
-	                        <h6 class="fw-bold mb-1" style="font-size: 15px;">
-	                            \${board.title}
+	                        <h6 class="fw-bold mb-2" style="font-size: 17px; color: #212529;">
+	                            \${board.title} 
 	                            \${board.isNew ? '<span class="badge-n">N</span>' : ''}
-	                            <span style="color: #0d6efd; font-size: 13px; margin-left: 3px;">(\${board.replycnt || 0})</span>
+	                            \${board.replycnt > 0 ? '<span style="color: #0d6efd; font-size: 14px; margin-left: 3px;">(' + board.replycnt + ')</span>' : ''}
 	                        </h6>
-	                        <p class="text-muted mb-2 text-truncate-2" style="font-size: 13px;">\${board.content || ''}</p>
+	                        <p class="text-muted mb-3 text-truncate-2" style="font-size: 14px; line-height: 1.6; color: #666 !important;">\${cleanContent}</p>
+	                        <div class="d-flex align-items-center gap-3">
+	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-hand-thumbs-up"></i> 0</div>
+	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-chat-dots"></i> \${board.replycnt || 0}</div>
+	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-share"></i> 공유</div>
+	                        </div>
 	                    </div>`;
 	                });
-
-	                if (category !== '전체') {
-	                    const slugMap = {
-	                        "Q&A": "qna",
-	                        "기술": "tech",
-	                        "커리어": "career",
-	                        "기타": "etc",
-	                        "지식": "knowledge",
-	                        "Tech 뉴스": "news",
-	                        "팁": "tips",
-	                        "칼럼": "columns",
-	                        "리뷰": "reviws",
-	                        "IT보도자료": "press",
-	                        "커뮤니티": "community",
-	                        "사는얘기": "life",
-	                        "AI": "ai",
-	                        "연봉·단가": "salary",
-	                        "취준생": "jobs",
-	                        "피드백": "feedback",
-	                        "IT 정책토론": "policy",
-	                        "이벤트": "event",
-	                        "IT 행사": "events",
-	                        "홍보·광고": "promotion",
-	                        "모임": "group",
-	                        "스터디": "studies",
-	                        "프로젝트": "projects",
-	                        "모각코·모각공": "gathering",
-	                        "교육과정": "education",
-	                        "공지사항": "notice"
-	                    };
-	                    
-	                    const slug = slugMap[category] || encodeURIComponent(category);
-	                    
-	                    html += `
-	                    	<div class="text-center py-3">
-	                    	    <a href="/board/list?category=\${slug}" 
-	                    	       onmouseover="this.style.textDecoration='underline'" 
-	                    	       onmouseout="this.style.textDecoration='none'"
-	                    	       style="color: #888; text-decoration: none; font-size: 14px; display: inline-block; padding: 5px 10px; transition: all 0.2s;">
-	                    	        더 보기 
-	                    	    </a>
-	                    	</div>`;
-	                }
+	                html += `
+	                    <div class="text-center py-4" style="border-top: 1px solid #f1f3f5; margin-top: 10px;">
+	                        <a href="/board/list?category=\${categorySlug}" 
+	                           class="more-view-link" 
+	                           style="text-decoration: none; color: #666; font-size: 15px; font-weight: 500; transition: color 0.2s;">
+	                           더 보기
+	                        </a>
+	                    </div>
+	                `;
 	            }
 	            listArea.innerHTML = html;
-	        })
-	        .catch(err => console.error("데이터 로딩 실패:", err));
+	        }).catch(err => console.error("데이터 로딩 실패:", err));
 	}
 	
 function loadData(type, element) {
@@ -505,7 +549,7 @@ function loadData(type, element) {
             data.forEach((board, index) => {
                 const bno = board.bno || 0;
                 const title = board.title || '제목 없음';
-                
+                const catName = board.cat_name || '기술';
                 const now = new Date().getTime();
                 const regDate = board.regdate;
                 const isNewArticle = board.isNew === true || (now - regDate < (1000 * 60 * 60 * 24));
@@ -513,15 +557,27 @@ function loadData(type, element) {
                 const nBadge = isNewArticle ? '<span class="badge-n" style="color: #ff5e11; font-weight: bold; font-size: 0.75rem; margin-left: 3px;">N</span>' : '';
 
                 const itemHtml = `
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">
-                        <div class="text-truncate" style="max-width: 75%;">
-                            <a href="/board/get?bno=\${bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">
-                                \${title}
-                            </a>
-                            \${nBadge} 
-                            <span class="text-primary small ms-1">(\${board.replycnt || 0})</span>
+                    <div class="list-group-item py-3 px-0 bg-transparent border-bottom">
+                        <div class="d-flex flex-column">
+                            <div class="mb-1" style="display: inline-block;">
+                                <div style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 1px 6px; border-radius: 4px; background-color: #fcfcfc;">
+                                    <span style="color: #aaa; font-size: 10px;">커뮤니티</span>
+                                    <span style="color: #eee; font-size: 10px; margin: 0 3px;">|</span>
+                                    <span style="color: #666; font-size: 10px; font-weight: 600;">\${catName}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-truncate" style="max-width: 80%;">
+                                    <a href="/board/get?bno=\${bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.9rem;">
+                                        \${title}
+                                    </a>
+                                    \${nBadge} 
+                                    <span class="text-primary small ms-1">(\${board.replycnt || 0})</span>
+                                </div>
+                                <span class="text-muted" style="font-size: 11px;">\${new Date(regDate).toLocaleDateString()}</span>
+                            </div>
                         </div>
-                        <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">\${board.cat_name || '기술'}</span>
                     </div>`;
                 
                 if (index < data.length / 2) {
@@ -542,12 +598,15 @@ function loadData(type, element) {
 document.addEventListener("DOMContentLoaded", function() {
     const tabs = document.querySelectorAll('.filter-tab');
     tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();            
+        tab.addEventListener('click', function() {
             tabs.forEach(t => t.classList.remove('active'));           
             this.classList.add('active');            
             this.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         });
+    });
+    document.querySelectorAll('.date-display').forEach(el => {
+        const regdate = el.getAttribute('data-regdate');
+        if (regdate) el.innerText = timeForToday(parseInt(regdate));
     });
 });
 </script>

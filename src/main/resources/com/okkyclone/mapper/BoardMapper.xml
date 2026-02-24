@@ -253,11 +253,15 @@
 		resultType="com.okkyclone.domain.BoardVO">
 		SELECT * FROM (
 		SELECT
-		b.bno, b.title, b.writer, b.regdate, b.replycnt,
-		c.cat_name, c.cat_slug FROM
-		tbl_board b
-		LEFT JOIN
-		tbl_category c ON b.cat_id = c.cat_id
+		b.bno,
+		b.title,
+		b.content, b.writer,
+		b.regdate,
+		b.replycnt,
+		c.cat_name,
+		c.cat_slug
+		FROM tbl_board b
+		LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
 		<where>
 			<if test='category != null and category != "전체"'>
 				AND c.cat_name = #{category}
