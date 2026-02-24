@@ -4,6 +4,80 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <style>
+#viewModeBtn {
+	position: relative;
+}
+
+#viewModeBtn::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 125%;
+	right: 0;
+	white-space: nowrap;
+	background-color: #1a1a1b;
+	color: #ffffff;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: 500;
+	z-index: 100;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	pointer-events: none;
+}
+
+#viewModeBtn::before {
+	content: "";
+	position: absolute;
+	bottom: 110%;
+	right: 15px;
+	border-width: 6px;
+	border-style: solid;
+	border-color: #1a1a1b transparent transparent transparent;
+	z-index: 100;
+}
+
+#boardContainer.list-mode .post-item {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	padding: 12px 20px !important;
+	gap: 15px !important;
+}
+
+#boardContainer.list-mode .post-item:hover {
+	background-color: #f8f9fa !important;
+	transition: background-color 0.2s ease;
+}
+
+.post-right-info-area {
+	display: none !important;
+}
+
+#boardContainer.list-mode .post-right-info-area {
+	display: flex !important;
+	align-items: center !important;
+	gap: 15px !important;
+}
+
+#boardContainer.list-mode .card-only-elements {
+	display: none !important;
+}
+
+#boardContainer.list-mode .main-title-text {
+	margin-bottom: 0 !important;
+	font-size: 14px !important;
+}
+
+#boardContainer.list-mode .post-item h6 {
+	font-weight: 700 !important;
+	color: #333;
+	font-size: 15px;
+}
+
+#boardContainer.list-mode .card-only-elements {
+	display: none !important;
+}
+
 .badge-n {
 	display: inline-flex !important;
 	align-items: center;
@@ -72,13 +146,6 @@
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.text-truncate-2 {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-}
-
 .no-scrollbar::-webkit-scrollbar {
 	display: none;
 }
@@ -115,9 +182,27 @@
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.more-view-link {
+	color: #666 !important;
+	font-size: 15px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: all 0.2s;
+}
+
 .more-view-link:hover {
 	text-decoration: underline !important;
 	color: #333 !important;
+}
+
+.btn-light.text-muted {
+	background-color: #f8f9fa;
+	font-size: 13px;
+	border-radius: 6px;
+}
+
+.btn-light.text-muted:hover {
+	background-color: #e9ecef;
 }
 </style>
 
@@ -169,7 +254,7 @@
 								class="text-decoration-none text-dark fw-bold"
 								style="font-size: 0.85rem;"> ${board.title} </a>
 							<c:if test="${board.isNew}">
-								<span class="badge-n">N</span>
+								<span class="badge-n" style="margin-left: 5px;">N</span>
 							</c:if>
 							<span class="text-primary small ms-1">(${board.replycnt})</span>
 						</div>
@@ -235,17 +320,38 @@
 					<div class="row g-3 mx-0">
 						<c:choose>
 							<c:when test="${not empty techList1}">
+
 								<c:forEach items="${techList1}" var="tech">
 									<div class="col-md-4 px-2">
 										<div class="card h-100 border-0 shadow-sm overflow-hidden"
-											style="border-radius: 12px;">
-											<div class="tech-card-img"
-												style="background-image: url('https://via.placeholder.com/180'); height: 180px; background-size: cover; background-position: center;">
-												<span class="badge bg-dark opacity-75 m-2 float-end">${tech.cat_name}</span>
+											style="border-radius: 12px; cursor: pointer;"
+											onclick="location.href='/board/get?bno=${tech.bno}'">
+
+											<div
+												class="tech-card-img d-flex align-items-center justify-content-center"
+												style="height: 140px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+												<span class="fw-bold text-muted"
+													style="font-size: 24px; opacity: 0.5;">${tech.cat_name}</span>
+												<span
+													class="badge bg-dark opacity-75 m-2 position-absolute top-0 end-0">Tech</span>
 											</div>
+
 											<div class="card-body">
-												<h6 class="fw-bold text-truncate">${tech.title}</h6>
-												<p class="card-text small text-muted text-truncate-2">${tech.title}</p>
+												<h6 class="fw-bold mb-2"
+													style="font-size: 17px; color: #333;">
+													${tech.title}
+
+													<c:if test="${tech.replycnt > 0}">
+														<span
+															style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(${tech.replycnt})</span>
+													</c:if>
+													<c:if test="${tech.isNew}">
+														<span class="badge-n" style="margin-left: 5px;">N</span>
+													</c:if>
+												</h6>
+
+												<p class="card-text small text-muted text-truncate-2">
+													${tech.content.replaceAll("<[^>]*>", "")}</p>
 											</div>
 										</div>
 									</div>
@@ -344,26 +450,29 @@
 					href="#" class="filter-tab"
 					onclick="loadCategoryData('홍보·광고'); return false;">홍보·광고</a>
 			</div>
-			<button class="btn btn-white border ms-2 shadow-sm"
-				style="padding: 10px 14px; border-radius: 12px; background: #fff; height: 50px;">
-				<i class="bi bi-list-ul text-muted"></i>
+			<button id="viewModeBtn" class="btn btn-white border ms-2 shadow-sm"
+				style="padding: 10px 14px; border-radius: 12px; background: #fff; height: 50px; position: relative;"
+				onclick="toggleViewMode()" data-tooltip="리스트형 보기로 전환합니다.">
+				<i id="viewModeIcon" class="bi bi-list-ul text-muted"></i>
 			</button>
 		</div>
 
-		<div class="post-list-container board-list-area">
+		<div id="boardContainer"
+			class="post-list-container board-list-area card-mode">
 			<c:choose>
 				<c:when test="${not empty boardList}">
-					<c:forEach items="${boardList}" var="board">
+					<c:forEach items="${boardList}" var="board" end="19">
 						<div class="post-item p-4 mb-3 border-bottom bg-white"
-							style="cursor: pointer;"
-							onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'">
+							onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'"
+							style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border: 1px solid #f1f3f5 !important; margin-bottom: 15px !important;">
 
-							<div class="d-flex align-items-center gap-2 mb-2">
+							<div
+								class="card-only-elements d-flex align-items-center gap-2 mb-2">
 								<div
 									style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
 									<span style="color: #aaa; font-size: 11px;">커뮤니티</span> <span
-										style="color: #eee; font-size: 11px; margin: 0 4px;">|</span>
-									<span style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
+										style="color: #eee; margin: 0 4px;">|</span> <span
+										style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
 								</div>
 								<span class="text-muted" style="font-size: 12px;">
 									${board.writer} · <span class="date-display"
@@ -371,231 +480,239 @@
 								</span>
 							</div>
 
-							<h6 class="fw-bold mb-2"
-								style="font-size: 17px; color: #212529; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-								${board.title}
-								<jsp:useBean id="now" class="java.util.Date" />
-								<fmt:parseNumber value="${now.time - board.regdate.time}"
-									var="diff" />
-								<c:if test="${diff < (1000 * 60 * 60 * 24)}">
-									<span class="badge-n">N</span>
-								</c:if>
-								<c:if test="${board.replycnt > 0}">
-									<span
-										style="color: #0d6efd; font-size: 14px; margin-left: 3px;">(${board.replycnt})</span>
-								</c:if>
-							</h6>
+							<div
+								class="d-flex justify-content-between align-items-center w-100">
+								<h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">
+									${board.title}
 
-							<p class="text-muted mb-3 text-truncate-2"
-								style="font-size: 14px; line-height: 1.6; color: #666 !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all;">
-								${board.content.replaceAll("<[^>]*>", "")}</p>
+									<c:if test="${board.replycnt > 0}">
+										<span
+											style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(${board.replycnt})</span>
+									</c:if>
+									<c:if test="${board.isNew}">
+										<span class="badge-n" style="margin-left: 5px;">N</span>
+									</c:if>
+								</h6>
+								<div class="post-right-info-area"></div>
+							</div>
 
-							<div class="d-flex align-items-center gap-3">
-								<div
-									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
-									<i class="bi bi-hand-thumbs-up"></i> 0
-								</div>
-								<div
-									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
-									<i class="bi bi-chat-dots"></i> ${board.replycnt != null ? board.replycnt : 0}
-								</div>
-								<div
-									style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;">
-									<i class="bi bi-share"></i> 공유
+							<div class="card-only-elements">
+								<p class="text-muted mb-3 text-truncate-2"
+									style="font-size: 14px !important; line-height: 1.6 !important; color: #666 !important;">
+									${board.content.replaceAll("<[^>]*>", "")}</p>
+								<div class="d-flex align-items-center gap-2">
+									<div
+										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+										<i class="bi bi-hand-thumbs-up"></i> ${board.likecnt}
+									</div>
+									<div
+										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+										<i class="bi bi-hand-thumbs-down"></i> ${board.dislikecnt}
+									</div>
+									<div
+										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+										<i class="bi bi-share"></i> 공유
+									</div>
 								</div>
 							</div>
 						</div>
 					</c:forEach>
 				</c:when>
-				<c:otherwise>
-					<div class="text-center py-5 border rounded-3 bg-light text-muted">
-						등록된 게시물이 없습니다. 첫 글을 남겨보세요!</div>
-				</c:otherwise>
 			</c:choose>
 		</div>
 	</div>
 </div>
 <script>
+    let currentSelectedCategory = '전체';
 	
 	function timeForToday(value) {
-	    if (!value) return '';
-	    const today = new Date();
-	    const timeValue = new Date(value);
+	    if (!value) return '';
+	    const today = new Date();
+	    const timeValue = new Date(value);
 
-	    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-	    if (betweenTime < 1) return '방금전';
-	    if (betweenTime < 60) {
-	        return betweenTime + '분 전';
-	    }
+	    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+	    if (betweenTime < 1) return '방금전';
+	    if (betweenTime < 60) {
+	        return betweenTime + '분 전';
+	    }
 
-	    const betweenTimeHour = Math.floor(betweenTime / 60);
-	    if (betweenTimeHour < 24) {
-	        return '약 ' + betweenTimeHour + '시간 전';
-	    }
+	    const betweenTimeHour = Math.floor(betweenTime / 60);
+	    if (betweenTimeHour < 24) {
+	        return '약 ' + betweenTimeHour + '시간 전';
+	    }
 
-	    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-	    if (betweenTimeDay < 365) {
-	        return betweenTimeDay + '일 전';
-	    }
+	    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+	    if (betweenTimeDay < 365) {
+	        return betweenTimeDay + '일 전';
+	    }
 
-	    return Math.floor(betweenTimeDay / 365) + '년 전';
+	    return Math.floor(betweenTimeDay / 365) + '년 전';
 	}
 	
 	function loadCategoryData(category) {
-		const slugMap = {
-		        "전체": "all",
-		        "사는얘기": "life",
-		        "AI": "ai",
-		        "연봉·단가": "salary",
-		        "취준생": "jobseeker",
-		        "스터디": "study",
-		        "프로젝트": "project",
-		        "모각코·모각공": "coding-study",
-		        "멘토링·튜터링": "mentoring",
-		        "모임·네트워킹": "networking",
-		        "공모전·해커톤": "contest",
-		        "IT 정책토론": "policy",
-		        "피드백": "feedback",
-		        "Tech 뉴스": "tech-news",
-		        "팀": "team",
-		        "칼럼": "column",
-		        "리뷰": "review",
-		        "IT보도자료": "press",
-		        "기술": "tech",
-		        "커리어": "career",
-		        "기타": "etc",
-		        "IT 행사": "event",
-		        "홍보·광고": "promo"
-		    };
-		const categorySlug = slugMap[category] || "all";
-		
-		console.log("선택된 카테고리: " + category + " -> 슬러그: " + categorySlug); 
-	    fetch('/board/main/categoryData?category=' + encodeURIComponent(category))
-	        .then(res => res.json())
-	        .then(data => {
-	            const listArea = document.querySelector(".board-list-area"); 
-	            if(!listArea) return;
-	            let html = "";
-	            if(!data || data.length === 0) {
-	                html = '<div class="text-center py-5 border rounded-3 bg-light text-muted">해당 카테고리에 게시물이 없습니다.</div>';
-	            } else {
-	                data.forEach(board => {
-	                    let dateDisplay = timeForToday(board.regdate);
-	                    let cleanContent = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '내용이 없습니다.';
-	                    html += `
-	                    <div class="post-item p-4 mb-3 border-bottom bg-white" style="cursor: pointer;" onclick="location.href='/board/get?bno=\${board.bno}'">
-	                        <div class="d-flex align-items-center gap-2 mb-2">
-	                            <div style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
-	                                <span style="color: #aaa; font-size: 11px;">커뮤니티</span>
-	                                <span style="color: #eee; font-size: 11px; margin: 0 4px;">|</span>
-	                                <span style="color: #666; font-size: 11px; font-weight: 600;">\${board.cat_name || category}</span>
-	                            </div>
-	                            <span style="color: #adb5bd; font-size: 12px;">\${board.writer} · \${dateDisplay}</span>
-	                        </div>
-	                        <h6 class="fw-bold mb-2" style="font-size: 17px; color: #212529;">
-	                            \${board.title} 
-	                            \${board.isNew ? '<span class="badge-n">N</span>' : ''}
-	                            \${board.replycnt > 0 ? '<span style="color: #0d6efd; font-size: 14px; margin-left: 3px;">(' + board.replycnt + ')</span>' : ''}
-	                        </h6>
-	                        <p class="text-muted mb-3 text-truncate-2" style="font-size: 14px; line-height: 1.6; color: #666 !important;">\${cleanContent}</p>
-	                        <div class="d-flex align-items-center gap-3">
-	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-hand-thumbs-up"></i> 0</div>
-	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-chat-dots"></i> \${board.replycnt || 0}</div>
-	                            <div style="border: 1px solid #f1f3f5; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #868e96;"><i class="bi bi-share"></i> 공유</div>
-	                        </div>
-	                    </div>`;
-	                });
-	                html += `
-	                    <div class="text-center py-4" style="border-top: 1px solid #f1f3f5; margin-top: 10px;">
-	                        <a href="/board/list?category=\${categorySlug}" 
-	                           class="more-view-link" 
-	                           style="text-decoration: none; color: #666; font-size: 15px; font-weight: 500; transition: color 0.2s;">
-	                           더 보기
-	                        </a>
-	                    </div>
-	                `;
-	            }
-	            listArea.innerHTML = html;
-	        }).catch(err => console.error("데이터 로딩 실패:", err));
+	    var container = document.getElementById('boardContainer');
+	    if (!container) return;
+	    
+	    var isListMode = container.classList.contains('list-mode');
+	    var cleanCategory = category.trim();
+	    
+	    var slugMap = {
+	        "전체": "all", "사는얘기": "life", "AI": "ai", "연봉·단가": "salary",
+	        "취준생": "jobseeker", "스터디": "study", "프로젝트": "project",
+	        "모각코·모각공": "coding-study", "멘토링·튜터링": "mentoring",
+	        "모임·네트워킹": "networking", "공모전·해커톤": "contest",
+	        "IT 정책토론": "policy", "피드백": "feedback", "Tech 뉴스": "tech-news",
+	        "팀": "team", "칼럼": "column", "리뷰": "review", "IT보도자료": "press",
+	        "기술": "tech", "커리어": "career", "기타": "etc", "IT 행사": "event", "홍보·광고": "promo"
+	    };
+
+	    fetch('/board/main/categoryData?category=' + encodeURIComponent(cleanCategory))
+	        .then(function(res) { return res.json(); })
+	        .then(function(data) {
+	            var html = "";
+	            if(!data || data.length === 0) {
+	                html = '<div class="text-center py-5 border rounded-3 bg-light text-muted">해당 카테고리에 게시물이 없습니다.</div>';
+	            } else {
+	                var displayData = (cleanCategory === '전체') ? data.slice(0, 20) : data;
+
+	                displayData.forEach(function(board) {
+	    var postDate = new Date(board.regdate);
+	    var now = new Date();
+	    var diff = (now - postDate) / (1000 * 60 * 60);
+	    if (diff < 24) { board.isNew = true; }
+	    
+	    var dateDisplay = timeForToday(board.regdate);
+	    var contentClean = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '';
+	    var profileImg = (board.profilePath && board.profilePath.trim() !== "") 
+	                    ? board.profilePath : '/resources/img/default-profile.png';
+	    var boardSlug = slugMap[board.cat_name] ? slugMap[board.cat_name] : (slugMap[cleanCategory] ? slugMap[cleanCategory] : "all");
+
+	    if (isListMode) {
+	        html += '<div class="post-item p-2 px-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">';
+	        html += '  <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;">';
+	        html += '    <h6 class="mb-0 fw-bold" style="font-size: 15px; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + board.title + '</h6>';
+	        if (board.replycnt > 0) html += ' <span style="color: #0d6efd; font-size: 13px;">(' + board.replycnt + ')</span>';
+	        if (board.isNew) html += ' <span class="badge-n">N</span>';
+	        html += '  </div>';
+	        html += '  <div style="display: flex; align-items: center; gap: 15px; flex-shrink: 0;">';
+	        html += '    <div onclick="event.stopPropagation(); location.href=\'/board/list?category=' + boardSlug + '\';" style="border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #fcfcfc; cursor: pointer;">' + (board.cat_name || cleanCategory) + '</div>';	 
+	        html += '    <div style="width: 70px; text-align: right; font-size: 13px; color: #888;">' + dateDisplay + '</div>';	        
+	        var profileSrc = board.user_img ? '/member/display?fileName=' + board.user_img : '/resources/img/default_profile.jpg';
+	        html += '    <img src="' + profileSrc + '" style="width: 22px; height: 22px; border-radius: 50%; object-fit: cover;">';
+	        
+	        html += '  </div>';
+	        html += '</div>';
+	    } else {
+	        html += '<div class="post-item p-4 mb-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f3f5 !important;">';
+	        html += '  <div class="d-flex align-items-center gap-2 mb-2">';
+	        html += '    <div onclick="event.stopPropagation(); location.href=\'/board/list?category=' + boardSlug + '\';" style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc; cursor: pointer;">';
+	        html += '      <span style="color: #aaa; font-size: 11px;">커뮤니티</span><span style="color: #eee; margin: 0 4px;">|</span>';
+	        html += '      <span style="color: #666; font-size: 11px; font-weight: 600;">' + (board.cat_name || cleanCategory) + '</span>';
+	        html += '    </div>';
+	        html += '    <span class="text-muted" style="font-size: 12px;">' + board.writer + ' · ' + dateDisplay + '</span>';
+	        html += '  </div>';
+	        html += '  <h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">' + board.title;
+	        if (board.replycnt > 0) html += ' <span style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(' + board.replycnt + ')</span>';
+	        if (board.isNew) html += ' <span class="badge-n">N</span>';
+	        html += '  </h6>';
+	        html += '  <p class="text-muted mb-3 text-truncate-2" style="font-size: 14px; line-height: 1.6; color: #666 !important;">' + contentClean + '</p>';
+	        html += '  <div class="d-flex align-items-center gap-2">';
+	        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-hand-thumbs-up"></i> ' + (board.likecnt || 0) + '</div>';
+	        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-hand-thumbs-down"></i> ' + (board.dislikecnt || 0) + '</div>';
+	        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-share"></i> 공유</div>';
+	        html += '  </div>';
+	        html += '</div>';
+	    }
+	});
+	                if (cleanCategory !== "전체") {
+	                    var finalSlug = slugMap[cleanCategory] || "all";
+	                    html += '<div class="text-center py-4" style="border-top: 1px solid #f1f3f5; margin-top: 10px;">';
+	                    html += '  <a href="/board/list?category=' + finalSlug + '" class="more-view-link">더 보기</a>';
+	                    html += '</div>';
+	                }
+	            }
+	            container.innerHTML = html;
+	        })
+	        .catch(function(err) { console.error("Error:", err); });
 	}
 	
 function loadData(type, element) {
-    const allLinks = element.closest('.nav').querySelectorAll('.nav-link');
-    allLinks.forEach(link => {
-        link.classList.remove('active', 'shadow-sm');
-        link.classList.add('text-muted');
-        link.style.cssText = "font-weight: 500; border-radius: 10px; font-size: 14px; padding: 6px 16px; background-color: transparent !important;";
-    });
-    element.classList.add('active', 'shadow-sm');
-    element.classList.remove('text-muted');
-    element.style.cssText = "background-color: #fff !important; color: #333 !important; font-weight: 600; border-radius: 10px; font-size: 14px; padding: 6px 16px;";
-    
-    fetch('/main/data?type=' + type)
-        .then(res => res.json())
-        .then(data => {
-            console.log(type + " 로드 데이터:", data); 
-            
-            const container = document.getElementById('popular-list-area');
-            if (!container) return;
+    const allLinks = element.closest('.nav').querySelectorAll('.nav-link');
+    allLinks.forEach(link => {
+        link.classList.remove('active', 'shadow-sm');
+        link.classList.add('text-muted');
+        link.style.cssText = "font-weight: 500; border-radius: 10px; font-size: 14px; padding: 6px 16px; background-color: transparent !important;";
+    });
+    element.classList.add('active', 'shadow-sm');
+    element.classList.remove('text-muted');
+    element.style.cssText = "background-color: #fff !important; color: #333 !important; font-weight: 600; border-radius: 10px; font-size: 14px; padding: 6px 16px;";
+        fetch('/main/data?type=' + type)
+        .then(res => res.json())
+        .then(data => {
+            console.log(type + " 로드 데이터:", data); 
+            
+            const container = document.getElementById('popular-list-area');
+            if (!container) return;
 
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="col-12 text-center py-5 text-muted">등록된 게시물이 없습니다.</div>';
-                return;
-            }
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center py-5 text-muted">등록된 게시물이 없습니다.</div>';
+                return;
+            }
 
-            let leftHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
-            let rightHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
-            
-            data.forEach((board, index) => {
-                const bno = board.bno || 0;
-                const title = board.title || '제목 없음';
-                const catName = board.cat_name || '기술';
-                const now = new Date().getTime();
-                const regDate = board.regdate;
-                const isNewArticle = board.isNew === true || (now - regDate < (1000 * 60 * 60 * 24));
-                
-                const nBadge = isNewArticle ? '<span class="badge-n" style="color: #ff5e11; font-weight: bold; font-size: 0.75rem; margin-left: 3px;">N</span>' : '';
+            let leftHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+            let rightHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+            
+            data.forEach((board, index) => {
+                const bno = board.bno || 0;
+                const title = board.title || '제목 없음';
+                const catName = board.cat_name || '기술';
+                const now = new Date().getTime();
+                const regDate = board.regdate;
+                const isNewArticle = board.isNew === true || (now - regDate < (1000 * 60 * 60 * 24));
+                
+                const nBadge = isNewArticle ? '<span class="badge-n" style="color: #ff5e11; font-weight: bold; font-size: 0.75rem; margin-left: 3px;">N</span>' : '';
 
-                const itemHtml = `
-                    <div class="list-group-item py-3 px-0 bg-transparent border-bottom">
-                        <div class="d-flex flex-column">
-                            <div class="mb-1" style="display: inline-block;">
-                                <div style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 1px 6px; border-radius: 4px; background-color: #fcfcfc;">
-                                    <span style="color: #aaa; font-size: 10px;">커뮤니티</span>
-                                    <span style="color: #eee; font-size: 10px; margin: 0 3px;">|</span>
-                                    <span style="color: #666; font-size: 10px; font-weight: 600;">\${catName}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-truncate" style="max-width: 80%;">
-                                    <a href="/board/get?bno=\${bno}" class="text-decoration-none text-dark fw-bold" style="font-size: 0.9rem;">
-                                        \${title}
-                                    </a>
-                                    \${nBadge} 
-                                    <span class="text-primary small ms-1">(\${board.replycnt || 0})</span>
-                                </div>
-                                <span class="text-muted" style="font-size: 11px;">\${new Date(regDate).toLocaleDateString()}</span>
-                            </div>
-                        </div>
-                    </div>`;
-                
-                if (index < data.length / 2) {
-                    leftHtml += itemHtml;
-                } else {
-                    rightHtml += itemHtml;
-                }
-            });
+                const itemHtml = 
+    '<div class="list-group-item py-2 px-1 bg-transparent border-bottom" style="border-bottom: 1px solid #f1f3f5 !important;">' +
+    '    <div class="d-flex justify-content-between align-items: center;">' +
+    '        <div class="text-truncate" style="flex: 1; margin-right: 10px;">' +
+    '            <a href="/board/get?bno=' + bno + '" class="text-decoration-none text-dark fw-bold" style="font-size: 14px; letter-spacing: -0.5px;">' +
+    '                ' + title + '' +
+    '            </a>' +
+    '            ' + nBadge + ' ' +
+    '            <span class="text-primary small" style="font-size: 12px; margin-left: 2px;">(' + (board.replycnt || 0) + ')</span>' +
+    '        </div>' +
+    '        <div class="d-flex align-items-center gap-2" style="flex-shrink: 0;">' +
+    '            <div style="border: 1px solid #eee; padding: 1px 6px; border-radius: 4px; background-color: #fcfcfc; font-size: 10px; color: #666; font-weight: 600;">' +
+    '                ' + catName + '' +
+    '            </div>' +
+    '            <span class="text-muted" style="font-size: 11px; min-width: 65px; text-align: right;">' +
+    '                ' + new Date(regDate).toLocaleDateString().slice(2) + '' +
+    '            </span>' +
+    '        </div>' +
+    '    </div>' +
+    '</div>';
+                
+                if (index < data.length / 2) {
+                    leftHtml += itemHtml;
+                } else {
+                    rightHtml += itemHtml;
+                }
+            });
 
-            leftHtml += '</div></div>';
-            rightHtml += '</div></div>';
+            leftHtml += '</div></div>';
+            rightHtml += '</div></div>';
 
-            container.innerHTML = leftHtml + rightHtml;
-        })
-        .catch(err => console.error("데이터 로드 실패:", err));
+            container.innerHTML = leftHtml + rightHtml;
+        })
+        .catch(err => console.error("데이터 로드 실패:", err));
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    const initialTab = document.querySelector('.nav-link.active') || document.querySelector('.filter-tab.active');
+    if (initialTab) {
+        loadData('daily', initialTab); 
+    }
     const tabs = document.querySelectorAll('.filter-tab');
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
@@ -606,7 +723,27 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     document.querySelectorAll('.date-display').forEach(el => {
         const regdate = el.getAttribute('data-regdate');
-        if (regdate) el.innerText = timeForToday(parseInt(regdate));
+        if (regdate) {
+            el.innerText = timeForToday(parseInt(regdate));
+        }
     });
 });
+
+function toggleViewMode() {
+    const container = document.getElementById('boardContainer');
+    const btn = document.getElementById('viewModeBtn');
+    const icon = document.getElementById('viewModeIcon');
+    if (container.classList.contains('card-mode')) {
+        container.classList.remove('card-mode');
+        container.classList.add('list-mode');
+        icon.classList.replace('bi-list-ul', 'bi-grid');        
+        btn.setAttribute('data-tooltip', '카드형 보기로 전환합니다.');
+    } else {
+        container.classList.remove('list-mode');
+        container.classList.add('card-mode');
+        icon.classList.replace('bi-grid', 'bi-list-ul');         
+        btn.setAttribute('data-tooltip', '리스트형 보기로 전환합니다.');
+    }    
+    loadCategoryData(currentSelectedCategory);
+}
 </script>

@@ -149,9 +149,12 @@
     <![CDATA[
     SELECT * FROM (
         SELECT /*+INDEX_DESC(tbl_board pk_board) */
-            rownum rn, b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, b.cat_id, c.cat_name
-        FROM tbl_board b
-        LEFT JOIN tbl_category c ON b.cat_id = c.cat_id  
+            rownum rn, 
+            b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, b.cat_id, 
+            c.cat_name,
+            m.user_img AS user_img  FROM tbl_board b
+        LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
+        LEFT JOIN tbl_member m ON b.writer = m.userid
         WHERE b.cat_id = 11 
         AND rownum <= #{pageNum} * #{amount}
     ) WHERE rn > (#{pageNum} - 1) * #{amount}
@@ -255,15 +258,18 @@
 		SELECT
 		b.bno,
 		b.title,
-		b.content, b.writer,
+		b.content,
+		b.writer,
 		b.regdate,
 		b.replycnt,
-		c.cat_name,
+		b.likecnt, b.dislikecnt, c.cat_name,
 		c.cat_slug
-		FROM tbl_board b
+		FROM
+		tbl_board b
 		LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
 		<where>
-			<if test='category != null and category != "전체"'>
+			<if
+				test='category != null and category != "전체" and category != ""'>
 				AND c.cat_name = #{category}
 			</if>
 		</where>

@@ -18,19 +18,29 @@ public class BoardVO {
 	private String cat_name;
 	private boolean isNew;
 
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
 	public boolean isIsNew() {
-	    return isNew;
+		return isNew;
 	}
+
 	public void setIsNew(boolean isNew) {
-	    this.isNew = isNew;
+		this.isNew = isNew;
 	}
-	
+
 	public boolean checkIsNew() {
-	    if (regdate == null) return false;
-	    long now = System.currentTimeMillis();
-	    long reg = regdate.getTime();
-	    long gap = 24 * 60 * 60 * 1000;
-	    return (now - reg) < gap;
+		if (regdate == null)
+			return false;
+		long now = System.currentTimeMillis();
+		long reg = regdate.getTime();
+		long gap = 24 * 60 * 60 * 1000;
+		return (now - reg) < gap;
 	}
 
 	public String getCat_name() {

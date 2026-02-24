@@ -77,26 +77,58 @@
 
 	<table class="list-table">
 		<tbody>
-    <c:forEach items="${list}" var="board">
-        <tr>
-            <td style="width: 50px; text-align: center; color: #adb5bd;">${board.bno}</td>
-            <td>
-                <a href="${pageContext.request.contextPath}/board/get?bno=${board.bno}" class="post-title">
-                    <c:out value="${board.title}" />
-                </a>
-                
-                <div class="post-meta">
-                    <span style="color: #007bff; font-weight: bold; margin-right: 8px;">
-                        [${board.cat_name}]
-                    </span>
-                    <span class="writer">${board.writer}</span>
-                    <span>
-                        <fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd" />
-                    </span>
-                </div>
-            </td>
-        </tr>
-    </c:forEach>
-</tbody>
+			<c:forEach items="${list}" var="board">
+				<tr>
+					<td style="width: 50px; text-align: center; color: #adb5bd;">${board.bno}</td>
+					<td
+						style="display: flex; justify-content: space-between; align-items: center;">
+						<div>
+							<a
+								href="${pageContext.request.contextPath}/board/get?bno=${board.bno}"
+								class="post-title"> <c:out value="${board.title}" />
+							</a>
+
+							<div class="post-meta">
+								<span
+									style="color: #007bff; font-weight: bold; margin-right: 8px;">
+									[${board.cat_name}] </span>
+								<c:choose>
+									<c:when test="${not empty board.user_img}">
+										<img
+											src="${pageContext.request.contextPath}/member/display?fileName=${board.user_img}"
+											alt="프로필"
+											style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle;">
+									</c:when>
+									<c:otherwise>
+										<img
+											src="${pageContext.request.contextPath}/resources/img/default-profile.jpg"
+											alt="기본프로필"
+											style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle;">
+									</c:otherwise>
+								</c:choose>
+								<span class="writer">${board.writer}</span> <span> <fmt:formatDate
+										value="${board.regdate}" pattern="yyyy-MM-dd" />
+								</span>
+							</div>
+						</div>
+
+						<div class="author-profile">
+							<c:choose>
+								<c:when test="${not empty board.user_img}">
+									<img
+										src="${pageContext.request.contextPath}/member/display?fileName=${board.user_img}"
+										style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+								</c:when>
+								<c:otherwise>
+									<img
+										src="${pageContext.request.contextPath}/resources/img/default-profile.jpg"
+										style="width: 32px; height: 32px; border-radius: 50%;">
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
 	</table>
 </div>

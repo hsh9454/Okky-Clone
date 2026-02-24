@@ -25,12 +25,20 @@ public class MainController {
 	public String mainPage(@RequestParam(value = "type", required = false, defaultValue = "daily") String type,
 			Model model) {
 
-		model.addAttribute("boardList", service.getList());
+		List<BoardVO> boardList = service.getCategoryList("전체");
+
+		long now = System.currentTimeMillis();
+		if (boardList != null) {
+			for (BoardVO board : boardList) {
+				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+					board.setIsNew(true);
+				}
+			}
+		}
+		model.addAttribute("boardList", boardList);
 		model.addAttribute("techList1", service.getTechList());
 
 		List<BoardVO> popularList = service.getPopularList(type);
-
-		long now = System.currentTimeMillis();
 		if (popularList != null) {
 			for (BoardVO board : popularList) {
 				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
@@ -38,14 +46,11 @@ public class MainController {
 				}
 			}
 		}
-		// ----------------------------------------------------------
-
 		if (popularList != null && !popularList.isEmpty()) {
 			int half = (int) Math.ceil(popularList.size() / 2.0);
 			model.addAttribute("leftList", popularList.subList(0, half));
 			model.addAttribute("rightList", popularList.subList(half, popularList.size()));
 		}
-
 		model.addAttribute("currentType", type);
 		return "main";
 	}
