@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.okkyclone.mapper.AdMapper">
+
+	<select id="getAdsByPosition"
+		resultType="com.okkyclone.domain.AdVO">
+		SELECT
+		ano,
+		title,
+		img_url as imgUrl, link_url as linkUrl, position,
+		status
+		FROM tbl_ads
+		WHERE position = #{position} AND status = 'ACTIVE'
+	</select>
+
+</mapper>

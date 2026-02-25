@@ -13,17 +13,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.MemberVO;
+import com.okkyclone.service.AdService;
 import com.okkyclone.service.BoardService;
-
+import java.util.ArrayList; 
+import java.util.List;
+import com.okkyclone.domain.AdVO; 
+import com.okkyclone.service.AdService; 
 @Controller
 public class MainController {
-
+	
 	@Autowired
 	private BoardService service;
+	
+	@Autowired
+    private AdService adService;
 
 	@RequestMapping("/")
 	public String mainPage(@RequestParam(value = "type", required = false, defaultValue = "daily") String type,
 			Model model) {
+		
+	    model.addAttribute("leftAds", adService.getAds("LEFT"));
+	    model.addAttribute("rightAds", adService.getAds("RIGHT"));
 
 		List<BoardVO> boardList = service.getCategoryList("전체");
 

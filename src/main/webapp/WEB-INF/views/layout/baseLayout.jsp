@@ -14,7 +14,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-<link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBT9761QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAnSURBVDhPY/z//z8DJYCJgUIAn7fB8P///8v///+fBv9RMApGwSgAAK9fEA8S+XmNAAAAAElFTkSuQmCC">
+<link rel="icon"
+	href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBT9761QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAnSURBVDhPY/z//z8DJYCJgUIAn7fB8P///8v///+fBv9RMApGwSgAAK9fEA8S+XmNAAAAAElFTkSuQmCC">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 .body {
@@ -137,7 +138,7 @@
 	<tiles:importAttribute name="body" ignore="true" />
 
 	<nav class="navbar navbar-expand-lg sticky-top mb-3">
-		<div class="container-fluid px-5">
+		<div class="container" style="max-width: 1400px;">
 			<tiles:insertAttribute name="header" />
 		</div>
 	</nav>
@@ -148,9 +149,23 @@
 			test="${showBanner == 'true' || body == '/WEB-INF/views/main.jsp'}">
 			<aside class="side-banner d-none d-xl-block">
 				<div class="banner-sticky">
-					<div class="content-card text-center text-muted"
-						style="height: 600px; border: 1px dashed #ddd;">
-						<small>LEFT AD</small>
+					<div class="text-center" style="height: 600px; overflow: hidden;">
+						<c:choose>
+							<c:when test="${not empty leftAds}">
+								<c:forEach items="${leftAds}" var="ad">
+									<a href="${ad.linkUrl}" target="_blank"> <img
+										src="${ad.imgUrl}" alt="${ad.title}"
+										style="width: 100%; height: 100%; object-fit: contain;">
+									</a>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<div class="content-card text-center text-muted"
+									style="height: 600px;">
+									<small>LEFT AD</small>
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</aside>
@@ -166,9 +181,23 @@
 			test="${showBanner == 'true' || body == '/WEB-INF/views/main.jsp'}">
 			<aside class="side-banner d-none d-lg-block">
 				<div class="banner-sticky">
-					<div class="content-card text-center text-muted"
-						style="height: 600px; border: 1px dashed #ddd;">
-						<small>RIGHT AD</small>
+					<div class="text-center" style="height: 600px; overflow: hidden;">
+						<c:choose>
+							<c:when test="${not empty rightAds}">
+								<c:forEach items="${rightAds}" var="ad">
+									<a href="${ad.linkUrl}" target="_blank"> <img
+										src="${ad.imgUrl}" alt="${ad.title}"
+										style="width: 100%; height: 100%; object-fit: contain;">
+									</a>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<div class="content-card text-center text-muted"
+									style="height: 600px;">
+									<small>RIGHT AD</small>
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</aside>
