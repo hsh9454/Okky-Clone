@@ -30,14 +30,15 @@
 	</insert>
 
 	<select id="read" resultType="com.okkyclone.domain.BoardVO">
-		select
-		b.*, m.user_img
-		FROM
-		tbl_board
-		b
+		SELECT
+		b.*,
+		m.user_img,
+		c.cat_name, c.cat_slug FROM
+		tbl_board b
 		LEFT JOIN
-		tbl_member m on b.writer = m.userid
-		WHERE
+		tbl_member m ON b.writer = m.userid
+		LEFT JOIN
+		tbl_category c ON b.cat_id = c.cat_id WHERE
 		b.bno = #{bno}
 	</select>
 

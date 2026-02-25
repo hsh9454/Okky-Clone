@@ -393,7 +393,8 @@ body {
 			<div class="breadcrumb-box">
 				<a href="${pageContext.request.contextPath}/"
 					class="breadcrumb-item">커뮤니티</a> <span class="breadcrumb-split">|</span>
-				<a href="/board/list?category=free" class="breadcrumb-item">게시물</a>
+				<a href="/board/list?category=${board.cat_slug}"
+					class="breadcrumb-item">${board.cat_name}</a>
 			</div>
 		</div>
 

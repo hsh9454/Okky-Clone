@@ -239,10 +239,6 @@
 			style="${currentType == 'notice' ? 'background-color: #fff !important; color: #333 !important; font-weight: 600;' : 'font-weight: 500;'} border-radius: 10px; font-size: 14px; padding: 6px 16px;">
 				공지사항 </a></li>
 	</ul>
-	<a href="/board/list" class="text-muted text-decoration-none"
-		style="font-size: 0.75rem; padding-bottom: 8px;">더보기 ></a>
-
-
 	<div id="popular-list-area" class="row g-4 mb-5">
 		<div class="col-md-6">
 			<div class="list-group list-group-flush border-top">
@@ -558,7 +554,7 @@
 	    
 	    var slugMap = {
 	        "전체": "all", "사는얘기": "life", "AI": "ai", "연봉·단가": "salary",
-	        "취준생": "jobseeker", "스터디": "study", "프로젝트": "project",
+	        "취준생": "jobs", "스터디": "study", "프로젝트": "project",
 	        "모각코·모각공": "coding-study", "멘토링·튜터링": "mentoring",
 	        "모임·네트워킹": "networking", "공모전·해커톤": "contest",
 	        "IT 정책토론": "policy", "피드백": "feedback", "Tech 뉴스": "tech-news",

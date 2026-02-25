@@ -16,7 +16,18 @@ public class BoardVO {
 	private String user_img;
 	private Integer cat_id;
 	private String cat_name;
+	private String cat_slug;
+	
+	public String getCat_slug() {
+		return cat_slug;
+	}
+
+	public void setCat_slug(String cat_slug) {
+		this.cat_slug = cat_slug;
+	}
+
 	private boolean isNew;
+	
 
 	public boolean isNew() {
 		return isNew;
