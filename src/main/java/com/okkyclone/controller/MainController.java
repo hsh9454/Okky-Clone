@@ -37,7 +37,8 @@ public class MainController {
 		}
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("techList1", service.getTechList());
-
+		model.addAttribute("techList", service.getTechKnowledgeList());
+		
 		List<BoardVO> popularList = service.getPopularList(type);
 		if (popularList != null) {
 			for (BoardVO board : popularList) {

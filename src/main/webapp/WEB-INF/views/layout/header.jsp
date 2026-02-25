@@ -36,13 +36,19 @@
     </div>
 
     <div class="d-none d-lg-flex gap-4 okky-nav-group mx-auto nav-item dropdown"> 
-        <a href="#" class="nav-link text-dark fw-bold small">Q&amp;A</a>
-        <a href="#" class="nav-link text-dark fw-bold small">지식</a>
-        <a href="${pageContext.request.contextPath}/board/list" class="nav-link text-dark fw-bold small">커뮤니티</a>
-        <a href="#" class="nav-link text-dark fw-bold small">이벤트</a>
-        <a href="#" class="nav-link text-danger fw-bold small">부트캠프</a>
-        <a href="#" class="nav-link text-dark fw-bold small">Jobs</a>
-        <a href="#" class="nav-link text-dark fw-bold small">Contact</a>
+        <a href="${pageContext.request.contextPath}/board/group/qna" class="nav-link text-dark fw-bold small">'Q&amp;A'</a>
+    
+    <a href="${pageContext.request.contextPath}/board/group/knowledge" class="nav-link text-dark fw-bold small">지식</a>
+    
+    <a href="${pageContext.request.contextPath}/board/group/community" class="nav-link text-dark fw-bold small">커뮤니티</a>
+    
+    <a href="${pageContext.request.contextPath}/board/group/event" class="nav-link text-dark fw-bold small">이벤트</a>
+    
+    <a href="${pageContext.request.contextPath}/board/group/group" class="nav-link text-danger fw-bold small">부트캠프</a>
+    
+    <a href="${pageContext.request.contextPath}/board/group/etc_main" class="nav-link text-dark fw-bold small">Jobs</a>
+    
+    <a href="#" class="nav-link text-dark fw-bold small">Contact</a>
 
         <div class="mega-dropdown-panel shadow border-top">
             <div class="container-fluid d-flex py-4 px-5 justify-content-between text-start">

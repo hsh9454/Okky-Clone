@@ -2,8 +2,47 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <style>
+.text-truncate-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.text-truncate-1 {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.more-link:hover {
+	text-decoration: underline !important;
+	color: #000 !important;
+}
+
+.bg-grad-1 {
+	background: linear-gradient(to bottom, #2c3e50, #000000);
+}
+
+.bg-grad-2 {
+	background: linear-gradient(to bottom, #e0eafc, #cfdef3);
+}
+
+.bg-grad-3 {
+	background: linear-gradient(to bottom, #4b6cb7, #182848);
+}
+
+.profile-img-overlap {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 2px solid white;
+}
+
 #viewModeBtn {
 	position: relative;
 }
@@ -286,113 +325,57 @@
 		<div
 			class="d-flex justify-content-between align-items-center mb-3 px-3">
 			<h5 class="fw-bold mb-0">테크 지식 / 뉴스</h5>
-			<a href="#" class="text-muted text-decoration-none small">더 보기 ></a>
+			<a href="${pageContext.request.contextPath}/board/group/knowledge"
+				class="text-muted text-decoration-none small more-link">더 보기 ></a>
 		</div>
 
-		<div id="techSlider" class="carousel slide position-relative"
-			data-bs-ride="carousel" data-bs-interval="8000">
+		<div id="techSlider" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="8000">
+<div class="carousel-indicators custom-dot-indicators">
+    <c:set var="totalItems" value="${fn:length(techList)}" />
+    <c:set var="lastIndex" value="${(totalItems - 1) / 3}" />
+    <c:forEach var="i" begin="0" end="${lastIndex}">
+        <button type="button" data-bs-target="#techSlider" 
+                data-bs-slide-to="${i}" 
+                class="${i == 0 ? 'active' : ''}">
+        </button>
+    </c:forEach>
+</div>
 
-			<div class="carousel-indicators custom-dot-indicators">
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="0" class="active"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="1"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="2"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="3"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="4"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="5"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="6"></button>
-				<button type="button" data-bs-target="#techSlider"
-					data-bs-slide-to="7"></button>
-			</div>
+    <div class="carousel-inner">
+        <c:forEach var="i" begin="0" end="${fn:length(techList) - 1}" step="3">
+            <div class="carousel-item ${i == 0 ? 'active' : ''}">
+                <div class="row g-3 mx-0">
+                    <c:forEach var="tech" items="${techList}" begin="${i}" end="${i + 2}" varStatus="status">
+                        <div class="col-md-4 px-2">
+                             <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 15px; cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${tech.bno}'">
+                                <div class="position-relative d-flex align-items-center bg-grad-${(status.index % 3) + 1}" style="height: 120px; padding-left: 20px;">
+                                    <span class="badge bg-light text-dark position-absolute" style="top: 15px; right: 15px; opacity: 0.9;">${tech.cat_name}</span>
+                                    <div class="d-flex align-items-center">
+                                        <img src="${(not empty tech.user_img) ? tech.user_img : pageContext.request.contextPath.concat('/resources/img/default_profile.jpg')}" 
+                                             class="profile-img-overlap me-2 shadow-sm"
+                                             onerror="this.src='${pageContext.request.contextPath}/resources/img/default_profile.jpg';">
+                                        <div class="bg-white bg-opacity-90 rounded-pill px-3 py-1 shadow-sm" style="font-size: 14px; color: #333; font-weight: 500;">${tech.writer}</div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h6 class="fw-bold mb-2 text-truncate-2" style="font-size: 17px; line-height: 1.4; min-height: 48px;">${tech.title}</h6>
+                                    <p class="small text-muted text-truncate-1 mb-0">${tech.content.replaceAll("<[^>]*>", "")}</p>
+                                </div>
+                             </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row g-3 mx-0">
-						<c:choose>
-							<c:when test="${not empty techList1}">
-
-								<c:forEach items="${techList1}" var="tech">
-									<div class="col-md-4 px-2">
-										<div class="card h-100 border-0 shadow-sm overflow-hidden"
-											style="border-radius: 12px; cursor: pointer;"
-											onclick="location.href='/board/get?bno=${tech.bno}'">
-
-											<div
-												class="tech-card-img d-flex align-items-center justify-content-center"
-												style="height: 140px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-												<span class="fw-bold text-muted"
-													style="font-size: 24px; opacity: 0.5;">${tech.cat_name}</span>
-												<span
-													class="badge bg-dark opacity-75 m-2 position-absolute top-0 end-0">Tech</span>
-											</div>
-
-											<div class="card-body">
-												<h6 class="fw-bold mb-2"
-													style="font-size: 17px; color: #333;">
-													${tech.title}
-
-													<c:if test="${tech.replycnt > 0}">
-														<span
-															style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(${tech.replycnt})</span>
-													</c:if>
-													<c:if test="${tech.isNew}">
-														<span class="badge-n" style="margin-left: 5px;">N</span>
-													</c:if>
-												</h6>
-
-												<p class="card-text small text-muted text-truncate-2">
-													${tech.content.replaceAll("<[^>]*>", "")}</p>
-											</div>
-										</div>
-									</div>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<div class="col-md-4 px-2">
-									<div class="card h-100 border-0 shadow-sm"
-										style="border-radius: 12px; min-height: 280px;">
-										<div
-											style="height: 180px; background: #f8f9fa; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-											<i class="bi bi-image text-muted fs-2"></i> <span
-												class="text-muted mt-2 small">이미지 준비중</span>
-										</div>
-										<div class="card-body">
-											<h6 class="fw-bold">테크 뉴스 제목</h6>
-											<p class="small text-muted">내용이 표시되는 영역입니다.</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 d-none d-md-block px-2">
-									<div class="bg-light rounded-3"
-										style="height: 280px; opacity: 0.3;"></div>
-								</div>
-								<div class="col-md-4 d-none d-md-block px-2">
-									<div class="bg-light rounded-3"
-										style="height: 280px; opacity: 0.3;"></div>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-			</div>
-
-			<button class="carousel-control-prev tech-overlap-btn" type="button"
-				data-bs-target="#techSlider" data-bs-slide="prev">
-				<span class="btn-round shadow-sm"><i
-					class="bi bi-chevron-left"></i></span>
-			</button>
-			<button class="carousel-control-next tech-overlap-btn" type="button"
-				data-bs-target="#techSlider" data-bs-slide="next">
-				<span class="btn-round shadow-sm"><i
-					class="bi bi-chevron-right"></i></span>
-			</button>
-		</div>
+    <button class="carousel-control-prev tech-overlap-btn" type="button" data-bs-target="#techSlider" data-bs-slide="prev">
+        <span class="btn-round shadow-sm"><i class="bi bi-chevron-left"></i></span>
+    </button>
+    <button class="carousel-control-next tech-overlap-btn" type="button" data-bs-target="#techSlider" data-bs-slide="next">
+        <span class="btn-round shadow-sm"><i class="bi bi-chevron-right"></i></span>
+    </button>
+</div>
 	</div>
 	<div class="mt-5 mb-5">
 		<div class="d-flex align-items-center mb-4 w-100">

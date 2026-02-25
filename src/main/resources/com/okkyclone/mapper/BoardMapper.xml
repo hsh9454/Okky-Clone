@@ -33,7 +33,8 @@
 		SELECT
 		b.*,
 		m.user_img,
-		c.cat_name, c.cat_slug FROM
+		c.cat_name,
+		c.cat_slug FROM
 		tbl_board b
 		LEFT JOIN
 		tbl_member m ON b.writer = m.userid
@@ -278,4 +279,43 @@
 		)
 		WHERE ROWNUM &lt;= 20
 	</select>
+
+	<select id="getListByParent"
+		resultType="com.okkyclone.domain.BoardVO">
+    <![CDATA[
+    SELECT * FROM (
+        SELECT /*+ INDEX_DESC(tbl_board pk_board) */
+            rownum rn, b.bno, b.title, b.content, b.writer, b.regdate, b.replycnt, b.likecnt,
+            c.cat_name, m.user_img
+        FROM 
+            tbl_board b
+        JOIN 
+            tbl_category c ON b.cat_id = c.cat_id
+        LEFT JOIN 
+            tbl_member m ON b.writer = m.userid
+        WHERE 
+            c.parent_id = (SELECT cat_id FROM tbl_category WHERE cat_slug = #{parentSlug} AND parent_id IS NULL)
+            AND rownum <= #{cri.pageNum} * #{cri.amount}
+    )
+    WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
+    ]]>
+	</select>
+
+	<select id="getTechKnowledgeList"
+		resultType="com.okkyclone.domain.BoardVO">
+    <![CDATA[
+    SELECT * FROM (
+        SELECT 
+            b.bno, b.title, b.content, b.writer, b.regdate,
+            c.cat_name, m.user_img
+        FROM tbl_board b
+        JOIN tbl_category c ON b.cat_id = c.cat_id
+        LEFT JOIN tbl_member m ON b.writer = m.userid
+        WHERE c.parent_id = 20
+        ORDER BY b.regdate DESC
+    )
+    WHERE ROWNUM <= 21
+    ]]>
+	</select>
+
 </mapper>

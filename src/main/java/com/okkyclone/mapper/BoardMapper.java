@@ -17,11 +17,11 @@ public interface BoardMapper {
     public int delete(Long bno);
     public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
     public List<BoardVO> getCategoryList(String category);
-    
+    public List<BoardVO> getListByParent(@Param("parentSlug") String parentSlug, @Param("cri") Criteria cri);
     int checkLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
     void addLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
     void removeLikeLog(@Param("bno") Long bno, @Param("userid") String userid, @Param("type") int type);
     void updateLikeCount(@Param("bno") Long bno, @Param("amount") int amount);
     void updateDislikeCount(@Param("bno") Long bno, @Param("amount") int amount);
-
+    public List<BoardVO> getTechKnowledgeList();
 }

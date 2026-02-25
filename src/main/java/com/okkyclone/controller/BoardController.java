@@ -1,24 +1,25 @@
 package com.okkyclone.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 import com.okkyclone.service.BoardService;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/board/*")
@@ -30,18 +31,16 @@ public class BoardController {
 	private BoardService service;
 
 	@GetMapping("/list")
-	public void list(Criteria cri, 
-	                 @RequestParam(value="category", required=false) String category, 
-	                 Model model) {
-	    
-	    log.info("접속 카테고리: " + category);
-	    if (category == null || category.isEmpty()) {
-	        model.addAttribute("list", service.getList(cri));
-	    } else {
-	        model.addAttribute("list", service.getListWithCategory(cri, category));
-	    }
+	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category, Model model) {
 
-	    model.addAttribute("curCategory", category);
+		log.info("접속 카테고리: " + category);
+		if (category == null || category.isEmpty()) {
+			model.addAttribute("list", service.getList(cri));
+		} else {
+			model.addAttribute("list", service.getListWithCategory(cri, category));
+		}
+
+		model.addAttribute("curCategory", category);
 	}
 
 	@GetMapping("/get")
@@ -79,31 +78,40 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String register(BoardVO board, HttpSession session, RedirectAttributes rttr) {
-	    com.okkyclone.domain.MemberVO user = (com.okkyclone.domain.MemberVO) session.getAttribute("user");	    
-	    if (user == null) {
-	        return "redirect:/member/login";
-	    }	    
-	    board.setWriter(user.getUserid()); 	    
-	    log.info("register (writer 세팅 완료): " + board);      	    
-	    service.register(board);	    
-	    rttr.addFlashAttribute("result", board.getBno());
-	    return "redirect:/board/list?cat_id=" + board.getCat_id();
+		com.okkyclone.domain.MemberVO user = (com.okkyclone.domain.MemberVO) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/member/login";
+		}
+		board.setWriter(user.getUserid());
+		log.info("register (writer 세팅 완료): " + board);
+		service.register(board);
+		rttr.addFlashAttribute("result", board.getBno());
+		return "redirect:/board/list?cat_id=" + board.getCat_id();
 	}
-	
+
 	@GetMapping("/main/categoryData")
 	@ResponseBody
-	public List<BoardVO> getCategoryData(@RequestParam(value="category", required=false, defaultValue="전체") String category) {
-	    System.out.println("컨트롤러 도착! 카테고리: " + category);
-	    
-	    try {
-	        List<BoardVO> list = service.getCategoryList(category);
-	        for(BoardVO board : list) {
-	            board.setIsNew(board.checkIsNew()); 
-	        }
-	        return list;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+	public List<BoardVO> getCategoryData(
+			@RequestParam(value = "category", required = false, defaultValue = "전체") String category) {
+		System.out.println("컨트롤러 도착! 카테고리: " + category);
+
+		try {
+			List<BoardVO> list = service.getCategoryList(category);
+			for (BoardVO board : list) {
+				board.setIsNew(board.checkIsNew());
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GetMapping("/group/{parentSlug}")
+	public String getGroupList(@PathVariable("parentSlug") String parentSlug, Criteria cri, Model model) {
+
+		model.addAttribute("list", service.getListByParent(parentSlug, cri));
+		model.addAttribute("categoryName", parentSlug);
+		return "board/list";
 	}
 }

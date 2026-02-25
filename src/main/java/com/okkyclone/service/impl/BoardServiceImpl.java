@@ -84,6 +84,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<BoardVO> getListByParent(String parentSlug, Criteria cri) {
+	    return mapper.getListByParent(parentSlug, cri);
+	}
+	@Override
 	public List<BoardVO> getList() {
 		System.out.println("메인 페이지용 전체 목록 가져오기");
 		return mapper.getList();
@@ -111,5 +115,10 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getCategoryList(String category) {
 		System.out.println("카테고리별 리스트 조회 시작: " + category);
 		return mapper.getCategoryList(category);
+	}
+	
+	@Override
+	public List<BoardVO> getTechKnowledgeList() {
+		return mapper.getTechKnowledgeList();
 	}
 }
