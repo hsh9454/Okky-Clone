@@ -117,19 +117,31 @@ public class MemberController {
 	@GetMapping("/display")
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
-		File file = new File("C:\\upload\\profile\\" + fileName);
+		
+		if (fileName == null || fileName.trim().isEmpty() || fileName.equals("null")) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		File file = new File("C:\\upload\\profile\\" + fileName);		
+		if (!file.exists() || file.isDirectory()) {
+			System.out.println("파일을 찾을 수 없거나 디렉토리입니다: " + file.getPath());
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		ResponseEntity<byte[]> result = null;
 
 		try {
 			HttpHeaders header = new HttpHeaders();
-			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			String contentType = Files.probeContentType(file.toPath());
+			if (contentType != null) {
+				header.add("Content-Type", contentType);
+			}
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("파일 전송 중 에러 발생: " + e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return result;
 	}
-
 	@PostMapping("/modify")
 	public String modify(MemberVO vo, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 			HttpSession session, RedirectAttributes rttr) {

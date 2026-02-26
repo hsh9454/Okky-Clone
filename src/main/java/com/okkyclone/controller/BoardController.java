@@ -34,83 +34,58 @@ public class BoardController {
 
 	@Autowired
 	private AdService adService;
-
+	
 	@GetMapping("/list")
 	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category,
 			@RequestParam(value = "group", required = false) String group, Model model) {
 
 		if (category != null) {
-			switch (category) {
-			case "tech":
-				category = "11";
-				break;
-			case "career":
-				category = "12";
-				break;
-			case "etc":
-				category = "13";
-				break;
-			case "news":
-				category = "21";
-				break;
-			case "tips":
-				category = "22";
-				break;
-			case "columns":
-				category = "23";
-				break;
-			case "reviews":
-				category = "24";
-				break;
-			case "press":
-				category = "25";
-				break;
-			case "life":
-				category = "31";
-				break;
-			case "ai":
-				category = "32";
-				break;
-			case "salary":
-				category = "33";
-				break;
-			case "jobs":
-				category = "34";
-				break;
-			case "policy":
-				category = "35";
-				break;
-			case "feedback":
-				category = "36";
-				break;
-			case "events":
-				category = "41";
-				break;
-			case "promotion":
-				category = "42";
-				break;
-			case "studies":
-				category = "51";
-				break;
-			case "projects":
-				category = "52";
-				break;
-			case "gathering":
-				category = "53";
-				break;
-			case "education":
-				category = "61";
-				break;
-			case "notice":
-				category = "62";
-				break;
-			default:
-				break;
-			}
+		    switch (category) {
+		        case "qna": category = "10"; break;
+		        case "tech": category = "11"; break;
+		        case "career": category = "12"; break;
+		        case "etc": category = "13"; break;
+		        case "knowledge": category = "20"; break;
+		        case "news": category = "21"; break;
+		        case "tips": category = "22"; break;
+		        case "column": category = "23"; break;
+		        case "review": category = "24"; break;
+		        case "press": category = "25"; break;
+		        case "community": category = "30"; break;
+		        case "life": category = "31"; break;
+		        case "ai": category = "32"; break;
+		        case "salary": category = "33"; break;
+		        case "jobs": category = "34"; break;
+		        case "policy": category = "35"; break;
+		        case "feedback": category = "36"; break;
+		        case "event": category = "40"; break;
+		        case "it-event": category = "41"; break;
+		        case "promo": category = "42"; break;
+		        case "meetup": category = "50"; break;
+		        case "study": category = "51"; break;
+		        case "project": category = "52"; break;
+		        case "coding-study": category = "53"; break;
+		        case "bootcamp": category = "60"; break;
+		        case "course": category = "61"; break;
+		        case "jobs-board": category = "70"; break;
+		        case "contract": category = "71"; break;
+		        case "full-time": category = "72"; break;
+		        case "contact": category = "80"; break;
+		        case "notice": category = "81"; break; 
+		        case "releases": category = "82"; break;
+		        case "bug-report": category = "83"; break;
+		        case "request": category = "84"; break;
+		        case "okky-event": category = "85"; break;
+
+		        default: break;
+		    }
 		}
 
 		System.out.println("DB로 보낼 실제 ID: " + category);
 		List<BoardVO> list = service.getListWithCategory(cri, category, group);
+		list.forEach(board -> {
+	        board.setNew(board.checkIsNew()); 
+	    });
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri, category, group)));
 		model.addAttribute("leftAds", adService.getAds("left"));

@@ -140,5 +140,11 @@ public class BoardServiceImpl implements BoardService {
 	    System.out.println("get List with category: " + category + " and group: " + group);
 	    return mapper.getListWithCategory(cri, category, group);
 	}
+	
+	@Override
+	public List<BoardVO> getMainKnowledgeList() {
+		System.out.println("메인 페이지 지식/뉴스 리스트 가져오는 중...");
+	    return mapper.getMainKnowledgeList(); 
+	}
 }
 

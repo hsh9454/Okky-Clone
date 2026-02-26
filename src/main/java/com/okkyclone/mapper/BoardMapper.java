@@ -26,6 +26,7 @@ public interface BoardMapper {
     public List<BoardVO> getTechKnowledgeList();
 	public int getTotalCount(Criteria cri);	
 	public int getTotalCountWithCategory(@Param("cri") Criteria cri, @Param("category") String category);
+	public List<BoardVO> getMainKnowledgeList();
 	public List<BoardVO> getListWithCategory(
 			@Param("cri") Criteria cri, 
 		    @Param("category") String category, 

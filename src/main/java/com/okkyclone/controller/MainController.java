@@ -48,7 +48,7 @@ public class MainController {
 	    }
 	    model.addAttribute("boardList", boardList);
 
-	    List<BoardVO> techList = service.getCategoryList("기술"); 
+	    List<BoardVO> techList = service.getMainKnowledgeList();	    
 	    
 	    if (techList != null && techList.size() > 6) {
 	        techList = techList.subList(0, 6);

@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
 .board-wrapper {
 	padding: 20px;
@@ -57,7 +58,6 @@
 	margin-right: 8px;
 }
 
-/* 글쓰기 버튼 */
 .write-btn {
 	background-color: #007bff;
 	color: white;
@@ -78,53 +78,45 @@
 	<table class="list-table">
 		<tbody>
 			<c:forEach items="${list}" var="board">
-				<tr>
-					<td style="width: 50px; text-align: center; color: #adb5bd;">${board.bno}</td>
+				<tr style="border-bottom: 1px solid #f2f2f2;">
 					<td
-						style="display: flex; justify-content: space-between; align-items: center;">
-						<div>
+						style="width: 50px; text-align: center; color: #adb5bd; font-size: 13px;">${board.bno}</td>
+					<td style="padding: 15px 10px;">
+						<div
+							style="display: flex; align-items: center; margin-bottom: 8px;">
 							<a
-								href="${pageContext.request.contextPath}/board/get?bno=${board.bno}"
-								class="post-title"> <c:out value="${board.title}" />
-							</a>
-
-							<div class="post-meta">
-								<span
-									style="color: #007bff; font-weight: bold; margin-right: 8px;">
-									[${board.cat_name}] </span>
-								<c:choose>
-									<c:when test="${not empty board.user_img}">
-										<img
-											src="${pageContext.request.contextPath}/member/display?fileName=${board.user_img}"
-											alt="프로필"
-											style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle;">
-									</c:when>
-									<c:otherwise>
-										<img
-											src="${pageContext.request.contextPath}/resources/img/default-profile.jpg"
-											alt="기본프로필"
-											style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle;">
-									</c:otherwise>
-								</c:choose>
-								<span class="writer">${board.writer}</span> <span> <fmt:formatDate
-										value="${board.regdate}" pattern="yyyy-MM-dd" />
-								</span>
-							</div>
+								href="${pageContext.request.contextPath}/board/list?category=${board.cat_id}"
+								style="text-decoration: none;"> <span
+								style="border: 1px solid #e1e1e1; border-radius: 4px; padding: 1px 6px; font-size: 11px; color: #888; background: #fff; margin-right: 10px; cursor: pointer;">
+									<c:out value="${board.cat_name}" />
+							</span>
+							</a> <span
+								style="font-size: 13px; font-weight: 500; color: #555; margin-right: 6px;">${board.writer}</span>
+							<span style="font-size: 12px; color: #999;"> ·
+								${board.timeGap}</span>
 						</div>
 
-						<div class="author-profile">
-							<c:choose>
-								<c:when test="${not empty board.user_img}">
-									<img
-										src="${pageContext.request.contextPath}/member/display?fileName=${board.user_img}"
-										style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-								</c:when>
-								<c:otherwise>
-									<img
-										src="${pageContext.request.contextPath}/resources/img/default-profile.jpg"
-										style="width: 32px; height: 32px; border-radius: 50%;">
-								</c:otherwise>
-							</c:choose>
+						<div style="display: flex; align-items: center;">
+							<div style="margin-right: 8px;">
+								<img
+									src="${pageContext.request.contextPath}/member/display?fileName=${board.user_img}"
+									onerror="this.src='${pageContext.request.contextPath}/resources/img/default_profile.jpg'"
+									style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+							</div>
+							<a href="/board/get?bno=${board.bno}"
+								style="text-decoration: none; color: #222; font-size: 15px; font-weight: 600;">
+								${board.title} </a>
+							<c:if test="${board.isNew()}">
+								<span
+									style="display: inline-block; background: #fce4ec; color: #f06292; font-size: 9px; width: 15px; height: 15px; line-height: 15px; text-align: center; border-radius: 50%; margin-left: 6px; font-weight: bold;">N</span>
+							</c:if>
+						</div>
+					</td>
+					<td style="width: 120px; text-align: right; padding-right: 20px;">
+						<div
+							style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; color: #999; font-size: 13px;">
+							<span><i class="far fa-eye"></i> ${board.viewcnt}</span> <span><i
+								class="far fa-thumbs-up"></i> ${board.likecnt}</span>
 						</div>
 					</td>
 				</tr>
