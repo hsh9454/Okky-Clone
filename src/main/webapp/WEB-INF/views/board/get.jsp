@@ -409,6 +409,13 @@ body {
 					style="width: 26px; height: 26px; object-fit: cover; border: 1px solid #f1f5f9;"
 					onerror="this.src='/resources/img/default_profile.jpg'"> <strong
 					style="color: #334155; font-size: 14px; font-weight: 600;">${board.writer}</strong>
+
+				<span class="meta-divider">·</span> <span id="articleDate"
+					class="meta-text" style="font-size: 13px; color: #94a3b8;"></span>
+				<span class="meta-divider">·</span> <span class="meta-text"
+					style="font-size: 13px; color: #94a3b8;"> <i
+					class="far fa-eye"></i> ${board.viewcnt}
+				</span>
 			</div>
 
 			<div class="btn-group shadow-sm"

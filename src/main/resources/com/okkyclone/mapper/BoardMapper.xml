@@ -25,8 +25,8 @@
 	<insert id="insert">
 		INSERT INTO tbl_board (bno, title, content, writer,
 		cat_id)
-		VALUES (seq_board.nextval, #{title}, #{content},
-		#{writer},#{cat_id})
+		VALUES (seq_board.nextval, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+		#{writer,jdbcType=VARCHAR},#{cat_id,jdbcType=VARCHAR})
 	</insert>
 
 	<select id="read" resultType="com.okkyclone.domain.BoardVO">
@@ -127,7 +127,7 @@
 		</selectKey>
 		insert into tbl_board (bno, title, content, writer, cat_id)
 		values
-		(#{bno}, #{title}, #{content}, #{writer}, #{cat_id})
+		(#{bno,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{writer,jdbcType=VARCHAR}, #{cat_id,jdbcType=VARCHAR})
 	</insert>
 
 	<select id="getTechList"
@@ -146,45 +146,66 @@
 		3
 	</select>
 
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection='cri.typeArr'>
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{cri.keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{cri.keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{cri.keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<sql id="criteriaWithParam">
+		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
+			<foreach item='type' collection="cri.typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test='type == "T".toString()'>
+							title LIKE '%'||#{cri.keyword}||'%'
+						</when>
+						<when test='type == "C".toString()'>
+							content LIKE '%'||#{cri.keyword}||'%'
+						</when>
+						<when test='type == "W".toString()'>
+							writer LIKE '%'||#{cri.keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
 	<select id="getListWithPaging"
 		resultType="com.okkyclone.domain.BoardVO">
     <![CDATA[
     SELECT * FROM (
-        SELECT /*+INDEX_DESC(tbl_board pk_board) */
-            rownum rn, 
-            b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, b.cat_id, 
-            c.cat_name,
-            m.user_img AS user_img  FROM tbl_board b
-        LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
+        SELECT /*+ INDEX_DESC(tbl_board pk_board) */ 
+            rownum rn, b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate,
+            m.user_img, c.cat_name
+        FROM tbl_board b
         LEFT JOIN tbl_member m ON b.writer = m.userid
-        WHERE b.cat_id = 11 
-        AND rownum <= #{pageNum} * #{amount}
-    ) WHERE rn > (#{pageNum} - 1) * #{amount}
+        LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
+        WHERE 1=1
     ]]>
-	</select>
-
-	<select id="getListWithCategory"
-		resultType="com.okkyclone.domain.BoardVO">
+		<include refid="criteria"></include> 
     <![CDATA[
-    SELECT 
-        bno, title, content, writer, regdate, updatedate, cat_name, cat_slug
-    FROM (
-        SELECT /*+ INDEX_DESC(tbl_board pk_board) */
-            rownum rn, b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, 
-            c.cat_name, c.cat_slug
-        FROM 
-            tbl_board b
-        JOIN 
-            tbl_category c ON b.cat_id = c.cat_id
-        WHERE 
-            c.cat_slug = #{category} 
-            AND rownum <= #{cri.pageNum} * #{cri.amount}
-    )
-    WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
+        AND rownum <= #{cri.pageNum} * #{amount}
+    ) WHERE rn > (#{cri.pageNum} - 1) * #{amount}
     ]]>
 	</select>
 
-	<select id="getMainLatestList"
+	<select id="getMainKnowledgeList"
 		resultType="com.okkyclone.domain.BoardVO">
 		SELECT * FROM (
 		SELECT
@@ -192,14 +213,13 @@
 		b.TITLE,
 		b.REGDATE,
 		b.REPLYCNT,
-		c.CAT_NAME FROM TBL_BOARD b
-		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID =
-		c.CAT_ID
-		WHERE b.CAT_ID = #{cat_id}
+		c.CAT_NAME
+		FROM TBL_BOARD b
+		LEFT JOIN TBL_CATEGORY c ON b.CAT_ID = c.CAT_ID
+		WHERE b.CAT_ID IN ('21', '22', '23', '24', '25') -- 지식/뉴스 그룹의 모든 자식 코드들
 		ORDER BY b.REGDATE DESC
 		)
-		WHERE ROWNUM
-		&lt;= 5
+		WHERE ROWNUM &lt;= 7
 	</select>
 
 	<select id="getPopularList"
@@ -318,4 +338,71 @@
     ]]>
 	</select>
 
+	<select id="getListWithCategory"
+		resultType="com.okkyclone.domain.BoardVO">
+		SELECT
+		bno, title, content, writer, regdate, updatedate, cat_id
+		FROM (
+		SELECT /*+ INDEX_DESC(tbl_board pk_board) */
+		rownum rn, bno, title,
+		content, writer, regdate, updatedate, cat_id
+		FROM tbl_board
+		WHERE
+		<if test="category != null and category != ''">
+			cat_id = #{category} AND
+		</if>
+		<if test="group != null and group != ''">
+			<choose>
+				<when test="group == 'qna'">
+					cat_id IN ('11', '12', '13') AND
+				</when>
+				<when test="group == 'knowledge'">
+					cat_id IN ('21', '22', '23', '24', '25') AND
+				</when>
+				<when test="group == 'community'">
+					cat_id IN ('31', '32', '33', '34', '35', '36', '37',
+					'38', '39') AND
+				</when>
+				<when test="group == 'event'">
+					cat_id IN ('41', '42') AND
+				</when>
+				<when test="group == 'group'">
+					cat_id IN ('51') AND
+				</when>
+				<when test="group == 'etc_main'">
+					cat_id IN ('61', '62', '63', '64') AND
+				</when>
+				<when test="group == 'contact'">
+					cat_id IN ('71', '72', '73', '74', '75') AND
+				</when>
+			</choose>
+		</if>
+        <![CDATA[
+            rownum <= #{cri.pageEnd, jdbcType=INTEGER}
+        ]]>
+		)
+		WHERE rn > #{cri.pageStart, jdbcType=INTEGER}
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*) FROM tbl_board
+		WHERE bno > 0
+		<include refid="criteria"></include>
+	</select>
+
+	<select id="getTotal" resultType="int">
+		SELECT count(*) FROM tbl_board
+		<where>
+			<if test="category != null and category != ''">
+				cat_id = #{category}
+			</if>
+			<if test="group != null and group != ''">
+				<choose>
+					<when test="group == 'qna'">
+						AND cat_id IN ('tech', 'career', 'etc')
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
 </mapper>

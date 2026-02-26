@@ -15,55 +15,63 @@ import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.AdService;
 import com.okkyclone.service.BoardService;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
-import com.okkyclone.domain.AdVO; 
-import com.okkyclone.service.AdService; 
+import com.okkyclone.domain.AdVO;
+import com.okkyclone.service.AdService;
+
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	private BoardService service;
-	
+
 	@Autowired
-    private AdService adService;
+	private AdService adService;
 
 	@RequestMapping("/")
 	public String mainPage(@RequestParam(value = "type", required = false, defaultValue = "daily") String type,
-			Model model) {
-		
+	        Model model) {
+
 	    model.addAttribute("leftAds", adService.getAds("LEFT"));
 	    model.addAttribute("rightAds", adService.getAds("RIGHT"));
 
-		List<BoardVO> boardList = service.getCategoryList("전체");
+	    List<BoardVO> boardList = service.getCategoryList("전체");
 
-		long now = System.currentTimeMillis();
-		if (boardList != null) {
-			for (BoardVO board : boardList) {
-				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
-					board.setIsNew(true);
-				}
-			}
-		}
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("techList1", service.getTechList());
-		model.addAttribute("techList", service.getTechKnowledgeList());
-		
-		List<BoardVO> popularList = service.getPopularList(type);
-		if (popularList != null) {
-			for (BoardVO board : popularList) {
-				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
-					board.setIsNew(true);
-				}
-			}
-		}
-		if (popularList != null && !popularList.isEmpty()) {
-			int half = (int) Math.ceil(popularList.size() / 2.0);
-			model.addAttribute("leftList", popularList.subList(0, half));
-			model.addAttribute("rightList", popularList.subList(half, popularList.size()));
-		}
-		model.addAttribute("currentType", type);
-		return "main";
+	    long now = System.currentTimeMillis();
+	    if (boardList != null) {
+	        for (BoardVO board : boardList) {
+	            if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+	                board.setIsNew(true);
+	            }
+	        }
+	    }
+	    model.addAttribute("boardList", boardList);
+
+	    List<BoardVO> techList = service.getCategoryList("기술"); 
+	    
+	    if (techList != null && techList.size() > 6) {
+	        techList = techList.subList(0, 6);
+	    }
+	    model.addAttribute("techList", techList);
+
+	    List<BoardVO> popularList = service.getPopularList(type);
+	    if (popularList != null) {
+	        for (BoardVO board : popularList) {
+	            if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+	                board.setIsNew(true);
+	            }
+	        }
+	        
+	        if (!popularList.isEmpty()) {
+	            int half = (int) Math.ceil(popularList.size() / 2.0);
+	            model.addAttribute("leftList", popularList.subList(0, half));
+	            model.addAttribute("rightList", popularList.subList(half, popularList.size()));
+	        }
+	    }
+	    
+	    model.addAttribute("currentType", type);
+	    return "main";
 	}
 
 	@GetMapping(value = "/main/data", produces = "application/json; charset=UTF-8")

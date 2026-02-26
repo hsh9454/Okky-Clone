@@ -329,178 +329,235 @@
 				class="text-muted text-decoration-none small more-link">더 보기 ></a>
 		</div>
 
-		<div id="techSlider" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="8000">
-<div class="carousel-indicators custom-dot-indicators">
-    <c:set var="totalItems" value="${fn:length(techList)}" />
-    <c:set var="lastIndex" value="${(totalItems - 1) / 3}" />
-    <c:forEach var="i" begin="0" end="${lastIndex}">
-        <button type="button" data-bs-target="#techSlider" 
-                data-bs-slide-to="${i}" 
-                class="${i == 0 ? 'active' : ''}">
-        </button>
-    </c:forEach>
-</div>
+		<div id="techSlider" class="carousel slide position-relative"
+			data-bs-ride="carousel" data-bs-interval="8000">
 
-    <div class="carousel-inner">
-        <c:forEach var="i" begin="0" end="${fn:length(techList) - 1}" step="3">
-            <div class="carousel-item ${i == 0 ? 'active' : ''}">
-                <div class="row g-3 mx-0">
-                    <c:forEach var="tech" items="${techList}" begin="${i}" end="${i + 2}" varStatus="status">
-                        <div class="col-md-4 px-2">
-                             <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 15px; cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${tech.bno}'">
-                                <div class="position-relative d-flex align-items-center bg-grad-${(status.index % 3) + 1}" style="height: 120px; padding-left: 20px;">
-                                    <span class="badge bg-light text-dark position-absolute" style="top: 15px; right: 15px; opacity: 0.9;">${tech.cat_name}</span>
-                                    <div class="d-flex align-items-center">
-                                        <img src="${(not empty tech.user_img) ? tech.user_img : pageContext.request.contextPath.concat('/resources/img/default_profile.jpg')}" 
-                                             class="profile-img-overlap me-2 shadow-sm"
-                                             onerror="this.src='${pageContext.request.contextPath}/resources/img/default_profile.jpg';">
-                                        <div class="bg-white bg-opacity-90 rounded-pill px-3 py-1 shadow-sm" style="font-size: 14px; color: #333; font-weight: 500;">${tech.writer}</div>
-                                    </div>
-                                </div>
-                                <div class="card-body p-4">
-                                    <h6 class="fw-bold mb-2 text-truncate-2" style="font-size: 17px; line-height: 1.4; min-height: 48px;">${tech.title}</h6>
-                                    <p class="small text-muted text-truncate-1 mb-0">${tech.content.replaceAll("<[^>]*>", "")}</p>
-                                </div>
-                             </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-        </c:forEach>
-    </div>
-
-    <button class="carousel-control-prev tech-overlap-btn" type="button" data-bs-target="#techSlider" data-bs-slide="prev">
-        <span class="btn-round shadow-sm"><i class="bi bi-chevron-left"></i></span>
-    </button>
-    <button class="carousel-control-next tech-overlap-btn" type="button" data-bs-target="#techSlider" data-bs-slide="next">
-        <span class="btn-round shadow-sm"><i class="bi bi-chevron-right"></i></span>
-    </button>
-</div>
-	</div>
-	<div class="mt-5 mb-5">
-		<div class="d-flex align-items-center mb-4 w-100">
-
-			<div
-				class="d-flex align-items-center gap-2 p-2 no-scrollbar shadow-sm w-100"
-				style="background-color: #f8f9fa; border-radius: 12px; overflow-x: auto; border: 1px solid #eee;">
-
-				<a href="#" class="filter-tab active"
-					onclick="loadCategoryData('전체'); return false;">전체</a> <a href="#"
-					class="filter-tab"
-					onclick="loadCategoryData('사는얘기'); return false;">사는얘기</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('AI'); return false;">AI</a> <a href="#"
-					class="filter-tab"
-					onclick="loadCategoryData('연봉·단가'); return false;">연봉·단가</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('취준생'); return false;">취준생</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('스터디'); return false;">스터디</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('프로젝트'); return false;">프로젝트</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('모각코·모각공'); return false;">모각코·모각공</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('멘토링·튜터링'); return false;">멘토링·튜터링</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('모임·네트워킹'); return false;">모임·네트워킹</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('공모전·해커톤'); return false;">공모전·해커톤</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('IT 정책토론'); return false;">IT 정책토론</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('피드백'); return false;">피드백</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('Tech 뉴스'); return false;">Tech 뉴스</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('팀'); return false;">팀</a> <a href="#"
-					class="filter-tab" onclick="loadCategoryData('칼럼'); return false;">칼럼</a>
-				<a href="#" class="filter-tab"
-					onclick="loadCategoryData('리뷰'); return false;">리뷰</a> <a href="#"
-					class="filter-tab"
-					onclick="loadCategoryData('IT보도자료'); return false;">IT보도자료</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('기술'); return false;">기술</a> <a href="#"
-					class="filter-tab" onclick="loadCategoryData('커리어'); return false;">커리어</a>
-				<a href="#" class="filter-tab"
-					onclick="loadCategoryData('기타'); return false;">기타</a> <a href="#"
-					class="filter-tab"
-					onclick="loadCategoryData('IT 행사'); return false;">IT 행사</a> <a
-					href="#" class="filter-tab"
-					onclick="loadCategoryData('홍보·광고'); return false;">홍보·광고</a>
+			<div class="carousel-indicators custom-dot-indicators">
+				<%-- 전체 아이템 개수를 바탕으로 점의 개수 계산 --%>
+				<c:set var="totalItems" value="${fn:length(techList)}" />
+				<%-- 3개씩 한 화면이므로 (전체개수-1)/3 만큼 반복 --%>
+				<c:forEach var="i" begin="0" end="${(totalItems - 1) / 3}">
+					<button type="button" data-bs-target="#techSlider"
+						data-bs-slide-to="${i}" class="${i == 0 ? 'active' : ''}"
+						aria-current="${i == 0 ? 'true' : 'false'}"></button>
+				</c:forEach>
 			</div>
-			<button id="viewModeBtn" class="btn btn-white border ms-2 shadow-sm"
-				style="padding: 10px 14px; border-radius: 12px; background: #fff; height: 50px; position: relative;"
-				onclick="toggleViewMode()" data-tooltip="리스트형 보기로 전환합니다.">
-				<i id="viewModeIcon" class="bi bi-list-ul text-muted"></i>
-			</button>
+
+			<c:choose>
+				<%-- 컨트롤러에서 보낸 techList가 있는지 확인 --%>
+				<c:when test="${not empty techList && fn:length(techList) > 0}">
+					<div class="carousel-inner">
+						<%-- 3개씩 한 슬라이드에 보여주기 --%>
+						<c:forEach var="i" begin="0" end="${fn:length(techList) - 1}"
+							step="3">
+							<div class="carousel-item ${i == 0 ? 'active' : ''}">
+								<div class="row g-3 mx-0">
+									<%-- 내부 아이템 반복 --%>
+									<c:forEach var="tech" items="${techList}" begin="${i}"
+										end="${i + 2}" varStatus="status">
+										<div class="col-md-4 px-2">
+											<div class="card h-100 border-0 shadow-sm overflow-hidden"
+												style="border-radius: 15px; cursor: pointer;"
+												onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${tech.bno}'">
+												<div
+													class="position-relative d-flex align-items-center bg-grad-${(status.index % 3) + 1}"
+													style="height: 120px; padding-left: 20px;">
+													<span class="badge bg-light text-dark position-absolute"
+														style="top: 15px; right: 15px; opacity: 0.9;">${tech.cat_name}</span>
+													<div class="d-flex align-items-center gap-2">
+														<div
+															class="rounded-circle overflow-hidden border shadow-sm"
+															style="width: 32px; height: 32px; background-color: #eee;">
+															<img
+																src="${(not empty tech.user_img) ? tech.user_img : pageContext.request.contextPath.concat('/resources/img/default_profile.jpg')}"
+																style="width: 100%; height: 100%; object-fit: cover;"
+																onerror="this.src='${pageContext.request.contextPath}/resources/img/default_profile.jpg';">
+														</div>
+
+														<div
+															class="bg-white bg-opacity-90 rounded-pill px-3 py-1 shadow-sm border">
+															<span
+																style="font-size: 14px; color: #333; font-weight: 500;">${tech.writer}</span>
+														</div>
+
+														<c:if test="${tech.likecnt > 0}">
+															<div
+																class="bg-white bg-opacity-90 rounded-pill px-2 py-1 shadow-sm border d-flex align-items-center">
+																<i class="bi bi-hand-thumbs-up-fill text-primary"
+																	style="font-size: 12px;"></i> <span class="ms-1"
+																	style="font-size: 12px; font-weight: bold; color: #333;">${tech.likecnt}</span>
+															</div>
+														</c:if>
+													</div>
+												</div>
+												<div class="card-body p-4">
+													<h6 class="fw-bold mb-2 text-truncate-2"
+														style="font-size: 17px; line-height: 1.4; min-height: 48px;">${tech.title}</h6>
+													<%-- HTML 태그 제거 후 내용만 표시 --%>
+													<p class="small text-muted text-truncate-1 mb-0">${tech.content.replaceAll("<[^>]*>", "")}</p>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+					
+					<button class="carousel-control-prev tech-overlap-btn"
+						type="button" data-bs-target="#techSlider" data-bs-slide="prev">
+						<span class="btn-round shadow-sm"><i
+							class="bi bi-chevron-left"></i></span>
+					</button>
+					<button class="carousel-control-next tech-overlap-btn"
+						type="button" data-bs-target="#techSlider" data-bs-slide="next">
+						<span class="btn-round shadow-sm"><i
+							class="bi bi-chevron-right"></i></span>
+					</button>
+				</c:when>
+
+				<c:otherwise>
+					<div class="py-5 text-center text-muted border rounded-3 bg-light">
+						등록된 게시물이 없습니다.</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 
-		<div id="boardContainer"
-			class="post-list-container board-list-area card-mode">
-			<c:choose>
-				<c:when test="${not empty boardList}">
-					<c:forEach items="${boardList}" var="board" end="19">
-						<div class="post-item p-4 mb-3 border-bottom bg-white"
-							onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'"
-							style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border: 1px solid #f1f3f5 !important; margin-bottom: 15px !important;">
+		<button class="carousel-control-prev tech-overlap-btn" type="button"
+			data-bs-target="#techSlider" data-bs-slide="prev">
+			<span class="btn-round shadow-sm"><i
+				class="bi bi-chevron-left"></i></span>
+		</button>
+		<button class="carousel-control-next tech-overlap-btn" type="button"
+			data-bs-target="#techSlider" data-bs-slide="next">
+			<span class="btn-round shadow-sm"><i
+				class="bi bi-chevron-right"></i></span>
+		</button>
+	</div>
+</div>
+<div class="mt-5 mb-5">
+	<div class="d-flex align-items-center mb-4 w-100">
 
+		<div
+			class="d-flex align-items-center gap-2 p-2 no-scrollbar shadow-sm w-100"
+			style="background-color: #f8f9fa; border-radius: 12px; overflow-x: auto; border: 1px solid #eee;">
+
+			<a href="#" class="filter-tab active"
+				onclick="loadCategoryData('전체'); return false;">전체</a> <a href="#"
+				class="filter-tab" onclick="loadCategoryData('사는얘기'); return false;">사는얘기</a>
+			<a href="#" class="filter-tab"
+				onclick="loadCategoryData('AI'); return false;">AI</a> <a href="#"
+				class="filter-tab"
+				onclick="loadCategoryData('연봉·단가'); return false;">연봉·단가</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('취준생'); return false;">취준생</a> <a href="#"
+				class="filter-tab" onclick="loadCategoryData('스터디'); return false;">스터디</a>
+			<a href="#" class="filter-tab"
+				onclick="loadCategoryData('프로젝트'); return false;">프로젝트</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('모각코·모각공'); return false;">모각코·모각공</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('멘토링·튜터링'); return false;">멘토링·튜터링</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('모임·네트워킹'); return false;">모임·네트워킹</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('공모전·해커톤'); return false;">공모전·해커톤</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('IT 정책토론'); return false;">IT 정책토론</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('피드백'); return false;">피드백</a> <a href="#"
+				class="filter-tab"
+				onclick="loadCategoryData('Tech 뉴스'); return false;">Tech 뉴스</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('팀'); return false;">팀</a> <a href="#"
+				class="filter-tab" onclick="loadCategoryData('칼럼'); return false;">칼럼</a>
+			<a href="#" class="filter-tab"
+				onclick="loadCategoryData('리뷰'); return false;">리뷰</a> <a href="#"
+				class="filter-tab"
+				onclick="loadCategoryData('IT보도자료'); return false;">IT보도자료</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('기술'); return false;">기술</a> <a href="#"
+				class="filter-tab" onclick="loadCategoryData('커리어'); return false;">커리어</a>
+			<a href="#" class="filter-tab"
+				onclick="loadCategoryData('기타'); return false;">기타</a> <a href="#"
+				class="filter-tab"
+				onclick="loadCategoryData('IT 행사'); return false;">IT 행사</a> <a
+				href="#" class="filter-tab"
+				onclick="loadCategoryData('홍보·광고'); return false;">홍보·광고</a>
+		</div>
+		
+		<button id="viewModeBtn" class="btn btn-white border ms-2 shadow-sm"
+			style="padding: 10px 14px; border-radius: 12px; background: #fff; height: 50px; position: relative;"
+			onclick="toggleViewMode()" data-tooltip="리스트형 보기로 전환합니다.">
+			<i id="viewModeIcon" class="bi bi-list-ul text-muted"></i>
+		</button>
+	</div>
+
+	<div id="boardContainer"
+		class="post-list-container board-list-area card-mode">
+		<c:choose>
+			<c:when test="${not empty boardList}">
+				<c:forEach items="${boardList}" var="board" end="19">
+					<div class="post-item p-4 mb-3 border-bottom bg-white"
+						onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'"
+						style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border: 1px solid #f1f3f5 !important; margin-bottom: 15px !important;">
+
+						<div
+							class="card-only-elements d-flex align-items-center gap-2 mb-2">
 							<div
-								class="card-only-elements d-flex align-items-center gap-2 mb-2">
+								style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
+								<span style="color: #aaa; font-size: 11px;">커뮤니티</span> <span
+									style="color: #eee; margin: 0 4px;">|</span> <span
+									style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
+							</div>
+							<span class="text-muted" style="font-size: 12px;">
+								${board.writer} · <span class="date-display"
+								data-regdate="${board.regdate.time}"></span>
+							</span>
+						</div>
+
+						<div
+							class="d-flex justify-content-between align-items-center w-100">
+							<h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">
+								${board.title}
+
+								<c:if test="${board.replycnt > 0}">
+									<span
+										style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(${board.replycnt})</span>
+								</c:if>
+								<c:if test="${board.isNew}">
+									<span class="badge-n" style="margin-left: 5px;">N</span>
+								</c:if>
+							</h6>
+							<div class="post-right-info-area"></div>
+						</div>
+
+						<div class="card-only-elements">
+							<p class="text-muted mb-3 text-truncate-2"
+								style="font-size: 14px !important; line-height: 1.6 !important; color: #666 !important;">
+								${board.content.replaceAll("<[^>]*>", "")}</p>
+							<div class="d-flex align-items-center gap-2">
 								<div
-									style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
-									<span style="color: #aaa; font-size: 11px;">커뮤니티</span> <span
-										style="color: #eee; margin: 0 4px;">|</span> <span
-										style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
+									style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+									<i class="bi bi-hand-thumbs-up"></i> ${board.likecnt}
 								</div>
-								<span class="text-muted" style="font-size: 12px;">
-									${board.writer} · <span class="date-display"
-									data-regdate="${board.regdate.time}"></span>
-								</span>
-							</div>
-
-							<div
-								class="d-flex justify-content-between align-items-center w-100">
-								<h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">
-									${board.title}
-
-									<c:if test="${board.replycnt > 0}">
-										<span
-											style="color: #0d6efd; font-size: 15px; margin-left: 3px;">(${board.replycnt})</span>
-									</c:if>
-									<c:if test="${board.isNew}">
-										<span class="badge-n" style="margin-left: 5px;">N</span>
-									</c:if>
-								</h6>
-								<div class="post-right-info-area"></div>
-							</div>
-
-							<div class="card-only-elements">
-								<p class="text-muted mb-3 text-truncate-2"
-									style="font-size: 14px !important; line-height: 1.6 !important; color: #666 !important;">
-									${board.content.replaceAll("<[^>]*>", "")}</p>
-								<div class="d-flex align-items-center gap-2">
-									<div
-										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
-										<i class="bi bi-hand-thumbs-up"></i> ${board.likecnt}
-									</div>
-									<div
-										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
-										<i class="bi bi-hand-thumbs-down"></i> ${board.dislikecnt}
-									</div>
-									<div
-										style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
-										<i class="bi bi-share"></i> 공유
-									</div>
+								<div
+									style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+									<i class="bi bi-hand-thumbs-down"></i> ${board.dislikecnt}
+								</div>
+								<div
+									style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;">
+									<i class="bi bi-share"></i> 공유
 								</div>
 							</div>
 						</div>
-					</c:forEach>
-				</c:when>
-			</c:choose>
-		</div>
+					</div>
+				</c:forEach>
+			</c:when>
+		</c:choose>
 	</div>
 </div>
+
 <script>
     let currentSelectedCategory = '전체';
 	
@@ -563,7 +620,7 @@
 	    var dateDisplay = timeForToday(board.regdate);
 	    var contentClean = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '';
 	    var profileImg = (board.profilePath && board.profilePath.trim() !== "") 
-	                    ? board.profilePath : '/resources/img/default-profile.png';
+	                    ? board.profilePath : '/resources/img/default_profile.png';
 	    var boardSlug = slugMap[board.cat_name] ? slugMap[board.cat_name] : (slugMap[cleanCategory] ? slugMap[cleanCategory] : "all");
 
 	    if (isListMode) {
@@ -691,6 +748,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const initialTab = document.querySelector('.nav-link.active') || document.querySelector('.filter-tab.active');
     if (initialTab) {
         loadData('daily', initialTab); 
+    }
+    var myCarousel = document.querySelector('#techSlider');
+    if (myCarousel) {
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 8000, 
+            wrap: true,     
+            pause: 'hover'  
+        });
     }
     const tabs = document.querySelectorAll('.filter-tab');
     tabs.forEach(tab => {

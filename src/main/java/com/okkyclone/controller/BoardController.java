@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.okkyclone.service.AdService;
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 import com.okkyclone.service.BoardService;
+import com.okkyclone.domain.PageDTO;
+import com.okkyclone.domain.AdVO;
 
 @Controller
 @RequestMapping("/board/*")
@@ -30,26 +32,101 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 
-	@GetMapping("/list")
-	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category, Model model) {
+	@Autowired
+	private AdService adService;
 
-		log.info("¡¢º” ƒ´≈◊∞Ì∏Æ: " + category);
-		if (category == null || category.isEmpty()) {
-			model.addAttribute("list", service.getList(cri));
-		} else {
-			model.addAttribute("list", service.getListWithCategory(cri, category));
+	@GetMapping("/list")
+	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category,
+			@RequestParam(value = "group", required = false) String group, Model model) {
+
+		if (category != null) {
+			switch (category) {
+			case "tech":
+				category = "11";
+				break;
+			case "career":
+				category = "12";
+				break;
+			case "etc":
+				category = "13";
+				break;
+			case "news":
+				category = "21";
+				break;
+			case "tips":
+				category = "22";
+				break;
+			case "columns":
+				category = "23";
+				break;
+			case "reviews":
+				category = "24";
+				break;
+			case "press":
+				category = "25";
+				break;
+			case "life":
+				category = "31";
+				break;
+			case "ai":
+				category = "32";
+				break;
+			case "salary":
+				category = "33";
+				break;
+			case "jobs":
+				category = "34";
+				break;
+			case "policy":
+				category = "35";
+				break;
+			case "feedback":
+				category = "36";
+				break;
+			case "events":
+				category = "41";
+				break;
+			case "promotion":
+				category = "42";
+				break;
+			case "studies":
+				category = "51";
+				break;
+			case "projects":
+				category = "52";
+				break;
+			case "gathering":
+				category = "53";
+				break;
+			case "education":
+				category = "61";
+				break;
+			case "notice":
+				category = "62";
+				break;
+			default:
+				break;
+			}
 		}
 
-		model.addAttribute("curCategory", category);
+		System.out.println("DBÎ°ú Î≥¥ÎÇº Ïã§Ï†ú ID: " + category);
+		List<BoardVO> list = service.getListWithCategory(cri, category, group);
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri, category, group)));
+		model.addAttribute("leftAds", adService.getAds("left"));
+		model.addAttribute("rightAds", adService.getAds("right"));
 	}
 
 	@GetMapping("/get")
 	public String get(@RequestParam("bno") Long bno, Criteria cri, Model model) {
-		model.addAttribute("board", service.get(bno));
-		model.addAttribute("list", service.getList(cri));
-		return "board/get";
-	}
+	    model.addAttribute("board", service.get(bno));
+	    model.addAttribute("list", service.getList(cri));
+	    model.addAttribute("leftAds", adService.getAds("left"));
+	    model.addAttribute("rightAds", adService.getAds("right"));
 
+	    return "board/get";
+	}
+	
 	@GetMapping("/modify")
 	public String modify(@RequestParam("bno") Long bno, Model model) {
 		model.addAttribute("board", service.get(bno));
@@ -83,7 +160,7 @@ public class BoardController {
 			return "redirect:/member/login";
 		}
 		board.setWriter(user.getUserid());
-		log.info("register (writer ºº∆√ øœ∑·): " + board);
+		log.info("register (writer ÏÑ∏ÌåÖ ÏôÑÎ£å): " + board);
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list?cat_id=" + board.getCat_id();
@@ -92,8 +169,8 @@ public class BoardController {
 	@GetMapping("/main/categoryData")
 	@ResponseBody
 	public List<BoardVO> getCategoryData(
-			@RequestParam(value = "category", required = false, defaultValue = "¿¸√º") String category) {
-		System.out.println("ƒ¡∆Æ∑—∑Ø µµ¬¯! ƒ´≈◊∞Ì∏Æ: " + category);
+			@RequestParam(value = "category", required = false, defaultValue = "Ï†ÑÏ≤¥") String category) {
+		System.out.println("Ïª®Ìä∏Î°§Îü¨ ÎèÑÏ∞©! Ïπ¥ÌÖåÍ≥†Î¶¨: " + category);
 
 		try {
 			List<BoardVO> list = service.getCategoryList(category);

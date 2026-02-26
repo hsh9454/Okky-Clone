@@ -19,4 +19,9 @@ public interface BoardService {
 	public List<BoardVO> getCategoryList(String category);
     public List<BoardVO> getListByParent(String parentslug, Criteria cri);
     public List<BoardVO> getTechKnowledgeList();
+    public int getTotal(Criteria cri, String category, String group);
+    public int getTotalCountWithCategory(Criteria cri, String category);
+    public List<BoardVO> getListWithCategory(Criteria cri, String category, String group);
+
+
 }

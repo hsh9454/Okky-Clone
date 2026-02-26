@@ -1,8 +1,8 @@
 package com.okkyclone.mapper;
 
 import java.util.List;
-import com.okkyclone.domain.BoardVO;
 import org.apache.ibatis.annotations.Param;
+import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 
 public interface BoardMapper {
@@ -24,4 +24,18 @@ public interface BoardMapper {
     void updateLikeCount(@Param("bno") Long bno, @Param("amount") int amount);
     void updateDislikeCount(@Param("bno") Long bno, @Param("amount") int amount);
     public List<BoardVO> getTechKnowledgeList();
+	public int getTotalCount(Criteria cri);	
+	public int getTotalCountWithCategory(@Param("cri") Criteria cri, @Param("category") String category);
+	public List<BoardVO> getListWithCategory(
+			@Param("cri") Criteria cri, 
+		    @Param("category") String category, 
+		    @Param("group") String group
+		);
+	public int getTotal(
+		    @Param("cri") Criteria cri, 
+		    @Param("category") String category, 
+		    @Param("group") String group
+		);
+
+
 }

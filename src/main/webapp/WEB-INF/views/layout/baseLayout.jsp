@@ -31,12 +31,13 @@
 }
 
 .okky-main-grid {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	max-width: 1400px;
-	margin: 20px auto;
-	padding: 0 15px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: flex-start; 
+    max-width: 1400px;
+    margin: 20px auto;
+    gap: 20px;
 }
 
 .side-banner {
@@ -144,68 +145,58 @@
 	</nav>
 
 	<div class="okky-main-grid">
-
-		<c:if
-			test="${showBanner == 'true' || body == '/WEB-INF/views/main.jsp'}">
-			<aside class="side-banner d-none d-xl-block">
-				<div class="banner-sticky">
-					<div class="text-center" style="height: 600px; overflow: hidden;">
-						<c:choose>
-							<c:when test="${not empty leftAds}">
-								<c:forEach items="${leftAds}" var="ad">
-									<a href="${ad.linkUrl}" target="_blank"> <img
-										src="${ad.imgUrl}" alt="${ad.title}"
-										style="width: 100%; height: 100%; object-fit: contain;">
-									</a>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<div class="content-card text-center text-muted"
-									style="height: 600px;">
-									<small>LEFT AD</small>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
+		<aside class="side-banner d-none d-xl-block">
+			<div class="banner-sticky">
+				<div class="text-center" style="height: 600px; overflow: hidden;">
+					<c:choose>
+						<c:when test="${not empty leftAds}">
+							<c:forEach items="${leftAds}" var="ad">
+								<a href="${ad.linkUrl}" target="_blank"> <img
+									src="${ad.imgUrl}" alt="${ad.title}"
+									style="width: 100%; height: 100%; object-fit: contain;">
+								</a>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="content-card text-center text-muted"
+								style="height: 600px;">
+								<small>LEFT AD</small>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
-			</aside>
-		</c:if>
-
+			</div>
+		</aside>
 		<main class="center-content">
 			<div class="content-card shadow-sm border-0">
 				<tiles:insertAttribute name="body" />
 			</div>
 		</main>
 
-		<c:if
-			test="${showBanner == 'true' || body == '/WEB-INF/views/main.jsp'}">
-			<aside class="side-banner d-none d-lg-block">
-				<div class="banner-sticky">
-					<div class="text-center" style="height: 600px; overflow: hidden;">
-						<c:choose>
-							<c:when test="${not empty rightAds}">
-								<c:forEach items="${rightAds}" var="ad">
-									<a href="${ad.linkUrl}" target="_blank"> <img
-										src="${ad.imgUrl}" alt="${ad.title}"
-										style="width: 100%; height: 100%; object-fit: contain;">
-									</a>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<div class="content-card text-center text-muted"
-									style="height: 600px;">
-									<small>RIGHT AD</small>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
+		<aside class="side-banner d-none d-lg-block">
+			<div class="banner-sticky">
+				<div class="text-center" style="height: 600px; overflow: hidden;">
+					<c:choose>
+						<c:when test="${not empty rightAds}">
+							<c:forEach items="${rightAds}" var="ad">
+								<a href="${ad.linkUrl}" target="_blank"> <img
+									src="${ad.imgUrl}" alt="${ad.title}"
+									style="width: 100%; height: 100%; object-fit: contain;">
+								</a>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="content-card text-center text-muted"
+								style="height: 600px;">
+								<small>RIGHT AD</small>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
-			</aside>
-		</c:if>
-
+			</div>
+		</aside>
 	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
