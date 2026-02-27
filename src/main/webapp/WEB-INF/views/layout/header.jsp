@@ -5,30 +5,34 @@
 <style>
 .okky-nav-group {
 	position: relative;
-	padding-bottom: 20px;
-	margin-bottom: -20px;
+	justify-content: flex-start !important;
 }
 
 .mega-dropdown-panel {
 	display: none;
 	position: absolute;
-	top: 90%;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 100vw;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	min-width: 1000px;
 	background: white;
-	padding-top: 20px;
-	z-index: 9999;
+	padding: 20px;
+	z-index: 1050;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 	border-top: 1px solid #0d6efd;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s;
 }
 
-.mega-dropdown-panel .container {
-	margin-top: 10px;
-}
-
-.okky-nav-group:hover .mega-dropdown-panel {
+.mega-dropdown-panel.show {
 	display: block !important;
+	pointer-events: auto;
+	opacity: 1;
+}
+
+.nav-link:hover {
+	color: #0d6efd !important;
 }
 </style>
 
@@ -315,23 +319,21 @@
 
 
 <script>
-$(document).ready(function() {
-    let timer;
+	$(document).ready(function() {
+		let timer;
+		const $panel = $('.mega-dropdown-panel');
+		const $navLinks = $('.nav-link');
+		const $navGroup = $('.okky-nav-group');
 
-    $('.nav-item.dropdown').hover(
-        function() {
-            clearTimeout(timer);
-            $(this).find('.dropdown-menu, .mega-dropdown-panel')
-                   .stop(true, true)
-                   .fadeIn(200);
-        },
-        function() {
-            const $target = $(this).find('.dropdown-menu, .mega-dropdown-panel');
+		const fadeOutDelay = 250;
 
-            timer = setTimeout(function() {
-                $target.stop(true, true).fadeOut(200);
-            }, 300);
-        }
-    );
-});
+		$navLinks.add($panel).hover(function() {
+			clearTimeout(timer);
+			$panel.addClass('show');
+		}, function() {
+			timer = setTimeout(function() {
+				$panel.removeClass('show');
+			}, fadeOutDelay);
+		});
+	});
 </script>
