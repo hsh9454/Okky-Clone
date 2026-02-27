@@ -308,10 +308,13 @@
 		SELECT
 		b.bno, b.title, b.content, b.writer, b.regdate,
 		b.replycnt, b.likecnt, b.dislikecnt,
-		c.cat_name, c.cat_slug, c.cat_id
-		FROM
+		c.cat_name, c.cat_slug, c.cat_id,
+		c.parent_id AS group_id, NVL(p.cat_name, c.cat_name) AS group_name FROM
 		tbl_board b
-		LEFT JOIN tbl_category c ON b.cat_id = c.cat_id
+		LEFT JOIN
+		tbl_category c ON b.cat_id = c.cat_id
+		LEFT JOIN
+		tbl_category p ON c.parent_id = p.cat_id
 		<where>
 			<if
 				test='category != null and category != "전체" and category != ""'>

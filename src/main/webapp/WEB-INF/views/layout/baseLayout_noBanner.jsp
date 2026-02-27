@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -9,9 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OKKY 클론 코딩</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 body {
@@ -64,8 +61,7 @@ body {
 				</div>
 			</c:if>
 
-			<div
-				class="${menu != '/WEB-INF/views/layout/menu.jsp' ? 'col-md-11 col-lg-11' : 'col-md-9 col-lg-7'}">
+			<div class="${menu != '/WEB-INF/views/layout/menu.jsp' ? 'col-md-11 col-lg-11' : 'col-md-9 col-lg-7'}">
 				<div class="content-card shadow-sm border-0">
 					<tiles:insertAttribute name="body" />
 				</div>
@@ -78,7 +74,6 @@ body {
 		</div>
 	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

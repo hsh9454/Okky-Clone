@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -9,11 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OKKY 클론</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 <link rel="icon"
 	href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBT9761QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAnSURBVDhPY/z//z8DJYCJgUIAn7fB8P///8v///+fBv9RMApGwSgAAK9fEA8S+XmNAAAAAElFTkSuQmCC">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -31,13 +27,13 @@
 }
 
 .okky-main-grid {
-    display: flex;
-    flex-direction: row; 
-    justify-content: space-between;
-    align-items: flex-start; 
-    max-width: 1400px;
-    margin: 20px auto;
-    gap: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	max-width: 1400px;
+	margin: 20px auto;
+	gap: 20px;
 }
 
 .side-banner {
@@ -151,15 +147,12 @@
 					<c:choose>
 						<c:when test="${not empty leftAds}">
 							<c:forEach items="${leftAds}" var="ad">
-								<a href="${ad.linkUrl}" target="_blank"> <img
-									src="${ad.imgUrl}" alt="${ad.title}"
-									style="width: 100%; height: 100%; object-fit: contain;">
+								<a href="${ad.linkUrl}" target="_blank"> <img src="${ad.imgUrl}" alt="${ad.title}" style="width: 100%; height: 100%; object-fit: contain;">
 								</a>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<div class="content-card text-center text-muted"
-								style="height: 600px;">
+							<div class="content-card text-center text-muted" style="height: 600px;">
 								<small>LEFT AD</small>
 							</div>
 						</c:otherwise>
@@ -179,15 +172,12 @@
 					<c:choose>
 						<c:when test="${not empty rightAds}">
 							<c:forEach items="${rightAds}" var="ad">
-								<a href="${ad.linkUrl}" target="_blank"> <img
-									src="${ad.imgUrl}" alt="${ad.title}"
-									style="width: 100%; height: 100%; object-fit: contain;">
+								<a href="${ad.linkUrl}" target="_blank"> <img src="${ad.imgUrl}" alt="${ad.title}" style="width: 100%; height: 100%; object-fit: contain;">
 								</a>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<div class="content-card text-center text-muted"
-								style="height: 600px;">
+							<div class="content-card text-center text-muted" style="height: 600px;">
 								<small>RIGHT AD</small>
 							</div>
 						</c:otherwise>

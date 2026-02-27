@@ -51,11 +51,14 @@
 	<update id="updateMemberProfile">
 		UPDATE tbl_member
 		SET userName = #{userName},
-		nickname = #{nickname},
+		nickname
+		= #{nickname},
 		job = #{job, jdbcType=VARCHAR},
-		bio = #{bio, jdbcType=VARCHAR},
+		bio = #{bio,
+		jdbcType=VARCHAR},
 		user_img = #{userImg, jdbcType=VARCHAR},
-		ad_agree = #{adAgree, jdbcType=VARCHAR}, push_agree = #{pushAgree,
+		ad_agree =
+		#{adAgree, jdbcType=VARCHAR}, push_agree = #{pushAgree,
 		jdbcType=VARCHAR}, updatedate = SYSDATE
 		WHERE userid = #{userid}
 	</update>

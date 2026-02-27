@@ -4,15 +4,16 @@
 
 <mapper namespace="com.okkyclone.mapper.AdMapper">
 
-    <select id="getAdsByPosition" resultType="com.okkyclone.domain.AdVO">
-        SELECT 
-            ad_id as adId, 
-            title, 
-            img_url as imgUrl, 
-            link_url as linkUrl, 
-            position
-        FROM tbl_ad
-        WHERE TRIM(LOWER(position)) = TRIM(LOWER(#{position}))
-    </select>
+	<select id="getAdsByPosition"
+		resultType="com.okkyclone.domain.AdVO">
+		SELECT
+		ad_id as adId,
+		title,
+		img_url as imgUrl,
+		link_url as linkUrl,
+		position
+		FROM tbl_ad
+		WHERE TRIM(LOWER(position)) = TRIM(LOWER(#{position}))
+	</select>
 
 </mapper>

@@ -5,20 +5,22 @@
 
 <mapper namespace="com.okkyclone.mapper.ReplyMapper">
 
-    <insert id="insert">
-        INSERT INTO tbl_reply (rno, bno, reply, replyer, parent_rno)
-        VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno, jdbcType=INTEGER})
-    </insert>
+	<insert id="insert">
+		INSERT INTO tbl_reply (rno, bno, reply, replyer, parent_rno)
+		VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno,
+		jdbcType=INTEGER})
+	</insert>
 
-    <select id="getList" resultType="com.okkyclone.domain.ReplyVO">
-        SELECT rno, bno, reply, replyer, replyDate, updateDate, 
-               parent_rno as parentRno, del_yn as delYn, likecnt 
-        FROM tbl_reply 
-        WHERE bno = #{bno} 
-        ORDER BY rno ASC
-    </select>
+	<select id="getList" resultType="com.okkyclone.domain.ReplyVO">
+		SELECT rno, bno, reply, replyer, replyDate, updateDate,
+		parent_rno as parentRno, del_yn as delYn, likecnt
+		FROM tbl_reply
+		WHERE bno = #{bno}
+		ORDER BY rno ASC
+	</select>
 
-    <select id="getListWithPaging" resultType="com.okkyclone.domain.ReplyVO">
+	<select id="getListWithPaging"
+		resultType="com.okkyclone.domain.ReplyVO">
         <![CDATA[
         SELECT 
             rno, bno, reply, replyer, replyDate, updateDate, 
@@ -31,22 +33,22 @@
         CONNECT BY PRIOR rno = parent_rno
         ORDER SIBLINGS BY rno ASC
         ]]>
-    </select>
+	</select>
 
-    <update id="delete">
-        UPDATE tbl_reply SET del_yn = 'Y' WHERE rno = #{rno}
-    </update>
-     
-    <update id="update">
-        UPDATE tbl_reply 
-        SET reply = #{reply}, updateDate = sysdate
-        WHERE rno = #{rno}
-    </update>
-    
-    <update id="updateLikeCount">
-        update tbl_reply 
-        set likecnt = likecnt + 1 
-        where rno = #{rno}
-    </update>
-     
+	<update id="delete">
+		UPDATE tbl_reply SET del_yn = 'Y' WHERE rno = #{rno}
+	</update>
+
+	<update id="update">
+		UPDATE tbl_reply
+		SET reply = #{reply}, updateDate = sysdate
+		WHERE rno = #{rno}
+	</update>
+
+	<update id="updateLikeCount">
+		update tbl_reply
+		set likecnt = likecnt + 1
+		where rno = #{rno}
+	</update>
+
 </mapper>

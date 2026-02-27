@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.okkyclone.service.AdService;
+
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
-import com.okkyclone.service.BoardService;
 import com.okkyclone.domain.PageDTO;
-import com.okkyclone.domain.AdVO;
+import com.okkyclone.service.AdService;
+import com.okkyclone.service.BoardService;
 
 @Controller
 @RequestMapping("/board/*")

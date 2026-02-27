@@ -497,17 +497,27 @@
 						onclick="location.href='${pageContext.request.contextPath}/board/get?bno=${board.bno}'"
 						style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border: 1px solid #f1f3f5 !important; margin-bottom: 15px !important;">
 
-						<div
-							class="card-only-elements d-flex align-items-center gap-2 mb-2">
-							<div
-								style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc;">
-								<span style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
-							</div>
-							<span class="text-muted" style="font-size: 12px;">
-								${board.writer} · <span class="date-display"
-								data-regdate="${board.regdate.time}"></span>
-							</span>
-						</div>
+						<div onclick="event.stopPropagation(); goCategory('${board.cat_name}');"
+     style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc; cursor: pointer;">
+    
+    <%-- 부모 카테고리 (상위 카테고리) --%>
+    <span style="color: #aaa; font-size: 11px;"> 
+        <c:choose>
+            <%-- 부모 이름이 없거나, 자식 이름과 똑같다면 '커뮤니티' 혹은 기본값 표시 --%>
+            <c:when test="${empty board.group_name || board.group_name eq board.cat_name}">
+                커뮤니티
+            </c:when>
+            <c:otherwise>
+                ${board.group_name} <%-- 여기가 진짜 '상위' 카테고리가 나오는 곳 --%>
+            </c:otherwise>
+        </c:choose>
+    </span> 
+    
+    <span style="color: #eee; margin: 0 4px;">|</span> 
+    
+    <%-- 자식 카테고리 (현재 카테고리) --%>
+    <span style="color: #666; font-size: 11px; font-weight: 600;">${board.cat_name}</span>
+</div>
 
 						<div
 							class="d-flex justify-content-between align-items-center w-100">
@@ -555,32 +565,148 @@
 </div>
 
 <script>
-    let currentSelectedCategory = '전체';
-	
-	function timeForToday(value) {
-	    if (!value) return '';
-	    const today = new Date();
-	    const timeValue = new Date(value);
+var currentSelectedCategory = '전체';
 
-	    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-	    if (betweenTime < 1) return '방금전';
-	    if (betweenTime < 60) {
-	        return betweenTime + '분 전';
-	    }
+function timeForToday(value) {
+    if (!value) return '';
+    var today = new Date();
+    var timeValue = new Date(value);
+    var betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) return betweenTime + '분';
+    var betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) return '약 ' + betweenTimeHour + '시간';
+    var betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) return betweenTimeDay + '일';
+    return Math.floor(betweenTimeDay / 365) + '년';
+}
 
-	    const betweenTimeHour = Math.floor(betweenTime / 60);
-	    if (betweenTimeHour < 24) {
-	        return '약 ' + betweenTimeHour + '시간';
-	    }
+function loadData(type, element) {
+	var tabs = document.querySelectorAll('.nav-pills .nav-link');
+    tabs.forEach(function(tab) {
+        tab.classList.remove('active', 'shadow-sm');
+        tab.classList.add('text-muted');
+        // 비활성화 탭 스타일: 배경 투명, 글자 회색
+        tab.style.backgroundColor = 'transparent';
+        tab.style.color = '#6c757d'; 
+        tab.style.fontWeight = '500';
+    });
+    
+    element.classList.add('active', 'shadow-sm');
+    element.classList.remove('text-muted');
+    element.style.backgroundColor = '#fff';
+    element.style.color = '#333'; 
+    element.style.fontWeight = '600';
 
-	    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-	    if (betweenTimeDay < 365) {
-	        return betweenTimeDay + '일';
-	    }
+    fetch('/main/data?type=' + type) 
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        var listArea = document.getElementById('popular-list-area');
+        if (!listArea || !data) return;
+        
+        var half = Math.ceil(data.length / 2);
+        var leftList = data.slice(0, half);
+        var rightList = data.slice(half);
 
-	    return Math.floor(betweenTimeDay / 365) + '년';
-	}
-	
+        var leftHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+        var rightHtml = '<div class="col-md-6"><div class="list-group list-group-flush border-top">';
+
+        var renderItem = function(board) {
+            var isNew = board.isNew; 
+            var item = '<div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent border-bottom">';
+            item += '<div class="text-truncate" style="max-width: 75%;">';
+            item += '<a href="/board/get?bno=' + board.bno + '" class="text-decoration-none text-dark fw-bold" style="font-size: 0.85rem;">' + board.title + '</a>';            
+            if(isNew) item += '<span class="badge-n" style="margin-left: 5px;">N</span>';         
+            if (board.replycnt > 0) {
+                item += '<span class="text-primary small ms-1">(' + board.replycnt + ')</span>';
+            }
+            
+            item += '</div>';
+            item += '<span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">' + (board.cat_name || '기타') + '</span></div>';
+            return item;
+        };
+
+        leftList.forEach(function(b) { leftHtml += renderItem(b); });
+        rightList.forEach(function(b) { rightHtml += renderItem(b); });
+
+        listArea.innerHTML = leftHtml + '</div></div>' + rightHtml + '</div></div>';
+    })
+        .catch(function(err) { console.error("Error:", err); });
+}
+
+function loadCategoryData(category) {
+    var container = document.getElementById('boardContainer');
+    if (!container) return;
+    var isListMode = container.classList.contains('list-mode');
+    
+    fetch('/board/main/categoryData?category=' + encodeURIComponent(category))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            var html = "";
+            if(!data || data.length === 0) {
+                html = '<div class="text-center py-5 border rounded-3 bg-light text-muted w-100">게시물이 없습니다.</div>';
+            } else {
+                data.forEach(function(board) {
+                    var dateText = timeForToday(board.regdate);
+                    var isNew = (new Date() - new Date(board.regdate)) / (1000 * 60 * 60) < 24;
+                    var contentClean = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '';
+                    var replyTag = board.replycnt > 0 ? '<span style="color: #0d6efd; font-size: 13px;">(' + board.replycnt + ')</span>' : '';
+                    var newTag = isNew ? '<span class="badge-n">N</span>' : '';
+
+                    var parentName = (board.group_name && board.group_name !== board.cat_name) ? board.group_name : '커뮤니티';
+                    var boardSlug = (typeof categoryConfig !== 'undefined' && categoryConfig[board.cat_name]) ? categoryConfig[board.cat_name].slug : "all";
+
+                    if (isListMode) {
+                        html += '<div class="post-item p-2 px-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">' +
+                                '<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;">' +
+                                '<h6 class="mb-0 fw-bold" style="font-size: 15px; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + board.title + '</h6>' +
+                                replyTag + newTag + '</div>' +
+                                '<div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">' +
+                                '<div style="border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #fcfcfc; color: #666;">' + board.cat_name + '</div>' +
+                                '<div style="width: 75px; text-align: right; font-size: 13px; color: #888;">' + dateText + '</div></div></div>';
+                    } else {
+                        html += '<div class="post-item p-4 mb-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; border-radius: 12px; border: 1px solid #f1f3f5 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">' +
+                                '<div class="d-flex align-items-center gap-2 mb-2">' +
+                                '<div onclick="event.stopPropagation(); location.href=\'/board/list?category=' + boardSlug + '\';" style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc; cursor: pointer;">' +
+                                '<span style="color: #aaa; font-size: 11px;">' + parentName + '</span>' +
+                                '<span style="color: #eee; margin: 0 4px;">|</span>' +
+                                '<span style="color: #666; font-size: 11px; font-weight: 600;">' + board.cat_name + '</span>' +
+                                '</div>' +
+                                '<span class="text-muted" style="font-size: 12px;">' + board.writer + ' · ' + dateText + '</span>' +
+                                '</div>' +
+                                '<h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">' + board.title + replyTag + (isNew ? ' <span class="badge-n">N</span>' : '') + '</h6>' +
+                                '<p class="text-muted mb-3 text-truncate-2" style="font-size: 14px; line-height: 1.6; color: #666 !important;">' + contentClean + '</p>' +
+                                '<div class="d-flex align-items-center gap-2">' +
+                                '<div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-hand-thumbs-up"></i> ' + (board.likecnt || 0) + '</div>' +
+                                '<div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff; cursor: pointer;"><i class="bi bi-hand-thumbs-down"></i> ' + (board.dislikecnt || 0) + '</div>' +
+                                '<div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-share"></i> 공유</div>' +
+                                '</div>' +
+                                '</div>';
+                    }
+                });
+            }
+            container.innerHTML = html;
+        })
+        .catch(function(err) { console.error("Error:", err); });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    var firstTab = document.querySelector('.nav-pills .nav-link');
+    if (firstTab) loadData('daily', firstTab);
+
+    var categoryTabs = document.querySelectorAll('.filter-tab');
+    categoryTabs.forEach(function(tab) {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            categoryTabs.forEach(function(t) { t.classList.remove('active'); });
+            this.classList.add('active');
+            currentSelectedCategory = this.innerText.trim();
+            loadCategoryData(currentSelectedCategory);
+        });
+    });
+});
+        
+        
 	function loadCategoryData(category) {
 	    var container = document.getElementById('boardContainer');
 	    if (!container) return;
@@ -632,7 +758,7 @@
 	        "전체": { id: "all", slug: "all" }
 	    };
 
-	    fetch('/board/main/categoryData?category=' + encodeURIComponent(cleanCategory))
+	fetch('${pageContext.request.contextPath}/board/main/categoryData?category=' + encodeURIComponent(cleanCategory))
 	        .then(function(res) { return res.json(); })
 	        .then(function(data) {
 	            var html = "";
@@ -651,7 +777,7 @@
 	                    var contentClean = board.content ? board.content.replace(/<[^>]*>?/gm, '') : '';
 	                    
 	                    var boardSlug = (categoryConfig[board.cat_name] ? categoryConfig[board.cat_name].slug : "all");
-	                    var displayGroup = (board.group_name && board.group_name.trim() !== "") ? board.group_name : board.cat_name;
+	                    var displayGroup = (board.group_name && board.group_name !== board.cat_name) ? board.group_name : '커뮤니티';
 
 	                    if (isListMode) {
 	                        html += '<div class="post-item p-2 px-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px;">';
@@ -671,12 +797,11 @@
 	                        html += '<div class="post-item p-4 mb-3 border-bottom bg-white" onclick="location.href=\'/board/get?bno=' + board.bno + '\'" style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f3f5 !important;">';
 	                        html += '  <div class="d-flex align-items-center gap-2 mb-2">';
 	                        html += '    <div onclick="event.stopPropagation(); location.href=\'/board/list?category=' + boardSlug + '\';" style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc; cursor: pointer;">';
-	                        html += '      <span style="color: #aaa; font-size: 11px;">' + displayGroup + '</span>';
-	                        if (displayGroup !== board.cat_name) {
-	                            html += '<span style="color: #eee; margin: 0 4px;">|</span>';
-	                            html += '<span style="color: #666; font-size: 11px; font-weight: 600;">' + board.cat_name + '</span>';
-	                        }
+	                        html += '      <span style="color: #aaa; font-size: 11px;">' + (displayGroup || '커뮤니티') + '</span>'; 
+	                        html += '      <span style="color: #eee; margin: 0 4px;">|</span>';
+	                        html += '      <span style="color: #666; font-size: 11px; font-weight: 600;">' + board.cat_name + '</span>';
 	                        html += '    </div>';
+	                        
 	                        html += '    <span class="text-muted" style="font-size: 12px;">' + board.writer + ' · ' + dateDisplay + '</span>';
 	                        html += '  </div>';
 	                        html += '  <h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">' + board.title;
@@ -686,6 +811,7 @@
 	                        html += '  <p class="text-muted mb-3 text-truncate-2" style="font-size: 14px; line-height: 1.6; color: #666 !important;">' + contentClean + '</p>';
 	                        html += '  <div class="d-flex align-items-center gap-2">';
 	                        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-hand-thumbs-up"></i> ' + (board.likecnt || 0) + '</div>';
+	                        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff; cursor: pointer;"><i class="bi bi-hand-thumbs-down"></i> ' + (board.dislikecnt || 0) + '</div>';
 	                        html += '    <div style="border: 1px solid #f1f3f5; padding: 5px 14px; border-radius: 20px; font-size: 13px; color: #868e96; background: #fff;"><i class="bi bi-share"></i> 공유</div>';
 	                        html += '  </div>';
 	                        html += '</div>';
@@ -705,26 +831,39 @@
 	}
 
 document.addEventListener("DOMContentLoaded", function() {
-    const initialTab = document.querySelector('.nav-link.active') || document.querySelector('.filter-tab.active');
-    if (initialTab) {
+	const initialTab = document.querySelector('.nav-pills .nav-link.active');
+    if (initialTab && typeof loadData === 'function') {
         loadData('daily', initialTab); 
     }
     var myCarousel = document.querySelector('#techSlider');
     if (myCarousel) {
-        var carousel = new bootstrap.Carousel(myCarousel, {
-            interval: 8000, 
-            wrap: true,     
-            pause: 'hover'  
+        new bootstrap.Carousel(myCarousel, {
+            interval: 8000,
+            wrap: true,
+            pause: 'hover'
         });
     }
-    const tabs = document.querySelectorAll('.nav-link');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            tabs.forEach(t => t.classList.remove('active'));           
-            this.classList.add('active');            
+    const categoryTabs = document.querySelectorAll('.filter-tab');
+
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            console.log("카테고리 클릭됨:", this.innerText.trim());
+
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            currentSelectedCategory = this.innerText.trim();
+            
+            if (typeof loadCategoryData === 'function') {
+                loadCategoryData(currentSelectedCategory);
+            }
+            
             this.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         });
     });
+
     document.querySelectorAll('.date-display').forEach(el => {
         const regdate = el.getAttribute('data-regdate');
         if (regdate) {
@@ -749,5 +888,56 @@ function toggleViewMode() {
         btn.setAttribute('data-tooltip', '리스트형 보기로 전환합니다.');
     }    
     loadCategoryData(currentSelectedCategory);
+}
+
+
+function goCategory(catName) {
+    var categoryConfig = {
+        "Q&A": "qna",
+        "기술": "tech",
+        "커리어": "career",
+        "기타": "etc",
+        "지식": "knowledge",
+        "Tech 뉴스": "news",
+        "팁": "tips",
+        "칼럼": "column",
+        "리뷰": "review",
+        "IT보도자료": "press",
+        "커뮤니티": "community",
+        "사는얘기": "life",
+        "AI": "ai",
+        "연봉·단가": "salary",
+        "취준생": "jobs",
+        "IT 정책토론": "policy",
+        "피드백": "feedback",
+        "이벤트": "event",
+        "IT 행사": "it-event",
+        "홍보·광고": "promo",
+        "모임": "meetup",
+        "스터디": "study",
+        "프로젝트": "project",
+        "모각코·모각공": "coding-study",
+        "멘토링·튜터링": "mentoring",
+        "모임·네트워킹": "networking",
+        "공모전·해커톤": "contest",
+        "부트캠프": "bootcamp",
+        "교육과정": "course",
+        "JOBS": "jobs-board",
+        "계약직": "contract",
+        "정규직": "full-time",
+        "Talent": "talent",
+        "좋은회사/나쁜회사": "company-review",
+        "CONTACT": "contact",
+        "공지사항": "notice",
+        "Releases": "releases",
+        "버그 및 제안": "bug-report",
+        "게시판 생성 요청": "request",
+        "OKKY 행사": "okky-event",
+        "전체": "all"
+    };
+
+    var slug = categoryConfig[catName.trim()] || "all";
+
+    location.href = '${pageContext.request.contextPath}/board/list?category=' + slug;
 }
 </script>

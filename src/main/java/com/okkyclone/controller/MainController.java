@@ -1,7 +1,9 @@
 package com.okkyclone.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +17,6 @@ import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.AdService;
 import com.okkyclone.service.BoardService;
-import java.util.ArrayList;
-import java.util.List;
-import com.okkyclone.domain.AdVO;
-import com.okkyclone.service.AdService;
 
 @Controller
 public class MainController {
