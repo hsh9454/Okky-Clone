@@ -3,5 +3,6 @@ encoding//src/main/java/com/okkyclone/controller/BoardController.java=UTF-8
 encoding//src/main/java/com/okkyclone/controller/MainController.java=UTF-8
 encoding//src/main/java/com/okkyclone/controller/MemberController.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/board/get.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/board/write.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/layout/menu.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/member/login.jsp=UTF-8

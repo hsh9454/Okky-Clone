@@ -586,7 +586,6 @@ function loadData(type, element) {
     tabs.forEach(function(tab) {
         tab.classList.remove('active', 'shadow-sm');
         tab.classList.add('text-muted');
-        // 비활성화 탭 스타일: 배경 투명, 글자 회색
         tab.style.backgroundColor = 'transparent';
         tab.style.color = '#6c757d'; 
         tab.style.fontWeight = '500';

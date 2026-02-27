@@ -1,27 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>새 글 작성</title>
 
-<Link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<Link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.min.js"></script>
+
+</head>
+<body>
 <div class="container mt-5">
 	<h2>새 글 작성</h2>
 	<hr>
 
-	<form action="${pageContext.request.contextPath}/board/register"
-		method="post">
+	<form action="${pageContext.request.contextPath}/board/register" method="post">
 
 		<div class="form-group mb-3">
-			<label>게시판 선택</label> <select name="cat_id" class="form-select"
-				required>
+			<label>게시판 선택</label>
+			<select name="cat_id" class="form-control" required>
 				<option value="">-- 게시판을 선택하세요 --</option>
 				<optgroup label="Q&A">
 					<option value="11">기술</option>
@@ -64,13 +67,13 @@
 		</div>
 
 		<div class="form-group">
-			<label>제목</label> <input type="text" class="form-control"
-				name="title" placeholder="제목을 입력하세요">
+			<label>제목</label>
+			<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" required>
 		</div>
 
 		<div class="form-group">
-			<label>작성자</label> <input type="text" class="form-control"
-				name="writer" Value="${user.userid}" readonly>
+			<label>작성자</label>
+			<input type="text" class="form-control" name="writer" value="${user.userid}" readonly>
 		</div>
 
 		<div class="form-group">
@@ -108,3 +111,5 @@
 		});
 	});
 </script>
+</body>
+</html>

@@ -228,19 +228,27 @@
 									<hr class="dropdown-divider mx-2">
 								</li>
 								<li>
-									<a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">Q&amp;A</b>에 글쓰기</span> <i class="bi bi-question-circle text-muted ms-3"></i></a>
+									<a class="dropdown-item d-flex align-items-center py-2" href="${pageContext.request.contextPath}/board/write?group=qna"> <span style="flex-grow: 1;"><b class="text-dark">Q&amp;A</b>에
+											글쓰기</span> <i class="bi bi-question-circle text-muted ms-3"></i>
+									</a>
 								</li>
 								<li>
-									<a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">지식</b>에 글쓰기</span> <i class="bi bi-newspaper text-muted ms-3"></i></a>
+									<a class="dropdown-item d-flex align-items-center py-2" href="${pageContext.request.contextPath}/board/write?group=knowledge"> <span style="flex-grow: 1;"><b class="text-dark">지식</b>에
+											글쓰기</span> <i class="bi bi-newspaper text-muted ms-3"></i>
+									</a>
 								</li>
 								<li>
-									<a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark">커뮤니티</b>에 글쓰기</span> <i class="bi bi-emoji-smile text-muted ms-3"></i></a>
+									<a class="dropdown-item d-flex align-items-center py-2" href="${pageContext.request.contextPath}/board/write?group=community"> <span style="flex-grow: 1;"><b class="text-dark">커뮤니티</b>에
+											글쓰기</span> <i class="bi bi-emoji-smile text-muted ms-3"></i>
+									</a>
 								</li>
 								<li>
 									<hr class="dropdown-divider mx-2">
 								</li>
 								<li>
-									<a class="dropdown-item d-flex align-items-center py-2" href="#"><span style="flex-grow: 1;"><b class="text-dark text-danger">이벤트</b>에 글쓰기</span> <i class="bi bi-fire text-danger ms-3"></i></a>
+									<a class="dropdown-item d-flex align-items-center py-2" href="${pageContext.request.contextPath}/board/write?group=event"> <span style="flex-grow: 1;"><b
+											class="text-dark text-danger">이벤트</b>에 글쓰기</span> <i class="bi bi-fire text-danger ms-3"></i>
+									</a>
 								</li>
 							</ul>
 						</div>

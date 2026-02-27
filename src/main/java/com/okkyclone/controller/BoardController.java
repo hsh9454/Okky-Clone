@@ -1,6 +1,9 @@
 package com.okkyclone.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,11 +24,61 @@ import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 import com.okkyclone.domain.PageDTO;
 import com.okkyclone.service.AdService;
-import com.okkyclone.service.BoardService;
+import com.okkyclone.service.BoardService; 
 
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
+
+	@GetMapping("/getCategoryList")
+	@ResponseBody
+	public List<Map<String, String>> getCategoryList(@RequestParam("group") String group) {
+		log.info("하위 카테고리 요청 - group: " + group);
+
+		List<Map<String, String>> list = new ArrayList<>();
+		
+		if ("qna".equals(group)) {
+            list.add(createMap("11", "기술"));
+            list.add(createMap("12", "커리어"));
+            list.add(createMap("13", "기타"));
+        } else if ("knowledge".equals(group)) {
+            list.add(createMap("21", "Tech 뉴스"));
+            list.add(createMap("22", "팁"));
+            list.add(createMap("23", "칼럼"));
+            list.add(createMap("24", "리뷰"));
+            list.add(createMap("25", "IT보도자료"));
+        } else if ("community".equals(group)) {
+            list.add(createMap("31", "사는얘기"));
+            list.add(createMap("32", "AI"));
+            list.add(createMap("33", "연봉·단가"));
+            list.add(createMap("34", "취준생"));
+            list.add(createMap("35", "IT 정책토론"));
+            list.add(createMap("36", "피드백"));
+        } else if ("event".equals(group)) {
+            list.add(createMap("41", "IT 행사"));
+            list.add(createMap("42", "홍보·광고"));
+        }         
+        return list; 
+    }
+	
+	private Map<String, String> createMap(String id, String name) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("name", name);
+        return map;
+    }
+	
+	@GetMapping("/write")
+	public String writeForm(@RequestParam("group") String group,
+			@RequestParam(value = "category", required = false) String category, Model model) {
+
+		log.info("글쓰기 폼 요청 - group: " + group + ", category: " + category);
+
+		model.addAttribute("group", group);
+		model.addAttribute("category", category);
+
+		return "board/write";
+	}
 
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 
@@ -34,58 +87,129 @@ public class BoardController {
 
 	@Autowired
 	private AdService adService;
-	
+
 	@GetMapping("/list")
 	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category,
 			@RequestParam(value = "group", required = false) String group, Model model) {
 
 		if (category != null) {
-		    switch (category) {
-		        case "qna": category = "10"; break;
-		        case "tech": category = "11"; break;
-		        case "career": category = "12"; break;
-		        case "etc": category = "13"; break;
-		        case "knowledge": category = "20"; break;
-		        case "news": category = "21"; break;
-		        case "tips": category = "22"; break;
-		        case "column": category = "23"; break;
-		        case "review": category = "24"; break;
-		        case "press": category = "25"; break;
-		        case "community": category = "30"; break;
-		        case "life": category = "31"; break;
-		        case "ai": category = "32"; break;
-		        case "salary": category = "33"; break;
-		        case "jobs": category = "34"; break;
-		        case "policy": category = "35"; break;
-		        case "feedback": category = "36"; break;
-		        case "event": category = "40"; break;
-		        case "it-event": category = "41"; break;
-		        case "promo": category = "42"; break;
-		        case "meetup": category = "50"; break;
-		        case "study": category = "51"; break;
-		        case "project": category = "52"; break;
-		        case "coding-study": category = "53"; break;
-		        case "bootcamp": category = "60"; break;
-		        case "course": category = "61"; break;
-		        case "jobs-board": category = "70"; break;
-		        case "contract": category = "71"; break;
-		        case "full-time": category = "72"; break;
-		        case "contact": category = "80"; break;
-		        case "notice": category = "81"; break; 
-		        case "releases": category = "82"; break;
-		        case "bug-report": category = "83"; break;
-		        case "request": category = "84"; break;
-		        case "okky-event": category = "85"; break;
+			switch (category) {
+			case "qna":
+				category = "10";
+				break;
+			case "tech":
+				category = "11";
+				break;
+			case "career":
+				category = "12";
+				break;
+			case "etc":
+				category = "13";
+				break;
+			case "knowledge":
+				category = "20";
+				break;
+			case "news":
+				category = "21";
+				break;
+			case "tips":
+				category = "22";
+				break;
+			case "column":
+				category = "23";
+				break;
+			case "review":
+				category = "24";
+				break;
+			case "press":
+				category = "25";
+				break;
+			case "community":
+				category = "30";
+				break;
+			case "life":
+				category = "31";
+				break;
+			case "ai":
+				category = "32";
+				break;
+			case "salary":
+				category = "33";
+				break;
+			case "jobs":
+				category = "34";
+				break;
+			case "policy":
+				category = "35";
+				break;
+			case "feedback":
+				category = "36";
+				break;
+			case "event":
+				category = "40";
+				break;
+			case "it-event":
+				category = "41";
+				break;
+			case "promo":
+				category = "42";
+				break;
+			case "meetup":
+				category = "50";
+				break;
+			case "study":
+				category = "51";
+				break;
+			case "project":
+				category = "52";
+				break;
+			case "coding-study":
+				category = "53";
+				break;
+			case "bootcamp":
+				category = "60";
+				break;
+			case "course":
+				category = "61";
+				break;
+			case "jobs-board":
+				category = "70";
+				break;
+			case "contract":
+				category = "71";
+				break;
+			case "full-time":
+				category = "72";
+				break;
+			case "contact":
+				category = "80";
+				break;
+			case "notice":
+				category = "81";
+				break;
+			case "releases":
+				category = "82";
+				break;
+			case "bug-report":
+				category = "83";
+				break;
+			case "request":
+				category = "84";
+				break;
+			case "okky-event":
+				category = "85";
+				break;
 
-		        default: break;
-		    }
+			default:
+				break;
+			}
 		}
 
 		System.out.println("DB로 보낼 실제 ID: " + category);
 		List<BoardVO> list = service.getListWithCategory(cri, category, group);
 		list.forEach(board -> {
-	        board.setNew(board.checkIsNew()); 
-	    });
+			board.setNew(board.checkIsNew());
+		});
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri, category, group)));
 		model.addAttribute("leftAds", adService.getAds("left"));
@@ -94,14 +218,14 @@ public class BoardController {
 
 	@GetMapping("/get")
 	public String get(@RequestParam("bno") Long bno, Criteria cri, Model model) {
-	    model.addAttribute("board", service.get(bno));
-	    model.addAttribute("list", service.getList(cri));
-	    model.addAttribute("leftAds", adService.getAds("left"));
-	    model.addAttribute("rightAds", adService.getAds("right"));
+		model.addAttribute("board", service.get(bno));
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("leftAds", adService.getAds("left"));
+		model.addAttribute("rightAds", adService.getAds("right"));
 
-	    return "board/get";
+		return "board/get";
 	}
-	
+
 	@GetMapping("/modify")
 	public String modify(@RequestParam("bno") Long bno, Model model) {
 		model.addAttribute("board", service.get(bno));

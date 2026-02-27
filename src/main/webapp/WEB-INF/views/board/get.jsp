@@ -16,7 +16,7 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
 <style>
-body {
+.body {
 	background-color: #f1f5f9 !important;
 }
 
