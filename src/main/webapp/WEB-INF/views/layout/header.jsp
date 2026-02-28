@@ -3,6 +3,21 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
+.menu-col h6 a, .menu-col ul li a {
+	white-space: nowrap;
+}
+
+.menu-col h6 {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.menu-col h6 a {
+	display: flex;
+	align-items: center;
+}
+
 .okky-nav-group {
 	position: relative;
 	justify-content: flex-start !important;
@@ -43,13 +58,17 @@
 
 	<div class="d-none d-lg-flex gap-3 okky-nav-group ms-4 nav-item dropdown align-items-center flex-grow-1">
 
-		<a href="${pageContext.request.contextPath}/board/list?group=qna" class="nav-link text-dark fw-bold small">Q&amp;A</a> <a href="${pageContext.request.contextPath}/board/list?group=knowledge"
-			class="nav-link text-dark fw-bold small">지식</a> <a href="${pageContext.request.contextPath}/board/list?group=community" class="nav-link text-dark fw-bold small">커뮤니티</a> <a
-			href="${pageContext.request.contextPath}/board/list?group=event" class="nav-link text-dark fw-bold small">이벤트</a> <a href="${pageContext.request.contextPath}/board/list?group=group"
-			class="nav-link text-danger fw-bold small">부트캠프</a> <a href="${pageContext.request.contextPath}/board/list?group=jobs" class="nav-link text-dark fw-bold small">Jobs</a> <span
-			style="color: #eee; font-size: 12px; margin: 0 5px;">|</span> <a href="${pageContext.request.contextPath}/board/list?group=contact" class="nav-link text-dark fw-bold small">Contact</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=qna" class="nav-link text-dark fw-bold small">Q&amp;A</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=knowledge" class="nav-link text-dark fw-bold small">지식</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=community" class="nav-link text-dark fw-bold small">커뮤니티</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=event" class="nav-link text-dark fw-bold small">이벤트</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=group" class="nav-link text-danger fw-bold small">부트캠프</a>
+		<a href="${pageContext.request.contextPath}/board/list?group=jobs" class="nav-link text-dark fw-bold small">Jobs</a>
+		<span style="color: #eee; font-size: 12px; margin: 0 5px;">|</span>
+		<a href="${pageContext.request.contextPath}/board/list?group=contact" class="nav-link text-dark fw-bold small">Contact</a>
 
 		<div style="flex-grow: 1;"></div>
+		
 		<div class="mega-dropdown-panel shadow border-top">
 			<div class="container-fluid d-flex py-4 px-5 justify-content-between text-start">
 
@@ -59,13 +78,34 @@
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=tech" class="dropdown-item">기술</a>
+							<a href="/board/list?category=11" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>기술</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 11 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=career" class="dropdown-item">커리어</a>
+							<a href="/board/list?category=12" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>커리어</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 12 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=etc" class="dropdown-item">기타</a>
+							<a href="/board/list?category=13" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>기타</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 13 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -76,59 +116,157 @@
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=news" class="dropdown-item">Tech 뉴스</a>
+							<a href="/board/list?category=21" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>Tech 뉴스</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 21 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=tips" class="dropdown-item">팁</a>
+							<a href="/board/list?category=22" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>팁</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 22 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=columns" class="dropdown-item">칼럼</a>
+							<a href="/board/list?category=23" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>칼럼</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 23 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=reviews" class="dropdown-item">리뷰</a>
+							<a href="/board/list?category=24" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>리뷰</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 24 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=press" class="dropdown-item">IT보도자료</a>
+							<a href="/board/list?category=25" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>IT보도자료</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 25 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
-
 				<div class="menu-col" style="min-width: 150px;">
 					<h6 class="fw-bold mb-3">
 						<a href="/board/list?group=community" class="text-decoration-none text-dark">커뮤니티</a>
 					</h6>
 					<ul class="list-unstyled small mb-4">
 						<li>
-							<a href="/board/list?category=life" class="dropdown-item">사는얘기</a>
+							<a href="/board/list?category=31" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>사는얘기</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 31 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=ai" class="dropdown-item">AI</a>
+							<a href="/board/list?category=32" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>AI</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 32 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=salary" class="dropdown-item">연봉·단가</a>
+							<a href="/board/list?category=33" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>연봉·단가</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 33 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=jobs" class="dropdown-item">취준생</a>
+							<a href="/board/list?category=34" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>취준생</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 34 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=policy" class="dropdown-item">IT 정책토론</a>
+							<a href="/board/list?category=35" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>IT 정책토론</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 35 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=feedback" class="dropdown-item">피드백</a>
+							<a href="/board/list?category=36" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>피드백</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 36 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
+										
 					<h6 class="fw-bold mb-3">
 						<a href="/board/list?group=group" class="text-decoration-none text-dark">모임</a>
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=studies" class="dropdown-item">스터디</a>
+							<a href="/board/list?category=51" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>스터디</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 51 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=projects" class="dropdown-item">프로젝트</a>
+							<a href="/board/list?category=52" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>프로젝트</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 52 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=gathering" class="dropdown-item">모각코·모각공</a>
+							<a href="/board/list?category=53" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>모각코·모각공</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 53 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -139,10 +277,24 @@
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=events" class="dropdown-item">IT 행사</a>
+							<a href="/board/list?category=41" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>IT 행사</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 41 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=promotion" class="dropdown-item">홍보·광고</a>
+							<a href="/board/list?category=42" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>홍보·광고</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 42 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -153,50 +305,119 @@
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=education" class="dropdown-item">교육과정</a>
+							<a href="/board/list?category=61" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>교육과정</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 61 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
 
 				<div class="menu-col">
-					<h6 class="fw-bold mb-3 text-purple">
-						<a href="/board/list?group=jobs" class="text-decoration-none text-purple">OKKY JOBS</a> <i class="bi bi-box-arrow-up-right small"></i>
+					<h6 class="fw-bold mb-3 text-purple d-flex align-items-center">
+						<i class="bi bi-rocket-takeoff-fill me-1"></i> <a href="/board/list?group=jobs" class="text-decoration-none text-purple">OKKY JOBS</a> <i class="bi bi-box-arrow-up-right small ms-1"></i>
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=contract" class="dropdown-item">계약직</a>
+							<a href="/board/list?category=71" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>계약직</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 71 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=fulltime" class="dropdown-item">정규직</a>
+							<a href="/board/list?category=72" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>정규직</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 72 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=talent" class="dropdown-item">Talent</a>
+							<a href="/board/list?category=73" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>Talent</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 73 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=company_reviews" class="dropdown-item">좋은회사/나쁜회사</a>
+							<a href="/board/list?category=74" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>좋은회사/나쁜회사</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 74 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
-
 				<div class="menu-col">
 					<h6 class="fw-bold mb-3">
 						<a href="/board/list?group=contact" class="text-decoration-none text-dark">Contact</a>
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/board/list?category=notice" class="dropdown-item">공지사항</a>
+							<a href="/board/list?category=81" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>공지사항</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 81 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=releases" class="dropdown-item">Releases</a>
+							<a href="/board/list?category=82" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>Releases</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 82 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=suggestions" class="dropdown-item">버그 및 제안</a>
+							<a href="/board/list?category=83" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>버그 및 제안</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 83 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=req_board" class="dropdown-item">게시판 생성 요청</a>
+							<a href="/board/list?category=84" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>게시판 생성 요청</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 84 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 						<li>
-							<a href="/board/list?category=okky_event" class="dropdown-item">OKKY 행사</a>
+							<a href="/board/list?category=85" class="dropdown-item d-flex align-items-center justify-content-between">
+								<span>OKKY 행사</span>
+								<c:forEach items="${headerMenuData}" var="board">
+									<c:if test="${board.cat_id == 85 && board.isNew}">
+										<span class="text-primary fw-bold" style="font-size: 0.75rem;">신규</span>
+									</c:if>
+								</c:forEach>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -205,7 +426,8 @@
 
 		<div class="d-flex align-items-center gap-2" style="min-width: 200px; justify-content: flex-end;">
 			<form action="/board/list" method="get" class="d-flex align-items-center">
-				<input type="text" name="keyword" class="form-control form-control-sm me-2" placeholder="검색" value='<c:out value="${pageMaker.cri.keyword}"/>'> <input type="hidden" name="type" value="TC">
+				<input type="text" name="keyword" class="form-control form-control-sm me-2" placeholder="검색" value='<c:out value="${pageMaker.cri.keyword}"/>'>
+				<input type="hidden" name="type" value="TC">
 				<input type="hidden" name="amount" value="10">
 			</form>
 
@@ -330,12 +552,11 @@
 	$(document).ready(function() {
 		let timer;
 		const $panel = $('.mega-dropdown-panel');
-		const $navLinks = $('.nav-link');
 		const $navGroup = $('.okky-nav-group');
 
-		const fadeOutDelay = 250;
+		const fadeOutDelay = 300;
 
-		$navLinks.add($panel).hover(function() {
+		$navGroup.hover(function() {
 			clearTimeout(timer);
 			$panel.addClass('show');
 		}, function() {

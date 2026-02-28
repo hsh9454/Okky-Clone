@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.AdService;
@@ -27,49 +27,60 @@ public class MainController {
 	@Autowired
 	private AdService adService;
 
+	@ModelAttribute("headerMenuData")
+	public List<BoardVO> setHeaderMenuData() {
+		List<BoardVO> list = service.getCategoryList("전체");
+		long now = System.currentTimeMillis();
+
+		if (list != null) {
+			for (BoardVO board : list) {
+				if (board.getRegdate() != null) {
+					if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+						board.setIsNew(true);
+					} else {
+						board.setIsNew(false);
+					}
+				}
+			}
+		}
+		return list;
+	}
+
 	@RequestMapping("/")
 	public String mainPage(@RequestParam(value = "type", required = false, defaultValue = "daily") String type,
-	        Model model) {
+			Model model) {
 
-	    model.addAttribute("leftAds", adService.getAds("LEFT"));
-	    model.addAttribute("rightAds", adService.getAds("RIGHT"));
+		model.addAttribute("leftAds", adService.getAds("LEFT"));
+		model.addAttribute("rightAds", adService.getAds("RIGHT"));
 
-	    List<BoardVO> boardList = service.getCategoryList("전체");
+		// 💡 ModelAttribute에서 가져온 데이터를 재사용
+		model.addAttribute("boardList", model.asMap().get("headerMenuData"));
 
-	    long now = System.currentTimeMillis();
-	    if (boardList != null) {
-	        for (BoardVO board : boardList) {
-	            if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
-	                board.setIsNew(true);
-	            }
-	        }
-	    }
-	    model.addAttribute("boardList", boardList);
+		List<BoardVO> techList = service.getMainKnowledgeList();
 
-	    List<BoardVO> techList = service.getMainKnowledgeList();	    
-	    
-	    if (techList != null && techList.size() > 6) {
-	        techList = techList.subList(0, 6);
-	    }
-	    model.addAttribute("techList", techList);
+		if (techList != null && techList.size() > 6) {
+			techList = techList.subList(0, 6);
+		}
+		model.addAttribute("techList", techList);
 
-	    List<BoardVO> popularList = service.getPopularList(type);
-	    if (popularList != null) {
-	        for (BoardVO board : popularList) {
-	            if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
-	                board.setIsNew(true);
-	            }
-	        }
-	        
-	        if (!popularList.isEmpty()) {
-	            int half = (int) Math.ceil(popularList.size() / 2.0);
-	            model.addAttribute("leftList", popularList.subList(0, half));
-	            model.addAttribute("rightList", popularList.subList(half, popularList.size()));
-	        }
-	    }
-	    
-	    model.addAttribute("currentType", type);
-	    return "main";
+		List<BoardVO> popularList = service.getPopularList(type);
+		long now = System.currentTimeMillis();
+		if (popularList != null) {
+			for (BoardVO board : popularList) {
+				if (now - board.getRegdate().getTime() < (1000 * 60 * 60 * 24)) {
+					board.setIsNew(true);
+				}
+			}
+
+			if (!popularList.isEmpty()) {
+				int half = (int) Math.ceil(popularList.size() / 2.0);
+				model.addAttribute("leftList", popularList.subList(0, half));
+				model.addAttribute("rightList", popularList.subList(half, popularList.size()));
+			}
+		}
+
+		model.addAttribute("currentType", type);
+		return "main";
 	}
 
 	@GetMapping(value = "/main/data", produces = "application/json; charset=UTF-8")
