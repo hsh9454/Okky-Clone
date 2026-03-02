@@ -103,7 +103,7 @@
 									onerror="this.src='${pageContext.request.contextPath}/resources/img/default_profile.jpg'"
 									style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
 							</div>
-							<a href="/board/get?bno=${board.bno}"
+							<a href="${pageContext.request.contextPath}/board/get?bno=${board.bno}"
 								style="text-decoration: none; color: #222; font-size: 15px; font-weight: 600;">
 								${board.title} </a>
 							<c:if test="${board.isNew()}">

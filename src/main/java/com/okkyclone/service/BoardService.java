@@ -23,5 +23,4 @@ public interface BoardService {
     public int getTotalCountWithCategory(Criteria cri, String category);
     public List<BoardVO> getListWithCategory(Criteria cri, String category, String group);
     public List<BoardVO> getMainKnowledgeList();
-
 }

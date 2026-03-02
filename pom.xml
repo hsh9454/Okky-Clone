@@ -46,12 +46,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>19.3.0.0</version>
@@ -111,6 +105,12 @@
 			<version>5.0.7.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.30</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -126,5 +126,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
 
 </project>

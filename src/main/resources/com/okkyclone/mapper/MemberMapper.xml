@@ -22,24 +22,9 @@
 		<result property="updatedate" column="UPDATEDATE" />
 	</resultMap>
 
-	<select id="read" resultMap="memberMap">
-		SELECT * FROM TBL_MEMBER WHERE
-		USERID = #{userid}
-	</select>
-
-	<select id="login" resultType="com.okkyclone.domain.MemberVO">
-		SELECT
-		userid,
-		userpw,
-		nickname,
-		user_img as userImg,
-		user_point as userPoint,
-		user_rank as userRank,
-		regdate, updatedate
-		FROM tbl_member
-		WHERE userid = #{userid} AND userpw
-		= #{userpw}
-	</select>
+	<select id="readMember" resultMap="memberMap">
+        SELECT * FROM TBL_MEMBER WHERE USERID = #{userid}
+    </select>
 
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER

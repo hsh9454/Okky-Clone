@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -23,54 +24,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.okkyclone.domain.ActivityVO;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.MemberService;
 
 @Controller
 @RequestMapping("/member/*")
-
 public class MemberController {
-
-	@Autowired
-	private MemberService memberService;
+    
+    @Autowired
+    private MemberService memberService;   
 
 	@GetMapping("/join")
 	public void joinPage() {
-		System.out.println("=== 회원가입 페이지로 이동 ===");
+		System.out.println("=== �쉶�썝媛��엯 �럹�씠吏�濡� �씠�룞 ===");
 	}
 
 	@PostMapping("/join")
 	public String joinProcess(MemberVO vo) {
-		System.out.println("=== 회원가입 시도 아이디: " + vo.getUserid() + " ===");
+		System.out.println("=== �쉶�썝媛��엯 �떆�룄 �븘�씠�뵒: " + vo.getUserid() + " ===");
 		memberService.join(vo);
 		return "redirect:/member/login";
 	}
 
 	@GetMapping("/login")
 	public void loginPage() {
-		System.out.println("=== 로그인 페이지로 이동 ===");
+	    System.out.println("=== 濡쒓렇�씤 �럹�씠吏�濡� �씠�룞 ===");
 	}
-
-	@PostMapping("/login")
-	public String loginPROCESS(MemberVO vo, javax.servlet.http.HttpSession session) {
-		System.out.println("=== 로그인 시도 아이디: " + vo.getUserid() + " ===");
-
-		MemberVO loginUser = memberService.login(vo);
-
-		if (loginUser != null) {
-
-			System.out.println("로그인 성공! 환영합니다!");
-			session.setAttribute("user", loginUser);
-			return "redirect:/";
-		} else {
-			System.out.println("로그인 실패!");
-			return "redirect:/member/login?error=y";
-		}
-	}
-
+	
 	@PostMapping("/modifyImg")
-	public String modifyImg(@RequestParam("uploadFile") MultipartFile uploadFile, // @RequestParam 추가
-			@RequestParam("userid") String userid, // @RequestParam 추가
+	public String modifyImg(@RequestParam("uploadFile") MultipartFile uploadFile, // @RequestParam 異붽�
+			@RequestParam("userid") String userid, // @RequestParam 異붽�
 			RedirectAttributes rttr, HttpSession session) {
 
 		if (uploadFile == null || uploadFile.isEmpty()) {
@@ -96,7 +80,7 @@ public class MemberController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("에러 발생: " + e.getMessage());
+			System.out.println("�뿉�윭 諛쒖깮: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return "redirect:/member/mypage";
@@ -124,7 +108,7 @@ public class MemberController {
 
 		File file = new File("C:\\upload\\profile\\" + fileName);		
 		if (!file.exists() || file.isDirectory()) {
-			System.out.println("파일을 찾을 수 없거나 디렉토리입니다: " + file.getPath());
+			System.out.println("�뙆�씪�쓣 李얠쓣 �닔 �뾾嫄곕굹 �뵒�젆�넗由ъ엯�땲�떎: " + file.getPath());
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		ResponseEntity<byte[]> result = null;
@@ -137,7 +121,7 @@ public class MemberController {
 			}
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
-			System.err.println("파일 전송 중 에러 발생: " + e.getMessage());
+			System.err.println("�뙆�씪 �쟾�넚 以� �뿉�윭 諛쒖깮: " + e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return result;
@@ -163,7 +147,7 @@ public class MemberController {
 				uploadFile.transferTo(saveFile);
 				vo.setUserImg(uploadFileName);
 			} catch (Exception e) {
-				System.out.println("파일 저장 중 에러: " + e.getMessage());
+				System.out.println("�뙆�씪 ���옣 以� �뿉�윭: " + e.getMessage());
 			}
 		} else {
 			vo.setUserImg(sessionUser.getUserImg());
@@ -175,4 +159,18 @@ public class MemberController {
 
 		return "redirect:/member/mypage";
 	}
+	
+	@GetMapping("/activity")
+	public String activityPage(Model model, Principal principal) {                
+	    
+	    String memberId = principal.getName();
+	    System.out.println("�쐟 �젒洹� �궗�슜�옄: " + memberId);
+	    
+	    List<ActivityVO> activityList = memberService.getActivityList(memberId);
+	    
+	    model.addAttribute("activityList", activityList);
+	    
+	    return "member/activity"; 
+	}
+	
 }

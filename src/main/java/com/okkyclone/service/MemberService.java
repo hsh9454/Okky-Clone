@@ -1,5 +1,8 @@
 package com.okkyclone.service;
 
+import java.util.List;
+
+import com.okkyclone.domain.ActivityVO;
 import com.okkyclone.domain.MemberVO;
 
 public interface MemberService {
@@ -10,5 +13,6 @@ public interface MemberService {
     public void modifyProfileImg(String userid, String userImg);
 	public MemberVO read(String userid);
 	public boolean modifyProfile(MemberVO vo);
-
+	List<ActivityVO> getActivityList(String memberId);
+	
 }

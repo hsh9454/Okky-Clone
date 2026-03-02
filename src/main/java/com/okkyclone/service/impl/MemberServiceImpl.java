@@ -1,7 +1,11 @@
 package com.okkyclone.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.okkyclone.domain.ActivityVO;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.domain.ReplyVO;
 import com.okkyclone.mapper.MemberMapper;
@@ -18,6 +22,11 @@ public class MemberServiceImpl implements MemberService {
 	
     @Autowired
     private MemberMapper mapper;
+    
+    @Override
+    public List<ActivityVO> getActivityList(String memberId) {
+        return mapper.selectActivityList(memberId);
+    }
     
     @Override
     public void join(MemberVO vo) {
