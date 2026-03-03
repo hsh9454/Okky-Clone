@@ -478,7 +478,9 @@
 </div>
 
 <script>
-// 💡 카테고리 매핑 설정 (숫자 기반)
+var currentSelectedCategory = '전체'; 
+var isListMode = true;
+
 const categoryMapping = {
     "기술": "11",
     "커리어": "12",
@@ -511,7 +513,6 @@ const categoryMapping = {
     "OKKY 행사": "85"
 };
 
-// 💡 시간 표시 함수
 function timeForToday(value) {
     if (!value) return '';
     var today = new Date();
@@ -526,7 +527,6 @@ function timeForToday(value) {
     return Math.floor(betweenTimeDay / 365) + '년';
 }
 
-// 💡 상단 인기글 데이터 로드 함수
 function loadData(type, element) {
     var tabs = document.querySelectorAll('.nav-pills .nav-link');
     tabs.forEach(function(tab) {
@@ -568,12 +568,15 @@ function loadData(type, element) {
             if (board.replycnt > 0) {
                 item += '<span class="text-primary small ms-1">(' + board.replycnt + ')</span>';
             }
-            
             item += '</div>';
-            item += '<span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.7rem;">' + (board.cat_name || '기타') + '</span></div>';
+
+            var catName = board.cat_name || '기타';
+            item += '<span class="badge bg-light text-secondary border fw-normal" ' +
+                    'onclick="goCategory(\'' + catName + '\')" ' + 
+                    'style="font-size: 0.7rem; cursor: pointer;">' + catName + '</span></div>';
+            
             return item;
         };
-
         leftList.forEach(function(b) { leftHtml += renderItem(b); });
         rightList.forEach(function(b) { rightHtml += renderItem(b); });
 
@@ -582,7 +585,6 @@ function loadData(type, element) {
     .catch(function(err) { console.error("Error:", err); });
 }
 
-// 💡 하단 리스트 데이터 로드 함수 (AJAX)
 function loadCategoryData(category) {
     var container = document.getElementById('boardContainer');
     if (!container) return;
@@ -613,32 +615,30 @@ function loadCategoryData(category) {
                     var displayGroup = (board.group_name && board.group_name !== board.cat_name) ? board.group_name : '커뮤니티';
 
                     if (isListMode) {
-                        html += '<div class="post-item p-2 px-3 border-bottom bg-white" onclick="location.href=\'' + ctx + '/board/get?bno=' + board.bno + '\'" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px;">';
+                        html += '<div class="post-item border-bottom bg-white" onclick="location.href=\'' + ctx + '/board/get?bno=' + board.bno + '\'" style="cursor: pointer; display: flex !important; align-items: center !important; padding: 10px 16px !important; width: 100% !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 !important;">';
                         html += '  <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;">';
-                        html += '    <h6 class="mb-0 fw-bold" style="font-size: 15px; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + board.title + '</h6>';
-                        if (board.replycnt > 0) html += ' <span style="color: #0d6efd; font-size: 13px;">(' + board.replycnt + ')</span>';
-                        if (board.isNew) html += ' <span class="badge-n">N</span>';
+                        html += '    <h6 class="mb-0 fw-bold" style="font-size: 14px; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 1;">' + board.title + '</h6>';
+                        if (board.replycnt > 0) html += ' <span style="color: #0d6efd; font-size: 13px; flex-shrink: 0;">(' + board.replycnt + ')</span>';
+                        if (board.isNew) html += ' <span class="badge-n" style="flex-shrink: 0;">N</span>';
                         html += '  </div>';
-                        html += '  <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">';
-                        html += '    <div style="border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #fcfcfc; color: #666;">' + (board.cat_name || '전체') + '</div>'; 
-                        html += '    <div style="width: 75px; text-align: right; font-size: 13px; color: #888;">' + dateDisplay + '</div>'; 
+                        html += '  <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 15px;">';
+                        html += '    <div style="border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #fcfcfc; color: #666; white-space: nowrap;">' + (board.cat_name || '전체') + '</div>'; 
+                        html += '    <div style="font-size: 13px; color: #888; white-space: nowrap;">' + dateDisplay + '</div>'; 
                         var profileSrc = (board.user_img && board.user_img.trim() !== '') 
-                        ? ctx + '/member/display?fileName=' + board.user_img 
-                        : ctx + '/resources/img/default_profile.jpg';
-                        html += '    <img src="' + profileSrc + '" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" onerror="this.src=\'' + ctx + '/resources/img/default_profile.jpg\'">';
+                            ? ctx + '/member/display?fileName=' + board.user_img 
+                            : ctx + '/resources/img/default_profile.jpg';
+                        html += '    <img src="' + profileSrc + '" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" onerror="this.src=\'' + ctx + '/resources/img/default_profile.jpg\'">';
                         html += '  </div>';
                         html += '</div>';
+
                     } else {
-                        // 카드형
                         html += '<div class="post-item p-4 mb-3 border-bottom bg-white" onclick="location.href=\'' + ctx + '/board/get?bno=' + board.bno + '\'" style="cursor: pointer; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f3f5 !important;">';
                         html += '  <div class="d-flex align-items-center gap-2 mb-2">';
-                        // 💡 여기서 board.cat_name을 전달해야 함
                         html += '    <div onclick="event.stopPropagation(); goCategory(\'' + board.cat_name + '\');" style="display: inline-flex; align-items: center; border: 1px solid #eee; padding: 2px 8px; border-radius: 4px; background-color: #fcfcfc; cursor: pointer;">';
                         html += '      <span style="color: #aaa; font-size: 11px;">' + (displayGroup || '커뮤니티') + '</span>'; 
                         html += '      <span style="color: #eee; margin: 0 4px;">|</span>';
                         html += '      <span style="color: #666; font-size: 11px; font-weight: 600;">' + board.cat_name + '</span>';
                         html += '    </div>';
-                        
                         html += '    <span class="text-muted" style="font-size: 12px;">' + board.writer + ' · ' + dateDisplay + '</span>';
                         html += '  </div>';
                         html += '  <h6 class="fw-bold mb-2" style="font-size: 17px; color: #333;">' + board.title;
@@ -667,7 +667,6 @@ function loadCategoryData(category) {
         .catch(function(err) { console.error("Error:", err); });
 }
 
-// 💡 탭 전환 함수
 function toggleViewMode() {
     const container = document.getElementById('boardContainer');
     const btn = document.getElementById('viewModeBtn');
@@ -675,18 +674,17 @@ function toggleViewMode() {
     if (container.classList.contains('card-mode')) {
         container.classList.remove('card-mode');
         container.classList.add('list-mode');
-        icon.classList.replace('bi-list-ul', 'bi-grid');        
+        icon.classList.replace('bi-list-ul', 'bi-grid');                
         btn.setAttribute('data-tooltip', '카드형 보기로 전환합니다.');
     } else {
         container.classList.remove('list-mode');
         container.classList.add('card-mode');
-        icon.classList.replace('bi-grid', 'bi-list-ul');         
+        icon.classList.replace('bi-grid', 'bi-list-ul');                 
         btn.setAttribute('data-tooltip', '리스트형 보기로 전환합니다.');
     }    
     loadCategoryData(currentSelectedCategory);
 }
 
-// 💡 통합된 카테고리 이동 함수
 function goCategory(catName) {
     if (!catName) return;
     var catId = categoryMapping[catName.trim()];
@@ -695,7 +693,6 @@ function goCategory(catName) {
     }
 }
 
-// 💡 초기화
 document.addEventListener("DOMContentLoaded", function() {
     const initialTab = document.querySelector('.nav-pills .nav-link.active');
     if (initialTab && typeof loadData === 'function') {
@@ -713,7 +710,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    // 💡 상단 필터 탭 클릭 이벤트 (페이지 이동 방지)
     const categoryTabs = document.querySelectorAll('.filter-tab');
     categoryTabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
@@ -723,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function() {
             this.classList.add('active');
             
             const categoryName = this.innerText.trim();
-            currentSelectedCategory = categoryName; // 현재 선택된 카테고리 저장
+            currentSelectedCategory = categoryName;
             
             loadCategoryData(categoryName);                
         });

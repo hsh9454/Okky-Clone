@@ -25,12 +25,12 @@ public class ReplyController {
                  produces = { MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8" })
     public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
         return service.register(vo) == 1 
-            ? new ResponseEntity<>("´ñ±ÛÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.", HttpStatus.OK)
+            ? new ResponseEntity<>("ëŒ“ê¸€ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.", HttpStatus.OK)
             : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping(value = "/pages/{bno}/{page}", 
-                produces = { MediaType.APPLICATION_JSON_VALUE })
+                 produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<List<ReplyVO>> getList(
             @PathVariable("page") int page, 
             @PathVariable("bno") Long bno) {
@@ -65,7 +65,7 @@ public class ReplyController {
     
     @PostMapping(value = "/like", consumes = "application/json")
     public ResponseEntity<String> updateLike(@RequestBody ReplyLikeVO vo) {
-        System.out.println("µûºÀ Å¬¸¯ RNO: " + vo.getRno());
+        System.out.println("ì¢‹ì•„ìš” í´ë¦­ RNO: " + vo.getRno());
         int result = service.updateLike(vo);
         return result == 1 
             ? new ResponseEntity<>("success", HttpStatus.OK)

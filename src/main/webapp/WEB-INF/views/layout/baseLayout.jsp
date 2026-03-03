@@ -129,7 +129,6 @@
 }
 </style>
 </head>
-
 <body>
 	<tiles:importAttribute name="showBanner" ignore="true" />
 	<tiles:importAttribute name="body" ignore="true" />
@@ -141,52 +140,59 @@
 	</nav>
 
 	<div class="okky-main-grid">
-		<aside class="side-banner d-none d-xl-block">
-			<div class="banner-sticky">
-				<div class="text-center" style="height: 600px; overflow: hidden;">
-					<c:choose>
-						<c:when test="${not empty leftAds}">
-							<c:forEach items="${leftAds}" var="ad">
-								<a href="${ad.linkUrl}" target="_blank"> <img src="${ad.imgUrl}" alt="${ad.title}" style="width: 100%; height: 100%; object-fit: contain;">
-								</a>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="content-card text-center text-muted" style="height: 600px;">
-								<small>LEFT AD</small>
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-		</aside>
-		<main class="center-content">
-			<div class="content-card shadow-sm border-0">
-				<tiles:insertAttribute name="body" />
-			</div>
-		</main>
+    <aside class="side-banner d-none d-xl-block">
+        <div class="banner-sticky">
+            <div class="text-center" style="height: 600px; overflow: hidden;">
+                <c:choose>
+                    <c:when test="${not empty leftAds}">
+                        <c:forEach items="${leftAds}" var="ad">
+                            <a href="${ad.linkUrl}" target="_blank"> 
+                                <img src="${pageContext.request.contextPath}/resources/img/left.png" 
+                                     alt="${ad.title}" 
+                                     style="width: 100%; height: 100%; object-fit: contain;" 
+                                     onerror="this.onerror=null; this.style.display='none';">
+                            </a>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="content-card text-center text-muted" style="height: 600px;">
+                            <small>LEFT AD</small>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </aside>
 
-		<aside class="side-banner d-none d-lg-block">
-			<div class="banner-sticky">
-				<div class="text-center" style="height: 600px; overflow: hidden;">
-					<c:choose>
-						<c:when test="${not empty rightAds}">
-							<c:forEach items="${rightAds}" var="ad">
-								<a href="${ad.linkUrl}" target="_blank"> <img src="${ad.imgUrl}" alt="${ad.title}" style="width: 100%; height: 100%; object-fit: contain;">
-								</a>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="content-card text-center text-muted" style="height: 600px;">
-								<small>RIGHT AD</small>
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-		</aside>
-	</div>
+    <main class="center-content">
+        <div class="content-card shadow-sm border-0">
+            <tiles:insertAttribute name="body" />
+        </div>
+    </main>
 
+    <aside class="side-banner d-none d-lg-block">
+        <div class="banner-sticky">
+            <div class="text-center" style="height: 600px; overflow: hidden;">
+                <c:choose>
+                    <c:when test="${not empty rightAds}">
+                        <c:forEach items="${rightAds}" var="ad">
+                            <a href="${ad.linkUrl}" target="_blank"> 
+                                <img src="${pageContext.request.contextPath}/resources/img/right.png" 
+                                     alt="${ad.title}" 
+                                     style="width: 100%; height: 100%; object-fit: contain;" 
+                                     onerror="this.onerror=null; this.style.display='none';">
+                            </a>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="content-card text-center text-muted" style="height: 600px;">
+                            <small>RIGHT AD</small>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </aside>
+</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>

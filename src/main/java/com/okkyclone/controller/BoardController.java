@@ -31,33 +31,54 @@ import com.okkyclone.service.BoardService;
 public class BoardController {
 
 	@GetMapping("/getCategoryList")
-	@ResponseBody
-	public List<Map<String, String>> getCategoryList(@RequestParam("group") String group) {
-		log.info("�븯�쐞 移댄뀒怨좊━ �슂泥� - group: " + group);
+    @ResponseBody
+    public List<Map<String, String>> getCategoryList(@RequestParam("group") String group) {
+        log.info("하위 카테고리 요청 - group: " + group);
 
-		List<Map<String, String>> list = new ArrayList<>();
-		
-		if ("qna".equals(group)) {
-            list.add(createMap("11", "湲곗닠"));
-            list.add(createMap("12", "而ㅻ━�뼱"));
-            list.add(createMap("13", "湲고�"));
+        List<Map<String, String>> list = new ArrayList<>();
+        
+        if ("qna".equals(group)) {
+            list.add(createMap("11", "기술"));
+            list.add(createMap("12", "커리어"));
+            list.add(createMap("13", "기타"));
         } else if ("knowledge".equals(group)) {
-            list.add(createMap("21", "Tech �돱�뒪"));
-            list.add(createMap("22", "�똻"));
-            list.add(createMap("23", "移쇰읆"));
-            list.add(createMap("24", "由щ럭"));
-            list.add(createMap("25", "IT蹂대룄�옄猷�"));
+            list.add(createMap("21", "Tech 뉴스"));
+            list.add(createMap("22", "팁"));
+            list.add(createMap("23", "칼럼"));
+            list.add(createMap("24", "리뷰"));
+            list.add(createMap("25", "IT보도자료"));
         } else if ("community".equals(group)) {
-            list.add(createMap("31", "�궗�뒗�뼐湲�"));
+            list.add(createMap("31", "사는얘기"));
             list.add(createMap("32", "AI"));
-            list.add(createMap("33", "�뿰遊됀룸떒媛�"));
-            list.add(createMap("34", "痍⑥��깮"));
-            list.add(createMap("35", "IT �젙梨낇넗濡�"));
-            list.add(createMap("36", "�뵾�뱶諛�"));
+            list.add(createMap("33", "연봉·단가"));
+            list.add(createMap("34", "취준생"));
+            list.add(createMap("35", "IT 정책·토론"));
+            list.add(createMap("36", "피드백"));
+        } else if ("meetup".equals(group)) {
+            list.add(createMap("51", "스터디"));
+            list.add(createMap("52", "프로젝트"));
+            list.add(createMap("53", "모각코·모각공"));
+            list.add(createMap("54", "멘토링·튜터링"));
+            list.add(createMap("55", "모임·네트워킹"));
+            list.add(createMap("56", "공모전·해커톤"));
         } else if ("event".equals(group)) {
-            list.add(createMap("41", "IT �뻾�궗"));
-            list.add(createMap("42", "�솉蹂는룰킅怨�"));
-        }         
+            list.add(createMap("41", "IT 행사"));
+            list.add(createMap("42", "홍보·광고"));
+        } else if ("bootcamp".equals(group)) {
+            list.add(createMap("61", "교육과정"));
+        } else if ("jobs-board".equals(group)) {
+            list.add(createMap("71", "계약직"));
+            list.add(createMap("72", "정규직"));
+            list.add(createMap("73", "Talent"));
+            list.add(createMap("74", "좋은회사/나쁜회사"));
+        } else if ("contact".equals(group)) {
+            list.add(createMap("81", "공지사항"));
+            list.add(createMap("82", "Releases"));
+            list.add(createMap("83", "버그 및 제안"));
+            list.add(createMap("84", "게시판 생성 요청"));
+            list.add(createMap("85", "OKKY 행사"));
+        }
+        
         return list; 
     }
 	
@@ -72,7 +93,7 @@ public class BoardController {
 	public String writeForm(@RequestParam("group") String group,
 			@RequestParam(value = "category", required = false) String category, Model model) {
 
-		log.info("湲��벐湲� �뤌 �슂泥� - group: " + group + ", category: " + category);
+		log.info("글쓰기 폼 요청 - group: " + group + ", category: " + category);
 
 		model.addAttribute("group", group);
 		model.addAttribute("category", category);
@@ -208,7 +229,7 @@ public class BoardController {
 			}
 		}
 
-		System.out.println("DB濡� 蹂대궪 �떎�젣 ID: " + category);
+		System.out.println("DB로 보낼 실제 ID: " + category);
 		List<BoardVO> list = service.getListWithCategory(cri, category, group);
 		list.forEach(board -> {
 			board.setNew(board.checkIsNew());
@@ -262,7 +283,7 @@ public class BoardController {
 			return "redirect:/member/login";
 		}
 		board.setWriter(user.getUserid());
-		log.info("register (writer �꽭�똿 �셿猷�): " + board);
+		log.info("register (writer 세팅 완료): " + board);
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list?cat_id=" + board.getCat_id();
@@ -271,20 +292,20 @@ public class BoardController {
 	@GetMapping("/main/categoryData")
 	@ResponseBody
 	public List<BoardVO> getCategoryData(
-			@RequestParam(value = "category", required = false, defaultValue = "�쟾泥�") String category) {
-		System.out.println("而⑦듃濡ㅻ윭 �룄李�! 移댄뀒怨좊━: " + category);
+			@RequestParam(value = "category", required = false, defaultValue = "전체") String category) {
+		System.out.println("컨트롤러 도착! 카테고리: " + category);
 
 		try {
 			List<BoardVO> list = service.getCategoryList(category);
-	        if (list == null) return new ArrayList<>();
+            if (list == null) return new ArrayList<>();
 			for (BoardVO board : list) {
 				board.setIsNew(board.checkIsNew());
 			}
 			return list;
 		} catch (Exception e) {
-	        System.err.println("移댄뀒怨좊━ �뜲�씠�꽣 媛��졇�삤湲� �떎�뙣: " + e.getMessage());
-	        e.printStackTrace();
-	        return new ArrayList<>();
+            System.err.println("카테고리 데이터 가져오기 실패: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
 		}
 	}
 

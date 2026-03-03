@@ -52,8 +52,6 @@ public class MainController {
 
 		model.addAttribute("leftAds", adService.getAds("LEFT"));
 		model.addAttribute("rightAds", adService.getAds("RIGHT"));
-
-		// 💡 ModelAttribute에서 가져온 데이터를 재사용
 		model.addAttribute("boardList", model.asMap().get("headerMenuData"));
 
 		List<BoardVO> techList = service.getMainKnowledgeList();

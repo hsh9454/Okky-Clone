@@ -7,10 +7,9 @@
     <title>활동 내역</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* 💡 OKKY 스타일 CSS */
         .profile-container {
             text-align: center;
-            margin-top: -75px; /* 프로필 사진이 헤더 위로 올라오도록 설정 */
+            margin-top: -75px; 
         }
         .profile-circle {
             width: 150px;
@@ -27,12 +26,11 @@
             padding: 20px;
             margin-top: 30px;
         }
-        /* 잔디 그래프 스타일 */
         .graph-wrapper {
             display: flex;
             justify-content: center;
             padding: 20px 0;
-            overflow-x: auto; /* 화면보다 클 경우 스크롤 */
+            overflow-x: auto;
         }
     </style>
 </head>
