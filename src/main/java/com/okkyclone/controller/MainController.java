@@ -107,7 +107,7 @@ public class MainController {
 		if (loginUser == null) {
 			return "redirect:/member/login";
 		}
-		board.setWriter(loginUser.getUserid());
+		board.setWriter(loginUser.getUserId());
 		service.register(board);
 		return "redirect:/";
 	}

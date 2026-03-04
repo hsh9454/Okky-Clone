@@ -4,7 +4,7 @@ public class UserVO {
     private String userid;
     private String userpw;
     private String username;
-	public String getUserid() {
+	public String getUserId() {
 		return userid;
 	}
 	public void setUserid(String userid) {

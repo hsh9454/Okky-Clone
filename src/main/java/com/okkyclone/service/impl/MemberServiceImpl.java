@@ -16,7 +16,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
     public MemberVO read(String userid) {
-        System.out.println("¼­ºñ½º¿¡¼­ È¸¿ø Á¤º¸ ÀÐ±â ½Ãµµ: " + userid);
+        System.out.println("ï¿½ï¿½ï¿½ñ½º¿ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½Ãµï¿½: " + userid);
         return mapper.read(userid); 
     }
 	
@@ -30,13 +30,13 @@ public class MemberServiceImpl implements MemberService {
     
     @Override
     public void join(MemberVO vo) {
-    	System.out.println("Service: È¸¿ø°¡ÀÔ Ã³¸® Áß -> " + vo.getUserid());
+    	System.out.println("Service: È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ -> " + vo.getUserId());
     	mapper.join(vo);
     }
     
     @Override
     public MemberVO login(MemberVO vo) {
-    	System.out.println("Service: ·Î±×ÀÎ È®ÀÎ Áß -> " + vo.getUserid());
+    	System.out.println("Service: ï¿½Î±ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ -> " + vo.getUserId());
         return mapper.login(vo);
     }
     

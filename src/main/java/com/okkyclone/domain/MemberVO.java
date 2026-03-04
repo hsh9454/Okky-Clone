@@ -1,11 +1,12 @@
 package com.okkyclone.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class MemberVO {
 	
-    private String userid;      
-    private String userpw;     
+    private String userId;      
+    private String userPw;     
     private String userName;
     private String nickname;   
     private String job;
@@ -20,13 +21,48 @@ public class MemberVO {
     private String profileImg;
     private String adAgree;
     private String pushAgree;
+    private int enabled;
+    public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserPw() {
+		return userPw;
+	}
+
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
+	}
+	private List<AuthVO> authList;
     
+    
+    
+	public List<AuthVO> getAuthList() {
+		return authList;
+	}
+
+	public void setAuthList(List<AuthVO> authList) {
+		this.authList = authList;
+	}
+
 	@Override
 	public String toString() {
-	    return "MemberVO [userid=" + userid + ", userName=" + userName + ", nickname=" + nickname + "]";
+	    return "MemberVO [userid=" + userId + ", userName=" + userName + ", nickname=" + nickname + "]";
 	}
 	
-    public String getUserName() {
+    public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
@@ -59,18 +95,6 @@ public class MemberVO {
 	public String getProfileImg() { return profileImg; }
     public void setProfileImg(String profileImg) { this.profileImg = profileImg; }
 	
-    public String getUserid() {
-		return userid;
-	}
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-	public String getUserpw() {
-		return userpw;
-	}
-	public void setUserpw(String userpw) {
-		this.userpw = userpw;
-	}
 	public String getNickname() {
 		return nickname;
 	}

@@ -418,7 +418,7 @@
 						<i class="fa fa-ellipsis-h"></i>
 					</button>
 					<div class="dropdown-menu dropdown-menu-right shadow border-0 mt-2">
-						<c:if test="${not empty user && user.userid == board.writer}">
+						<c:if test="${not empty pinfo && pinfo.user.userId == board.writer}">
 							<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/board/modify?bno=${board.bno}" style="font-size: 14px;">수정하기</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item py-2 text-danger" href="#" onclick="deleteBoard()" style="font-size: 14px;">삭제하기</a>
@@ -448,7 +448,7 @@
 
 	<div class="mt-4 mb-3">
 		<c:choose>
-			<c:when test="${not empty user}">
+			<c:when test="${not empty pinfo}">
 
 				<div class="ad-wrapper-middle mb-4">
 					<div class="ad-content" style="background-color: #f8fafc; border: 1px dashed #e2e8f0; height: 120px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">
@@ -511,7 +511,7 @@
 
 	<div class="list-under-article">
 		<div style="margin-bottom: 15px;">
-			<span style="cursor: pointer`  				onclick=" location.href='${pageContext.request.contextPath}/'"> <i class="fa fa-chevron-left" style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
+			<span style="cursor: pointer`     				onclick=" location.href='${pageContext.request.contextPath}/'"> <i class="fa fa-chevron-left" style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
 			</span>
 		</div>
 		<c:forEach items="${list}" var="boardList">
@@ -641,7 +641,7 @@ var slug = categoryMapping[trimmedName];
 
     $(document).ready(function() {
         var bnoValue = "${board.bno}";
-        var loginUser = "${user.userid}";
+        var loginUser = "${not empty pinfo ? pinfo.user.userId : ''}"
         var replyUL = $("#replyList");
 
         var quill = new Quill('#replyEditor', {
@@ -839,9 +839,27 @@ var slug = categoryMapping[trimmedName];
             });
         }
         
-        $("#likeBtn").on("click", function() { if(loginUser) sendLikeRequest('${pageContext.request.contextPath}/like/update', "추천"); else alert("로그인 필요"); });
-        $("#dislikeBtn").on("click", function() { if(loginUser) sendLikeRequest('${pageContext.request.contextPath}/like/disupdate', "비추천"); else alert("로그인 필요"); });
+        $("#likeBtn").off("click").on("click", function() { 
+ 
+            if(loginUser && loginUser !== "") { 
+                sendLikeRequest('${pageContext.request.contextPath}/like/update', "추천"); 
+            } else { 
+                alert("로그인 후 이용 가능합니다."); 
+            } 
+        });
 
-        window.deleteBoard = function() { if (confirm("삭제하시겠습니까?")) location.href = "${pageContext.request.contextPath}/board/remove?bno=" + bnoValue; };
+        $("#dislikeBtn").off("click").on("click", function() { 
+            if(loginUser && loginUser !== "") { 
+                sendLikeRequest('${pageContext.request.contextPath}/like/disupdate', "비추천"); 
+            } else { 
+                alert("로그인 후 이용 가능합니다."); 
+            } 
+        });
+
+     
+        window.deleteBoard = function() { 
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                location.href = "${pageContext.request.contextPath}/board/remove?bno=" + bnoValue; 
+            }
+        };
     });
-</script>

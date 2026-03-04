@@ -6,30 +6,32 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<security:http auto-config="true" use-expressions="true">
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/member/login"
+			access="permitAll" />
+		<security:intercept-url pattern="/member/join"
+			access="permitAll" />
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
 
-		<security:csrf disabled="true" />
-
 		<security:form-login login-page="/member/login"
-			login-processing-url="/member/login" default-target-url="/"
-			authentication-failure-url="/member/login?error" />
+			login-processing-url="/loginProcess" username-parameter="userid"
+			password-parameter="userpw" default-target-url="/"
+			always-use-default-target="true"
+			authentication-failure-url="/member/login?error=true" />
 
-		<security:logout logout-url="/member/logout"
-			logout-success-url="/" invalidate-session="true"
-			delete-cookies="JSESSIONID" />
+		<security:csrf disabled="true" />
 	</security:http>
 
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service
-    data-source-ref="dataSource"
-    users-by-username-query="SELECT userid, userpw, 1 as enabled FROM tbl_member WHERE userid = ?"
-    authorities-by-username-query="SELECT userid, auth FROM tbl_member_auth WHERE userid = ?" />
+	<bean id="customUserDetailsService"
+		class="com.okkyclone.service.CustomUserDetailsService" />
 
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
 			<security:password-encoder
 				ref="bcryptPasswordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
-
 </beans>

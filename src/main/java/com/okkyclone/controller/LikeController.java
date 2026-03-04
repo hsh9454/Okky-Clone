@@ -28,7 +28,7 @@ public class LikeController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         if (user == null) return false;
 
-        String userid = user.getUserid();
+        String userid = user.getUserId();
         
         return service.toggleLike(bno, userid); 
     }
@@ -40,7 +40,7 @@ public class LikeController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         if (user == null) return false;
 
-        String userid = user.getUserid();        
+        String userid = user.getUserId();        
         return service.toggleDislike(bno, userid);
     }
     

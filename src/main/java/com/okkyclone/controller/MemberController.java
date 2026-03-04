@@ -42,7 +42,7 @@ public class MemberController {
 
 	@PostMapping("/join")
 	public String joinProcess(MemberVO vo) {
-		System.out.println("=== 회원가입 시도 아이디: " + vo.getUserid() + " ===");
+		System.out.println("=== 회원가입 시도 아이디: " + vo.getUserId() + " ===");
 		memberService.join(vo);
 		return "redirect:/member/login";
 	}
@@ -132,7 +132,7 @@ public class MemberController {
 		MemberVO sessionUser = (MemberVO) session.getAttribute("user");
 		if (sessionUser == null)
 			return "redirect:/member/login";
-		vo.setUserid(sessionUser.getUserid());
+		vo.setUserId(sessionUser.getUserId());
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String uploadFolder = "C:\\upload\\profile";
 			File uploadPath = new File(uploadFolder);
@@ -153,7 +153,7 @@ public class MemberController {
 			vo.setUserImg(sessionUser.getUserImg());
 		}
 		if (memberService.modifyProfile(vo)) {
-			session.setAttribute("user", memberService.read(vo.getUserid()));
+			session.setAttribute("user", memberService.read(vo.getUserId()));
 			rttr.addFlashAttribute("result", "success");
 		}
 

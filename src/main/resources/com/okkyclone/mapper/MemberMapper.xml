@@ -7,30 +7,47 @@
 	<insert id="join">
 		INSERT INTO tbl_member (userid, userpw, nickname,
 		social_type)
-		VALUES (#{userid}, #{userpw}, #{nickname}, 'LOCAL')
+		VALUES (#{userId}, #{userPw}, #{nickname}, 'LOCAL')
 	</insert>
 
 	<resultMap id="memberMap"
 		type="com.okkyclone.domain.MemberVO">
-		<result property="userid" column="userid" />
-		<result property="userpw" column="userpw" />
-		<result property="nickname" column="nickname" />
+		<result property="userId" column="USERID" />
+		<result property="userPw" column="USERPW" />
+		<result property="nickname" column="NICKNAME" />
 		<result property="userImg" column="USER_IMG" />
 		<result property="userPoint" column="USER_POINT" />
 		<result property="userRank" column="USER_RANK" />
 		<result property="regdate" column="REGDATE" />
 		<result property="updatedate" column="UPDATEDATE" />
+		<result property="enabled" column="ENABLED" />
+
+		<collection property="authList" resultMap="authMap" />
+	</resultMap>
+
+	<resultMap id="authMap" type="com.okkyclone.domain.AuthVO">
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />
 	</resultMap>
 
 	<select id="readMember" resultMap="memberMap">
-        SELECT * FROM TBL_MEMBER WHERE USERID = #{userid}
-    </select>
+		SELECT
+		m.userid, m.userpw,
+		m.username, m.nickname, m.enabled, a.auth
+		FROM
+		tbl_member m
+		LEFT OUTER
+		JOIN
+		tbl_member_auth a ON m.userid = a.userid
+		WHERE
+		m.userid = #{userId}
+	</select>
 
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER
 		SET USER_IMG = #{userImg},
 		UPDATEDATE = SYSDATE
-		WHERE USERID = #{userid}
+		WHERE USERID = #{userId}
 	</update>
 
 	<update id="updateMemberProfile">
@@ -43,8 +60,10 @@
 		jdbcType=VARCHAR},
 		user_img = #{userImg, jdbcType=VARCHAR},
 		ad_agree =
-		#{adAgree, jdbcType=VARCHAR}, push_agree = #{pushAgree,
-		jdbcType=VARCHAR}, updatedate = SYSDATE
-		WHERE userid = #{userid}
+		#{adAgree, jdbcType=VARCHAR},
+		push_agree = #{pushAgree,
+		jdbcType=VARCHAR},
+		updatedate = SYSDATE
+		WHERE userid = #{userId}
 	</update>
 </mapper>

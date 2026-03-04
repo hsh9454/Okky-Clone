@@ -15,7 +15,7 @@ public class ReplyLikeVO {
         this.rno = rno;
     }
 
-    public String getUserid() {
+    public String getUserId() {
         return userid;
     }
 

@@ -102,9 +102,7 @@
 				<span>OKKY 아이디로 로그인</span>
 			</div>
 
-			<form action="${pageContext.request.contextPath}/member/login" method="post" class="text-start">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				
+			<form action="${pageContext.request.contextPath}/loginProcess" method="post" class="text-start">
 				<c:if test="${param.error != null}">
 					<div class="alert alert-danger">아이디 또는 비밀번호가 틀렸습니다.</div>
 				</c:if>
@@ -112,6 +110,7 @@
 				<div class="mb-3">
 					<label class="form-label">아이디</label> <input type="text" name="userid" class="form-control" placeholder="" autocomplete="username">
 				</div>
+
 				<div class="mb-2">
 					<label class="form-label">비밀번호</label>
 					<div class="input-group">

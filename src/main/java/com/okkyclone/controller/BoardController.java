@@ -282,7 +282,7 @@ public class BoardController {
 		if (user == null) {
 			return "redirect:/member/login";
 		}
-		board.setWriter(user.getUserid());
+		board.setWriter(user.getUserId());
 		log.info("register (writer 세팅 완료): " + board);
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
