@@ -60,7 +60,6 @@ public class MainController {
 			techList = techList.subList(0, 6);
 		}
 		model.addAttribute("techList", techList);
-
 		List<BoardVO> popularList = service.getPopularList(type);
 		long now = System.currentTimeMillis();
 		if (popularList != null) {

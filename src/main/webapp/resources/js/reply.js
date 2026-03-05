@@ -1,5 +1,16 @@
 console.log("Reply Module Loaded..........");
 
+$(function() {
+    var csrfHeaderName = $("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue = $("meta[name='_csrf']").attr("content");
+
+    $(document).ajaxSend(function(e, xhr,options){
+        if(csrfHeaderName&& csrfTokenValue){
+            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        }
+    });
+});
+
 var replyService = (function() {
 
     function add(reply, callback, error) {
@@ -7,7 +18,7 @@ var replyService = (function() {
 
         $.ajax({
             type : 'post',
-            url : '/replies/new',
+            url : '/myFirstProject/replies/new',
             data : JSON.stringify(reply),
             contentType : "application/json; charset=utf-8",
             success : function(result, status, xhr) {
@@ -23,7 +34,7 @@ var replyService = (function() {
         var bno = param.bno;
         var page = param.page || 1; 
         
-        $.getJSON("/replies/pages/" + bno + "/" + page, function(data) {
+        $.getJSON("/myFirstProject/replies/pages/" + bno + "/" + page, function(data) {
                 if (callback) {
                     callback(data);
                 }
@@ -37,7 +48,7 @@ var replyService = (function() {
 
         $.ajax({
             type : 'delete', 
-            url : '/replies/' + rno, 
+            url : '/myFirstProject/replies/' + rno,
             success : function(deleteResult, status, xhr) {
                 if (callback) {
                     callback(deleteResult);
@@ -54,7 +65,7 @@ var replyService = (function() {
     function update(reply, callback, error) {
     $.ajax({
         type : 'put',
-        url : '/replies/' + reply.rno,
+        url : '/myFirstProject/replies/' + reply.rno,
         data : JSON.stringify(reply),
         contentType : "application/json; charset=utf-8",
         success : function(result, status, xhr) {
@@ -69,7 +80,7 @@ var replyService = (function() {
     function updateLike(data, callback, error) {
     $.ajax({
         type: 'post',
-        url: '/replies/like', 
+        url: '/myFirstProject/replies/like', 
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         success: function(result, status, xhr) {

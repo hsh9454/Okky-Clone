@@ -24,25 +24,40 @@ public class LikeController {
     @PostMapping("/update")
     @ResponseBody
     public boolean updateLike(@RequestBody Map<String, Object> params, HttpSession session) {
-        Long bno = Long.parseLong(params.get("bno").toString());
-        MemberVO user = (MemberVO) session.getAttribute("user");
-        if (user == null) return false;
+        if (session.getAttribute("pinfo") == null) {
+            System.out.println("로그인이 필요합니다.");
+            return false;
+        }
 
-        String userid = user.getUserId();
-        
-        return service.toggleLike(bno, userid); 
+        try {
+            Long bno = Long.parseLong(params.get("bno").toString());
+            String userid = params.get("userid").toString(); 
+            
+            System.out.println("[추천 요청] BNO: " + bno + ", UserID: " + userid);
+            return service.toggleLike(bno, userid); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    
+
     @PostMapping("/disupdate")
     @ResponseBody
     public boolean updateDislike(@RequestBody Map<String, Object> params, HttpSession session) {
-        Long bno = Long.parseLong(params.get("bno").toString());
-        MemberVO user = (MemberVO) session.getAttribute("user");
-        if (user == null) return false;
+        if (session.getAttribute("pinfo") == null) {
+            System.out.println("로그인이 필요합니다.");
+            return false;
+        }
 
-        String userid = user.getUserId();        
-        return service.toggleDislike(bno, userid);
+        try {
+            Long bno = Long.parseLong(params.get("bno").toString());
+            String userid = params.get("userid").toString();
+            
+            System.out.println("[비추천 요청] BNO: " + bno + ", UserID: " + userid);
+            return service.toggleDislike(bno, userid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    
-    
 }

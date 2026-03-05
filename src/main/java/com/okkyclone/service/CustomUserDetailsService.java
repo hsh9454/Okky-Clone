@@ -17,12 +17,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-		MemberVO vo = memberMapper.readMember(userName);
+	    MemberVO vo = memberMapper.read(userName); 
 
-		if (vo == null) {
-			throw new UsernameNotFoundException("no member found with username: " + userName);
-		}
+	    if (vo == null) {
+	        throw new UsernameNotFoundException("no member found with username: " + userName);
+	    }
 
-		return new CustomUser(vo);
+	    return new CustomUser(vo);
 	}
 }

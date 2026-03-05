@@ -1,12 +1,9 @@
-
 package com.okkyclone.service.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.okkyclone.domain.BoardVO;
 import com.okkyclone.domain.Criteria;
 import com.okkyclone.mapper.BoardMapper;
@@ -15,136 +12,135 @@ import com.okkyclone.service.BoardService;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	@Autowired
-	private BoardMapper mapper;
+    @Autowired
+    private BoardMapper mapper;
 
-	@Override
-	public List<BoardVO> getList(Criteria cri) {
-		System.out.println("¸ñ·Ï °¡Á®¿À±â (ÆäÀÌÂ¡ Æ÷ÇÔ): " + cri);
-		return mapper.getList();
-	}
+    @Override
+    public List<BoardVO> getList(Criteria cri) {
+        System.out.println("ê²Œì‹œê¸€ ëª©ë¡ ì¡°íšŒ (í˜ì´ì§• í¬í•¨): " + cri);
+        return mapper.getList();
+    }
 
-	@Override
-	public void register(BoardVO board) {
-		mapper.insert(board);
-	}
+    @Override
+    public void register(BoardVO board) {
+        mapper.insert(board);
+    }
 
-	@Override
-	public BoardVO get(Long bno) {
-		mapper.updateViewCount(bno);
-		return mapper.read(bno);
-	}
+    @Override
+    public BoardVO get(Long bno) {
+        // ìƒì„¸ ì¡°íšŒ ì‹œ ì¡°íšŒìˆ˜ ì¦ê°€ ë¡œì§ í¬í•¨
+        mapper.updateViewCount(bno);
+        return mapper.read(bno);
+    }
 
-	@Override
-	public boolean modify(BoardVO board) {
-		return mapper.update(board) == 1;
-	}
+    @Override
+    public boolean modify(BoardVO board) {
+        return mapper.update(board) == 1;
+    }
 
-	@Override
-	public boolean remove(Long bno) {
-		return mapper.delete(bno) == 1;
-	}
+    @Override
+    public boolean remove(Long bno) {
+        return mapper.delete(bno) == 1;
+    }
 
-	@Override
-	@Transactional
-	public boolean toggleLike(Long bno, String userid) {
-		if (mapper.checkLikeLog(bno, userid, 2) > 0) {
-			return false;
-		}
+    @Transactional
+    public boolean toggleLike(Long bno, String userid) {
+        if (mapper.checkLikeLog(bno, userid, 2) > 0) {
+            return false;
+        }
 
-		int count = mapper.checkLikeLog(bno, userid, 1);
-		if (count > 0) {
-			mapper.removeLikeLog(bno, userid, 1);
-			mapper.updateLikeCount(bno, -1);
-			return false;
-		} else {
-			mapper.addLikeLog(bno, userid, 1);
-			mapper.updateLikeCount(bno, 1);
-			return true;
-		}
-	}
+        int count = mapper.checkLikeLog(bno, userid, 1);
+        if (count > 0) {
+            mapper.removeLikeLog(bno, userid, 1);
+            mapper.updateLikeCount(bno, -1);
+            return false;
+        } else {
+            mapper.addLikeLog(bno, userid, 1);
+            mapper.updateLikeCount(bno, 1);
+            return true;
+        }
+    }
 
-	@Override
-	@Transactional
-	public boolean toggleDislike(Long bno, String userid) {
-		if (mapper.checkLikeLog(bno, userid, 1) > 0) {
-			return false;
-		}
+    @Override
+    @Transactional
+    public boolean toggleDislike(Long bno, String userid) {
+        if (mapper.checkLikeLog(bno, userid, 1) > 0) {
+            return false;
+        }
 
-		int count = mapper.checkLikeLog(bno, userid, 2);
-		if (count > 0) {
-			mapper.removeLikeLog(bno, userid, 2);
-			mapper.updateDislikeCount(bno, -1);
-			return false;
-		} else {
-			mapper.addLikeLog(bno, userid, 2);
-			mapper.updateDislikeCount(bno, 1);
-			return true;
-		}
-	}
+        int count = mapper.checkLikeLog(bno, userid, 2);
+        if (count > 0) {
+            mapper.removeLikeLog(bno, userid, 2);
+            mapper.updateDislikeCount(bno, -1);
+            return false;
+        } else {
+            mapper.addLikeLog(bno, userid, 2);
+            mapper.updateDislikeCount(bno, 1);
+            return true;
+        }
+    }
 
-	@Override
-	public List<BoardVO> getListByParent(String parentSlug, Criteria cri) {
-		return mapper.getListByParent(parentSlug, cri);
-	}
+    @Override
+    public List<BoardVO> getListByParent(String parentSlug, Criteria cri) {
+        return mapper.getListByParent(parentSlug, cri);
+    }
 
-	@Override
-	public List<BoardVO> getList() {
-		System.out.println("¸ŞÀÎ ÆäÀÌÁö¿ë ÀüÃ¼ ¸ñ·Ï °¡Á®¿À±â");
-		return mapper.getList();
-	}
+    @Override
+    public List<BoardVO> getList() {
+        System.out.println("ì „ì²´ ê²Œì‹œê¸€ ëª©ë¡ ê°€ì ¸ì˜¤ëŠ” ì¤‘...");
+        return mapper.getList();
+    }
 
-	@Override
-	public List<BoardVO> getTechList() {
-		System.out.println("Å×Å© Áö½Ä/´º½º ¸ñ·Ï °¡Á®¿À±â");
-		return mapper.getTechList();
-	}
+    @Override
+    public List<BoardVO> getTechList() {
+        System.out.println("í…Œí¬ ë‰´ìŠ¤/ì •ë³´ ëª©ë¡ ê°€ì ¸ì˜¤ëŠ” ì¤‘...");
+        return mapper.getTechList();
+    }
 
-	@Override
-	public List<BoardVO> getListWithCategory(Criteria cri, String category) {
-		System.out.println("Ä«Å×°í¸®º° ¸ñ·Ï °¡Á®¿À±â: " + category);
-		return mapper.getListWithCategory(cri, category);
-	}
+    @Override
+    public List<BoardVO> getListWithCategory(Criteria cri, String category) {
+        System.out.println("ì¹´í…Œê³ ë¦¬ë³„ ëª©ë¡ ì¡°íšŒ: " + category);
+        return mapper.getListWithCategory(cri, category);
+    }
 
-	@Override
-	public List<BoardVO> getPopularList(String type) {
-		System.out.println("ÀÎ±â±Û ¸®½ºÆ® °¡Á®¿À´Â Áß... Å¸ÀÔ: " + type);
-		return mapper.getPopularList(type);
-	}
+    @Override
+    public List<BoardVO> getPopularList(String type) {
+        System.out.println("ì¸ê¸° ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ëŠ” ì¤‘... íƒ€ì…: " + type);
+        return mapper.getPopularList(type);
+    }
 
-	@Override
-	public List<BoardVO> getCategoryList(String category) {
-		System.out.println("Ä«Å×°í¸®º° ¸®½ºÆ® Á¶È¸ ½ÃÀÛ: " + category);
-		return mapper.getCategoryList(category);
-	}
+    @Override
+    public List<BoardVO> getCategoryList(String category) {
+        System.out.println("ì¹´í…Œê³ ë¦¬ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ: " + category);
+        return mapper.getCategoryList(category);
+    }
 
-	@Override
-	public List<BoardVO> getTechKnowledgeList() {
-		return mapper.getTechKnowledgeList();
-	}
+    @Override
+    public List<BoardVO> getTechKnowledgeList() {
+        return mapper.getTechKnowledgeList();
+    }
 
-	@Override 
-	public int getTotalCountWithCategory(Criteria cri, String category) {
-		System.out.println("Ä«Å×°í¸®º° °Ô½Ã±Û ÃÑ °³¼ö °¡Á®¿À±â: " + category);
-		return mapper.getTotalCountWithCategory(cri, category);
-	}
-	
-	@Override
-	public int getTotal(Criteria cri, String category, String group) {
-	    System.out.println("get total count for group/category");
-	    return mapper.getTotal(cri, category, group);
-	}
-	
-	@Override
-	public List<BoardVO> getListWithCategory(Criteria cri, String category, String group) {
-	    System.out.println("get List with category: " + category + " and group: " + group);
-	    return mapper.getListWithCategory(cri, category, group);
-	}
-	
-	@Override
-	public List<BoardVO> getMainKnowledgeList() {
-		System.out.println("¸ŞÀÎ ÆäÀÌÁö Áö½Ä/´º½º ¸®½ºÆ® °¡Á®¿À´Â Áß...");
-	    return mapper.getMainKnowledgeList(); 
-	}
+    @Override 
+    public int getTotalCountWithCategory(Criteria cri, String category) {
+        System.out.println("ì¹´í…Œê³ ë¦¬ë³„ ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ ì¡°íšŒ: " + category);
+        return mapper.getTotalCountWithCategory(cri, category);
+    }
+    
+    @Override
+    public int getTotal(Criteria cri, String category, String group) {
+        System.out.println("ê·¸ë£¹/ì¹´í…Œê³ ë¦¬ë³„ ì´ ê°¯ìˆ˜ ì¡°íšŒ");
+        return mapper.getTotal(cri, category, group);
+    }
+    
+    @Override
+    public List<BoardVO> getListWithCategory(Criteria cri, String category, String group) {
+        System.out.println("ì¹´í…Œê³ ë¦¬: " + category + ", ê·¸ë£¹: " + group + " ëª©ë¡ ì¡°íšŒ");
+        return mapper.getListWithCategory(cri, category, group);
+    }
+    
+    @Override
+    public List<BoardVO> getMainKnowledgeList() {
+        System.out.println("ë©”ì¸ í˜ì´ì§€ ì§€ì‹/ì •ë³´ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ëŠ” ì¤‘...");
+        return mapper.getMainKnowledgeList(); 
+    }
 }
-

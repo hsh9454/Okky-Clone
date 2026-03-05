@@ -12,16 +12,13 @@
 
 	<resultMap id="memberMap"
 		type="com.okkyclone.domain.MemberVO">
-		<result property="userId" column="USERID" />
-		<result property="userPw" column="USERPW" />
-		<result property="nickname" column="NICKNAME" />
-		<result property="userImg" column="USER_IMG" />
-		<result property="userPoint" column="USER_POINT" />
-		<result property="userRank" column="USER_RANK" />
-		<result property="regdate" column="REGDATE" />
-		<result property="updatedate" column="UPDATEDATE" />
-		<result property="enabled" column="ENABLED" />
-
+		<id property="userId" column="userid" />
+		<result property="userPw" column="userpw" />
+		<result property="userName" column="userName" />
+		<result property="nickname" column="nickname" />
+		<result property="job" column="job" />
+		<result property="bio" column="bio" />
+		<result property="userImg" column="user_img" />
 		<collection property="authList" resultMap="authMap" />
 	</resultMap>
 
@@ -30,18 +27,24 @@
 		<result property="auth" column="auth" />
 	</resultMap>
 
-	<select id="readMember" resultMap="memberMap">
-		SELECT
-		m.userid, m.userpw,
-		m.username, m.nickname, m.enabled, a.auth
-		FROM
-		tbl_member m
-		LEFT OUTER
-		JOIN
-		tbl_member_auth a ON m.userid = a.userid
-		WHERE
-		m.userid = #{userId}
-	</select>
+	<select id="read" resultMap="memberMap">
+    SELECT 
+        m.userid, 
+        m.userpw, 
+        m.userName,    m.nickname, 
+        m.enabled, 
+        m.user_img, 
+        m.job, 
+        m.bio, 
+        m.link1, 
+        m.link2, 
+        m.link3, 
+        m.ad_agree, 
+        m.push_agree, 
+        a.auth
+    FROM tbl_member m 
+    LEFT OUTER JOIN tbl_member_auth a ON m.userid = a.userid
+    WHERE m.userid = #{userId} </select>
 
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER
@@ -52,17 +55,16 @@
 
 	<update id="updateMemberProfile">
 		UPDATE tbl_member
-		SET userName = #{userName},
-		nickname
-		= #{nickname},
+		SET userName = #{userName, jdbcType=VARCHAR},
+		nickname = #{nickname, jdbcType=VARCHAR},
 		job = #{job, jdbcType=VARCHAR},
-		bio = #{bio,
-		jdbcType=VARCHAR},
+		bio = #{bio, jdbcType=VARCHAR},
 		user_img = #{userImg, jdbcType=VARCHAR},
-		ad_agree =
-		#{adAgree, jdbcType=VARCHAR},
-		push_agree = #{pushAgree,
-		jdbcType=VARCHAR},
+		link1 = #{link1, jdbcType=VARCHAR},
+		link2 = #{link2, jdbcType=VARCHAR},
+		link3 = #{link3, jdbcType=VARCHAR},
+		ad_agree = #{adAgree, jdbcType=VARCHAR},
+		push_agree = #{pushAgree, jdbcType=VARCHAR},
 		updatedate = SYSDATE
 		WHERE userid = #{userId}
 	</update>

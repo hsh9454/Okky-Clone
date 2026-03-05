@@ -62,4 +62,9 @@ public class MemberServiceImpl implements MemberService {
     public boolean modifyProfile(MemberVO vo) { 
         return mapper.updateMemberProfile(vo) == 1; 
     } 
+    
+    @Override
+    public boolean updateMemberProfile(MemberVO vo) {
+        return mapper.updateMemberProfile(vo) == 1; 
+    }
 }

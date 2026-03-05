@@ -14,5 +14,6 @@ public interface MemberService {
 	public MemberVO read(String userid);
 	public boolean modifyProfile(MemberVO vo);
 	List<ActivityVO> getActivityList(String memberId);
+	public boolean updateMemberProfile(MemberVO vo);
 	
 }

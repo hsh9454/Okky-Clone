@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -368,6 +369,188 @@
 	opacity: 0.5;
 	transform: none !important;
 }
+<
+input
+
+
+
+
+ 
+
+
+
+
+type
+
+
+
+
+
+
+
+
+="
+hidden
+
+
+
+
+
+
+
+
+"
+id
+
+
+
+
+
+
+
+
+="
+loginUserId
+
+
+
+
+
+
+
+
+"
+value
+
+
+
+
+
+
+
+
+="<
+sec
+
+
+
+
+
+
+
+
+:authorize
+
+
+
+
+ 
+
+
+
+
+access
+
+
+
+
+
+
+
+
+='
+isAuthenticated
+
+
+
+
+
+
+
+
+(
+
+
+
+
+
+
+
+
+)
+
+
+
+
+
+
+
+
+'
+>
+<
+sec
+
+
+
+
+
+
+
+
+:authentication
+
+
+
+
+ 
+
+
+
+
+property
+
+
+
+
+
+
+
+
+='
+principal
+
+
+
+
+
+
+
+
+.username
+
+
+
+
+
+
+
+
+'/
+>
+</
+sec
+
+
+
+
+
+
+
+
+:authorize
+>
+">
 </style>
 
 <div class="ad-wrapper-top mt-3 mb-2" style="max-width: 1100px; margin: 0 auto;">
@@ -414,30 +597,35 @@
 				<div style="width: 1px; background-color: #e2e8f0; margin: 8px 0;"></div>
 
 				<div class="dropdown">
-					<button class="btn btn-sm text-secondary" type="button" data-toggle="dropdown" style="border: none; background: transparent; padding: 6px 10px;">
+					<button class="btn btn-sm text-secondary" type="button" data-toggle="dropdown">
 						<i class="fa fa-ellipsis-h"></i>
 					</button>
 					<div class="dropdown-menu dropdown-menu-right shadow border-0 mt-2">
 						<c:if test="${not empty pinfo && pinfo.user.userId == board.writer}">
-							<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/board/modify?bno=${board.bno}" style="font-size: 14px;">수정하기</a>
+							<a class="dropdown-item py-2" href="...">수정하기</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item py-2 text-danger" href="#" onclick="deleteBoard()" style="font-size: 14px;">삭제하기</a>
+							<a class="dropdown-item py-2 text-danger" href="#" onclick="deleteBoard()">삭제하기</a>
 						</c:if>
-						<c:if test="${user.userid != board.writer}">
-							<a class="dropdown-item py-2" href="#" style="font-size: 14px;">신고하기</a>
+						<c:if test="${pinfo.user.userId != board.writer}">
+							<a class="dropdown-item py-2" href="#">신고하기</a>
 						</c:if>
 					</div>
 				</div>
+
+				<c:if test="${not empty pinfo}">
+					<input type="hidden" id="loginUserId" value="${pinfo.user.userId}">
+				</c:if>
 			</div>
 		</div>
 
 		<div class="article-content">${board.content}</div>
 
 		<div class="reaction-wrapper">
-			<div id="likeBtn" class="reaction-item" onclick="like()">
+			<div id="likeBtn" class="reaction-item">
 				<i class="far fa-thumbs-up"></i> <span id="likeCount">${board.likecnt}</span>
 			</div>
-			<div id="dislikeBtn" class="reaction-item" onclick="dislike()">
+
+			<div id="dislikeBtn" class="reaction-item">
 				<i class="far fa-thumbs-down"></i> <span id="dislikeCount">${board.dislikecnt}</span>
 			</div>
 		</div>
@@ -511,7 +699,7 @@
 
 	<div class="list-under-article">
 		<div style="margin-bottom: 15px;">
-			<span style="cursor: pointer`     				onclick=" location.href='${pageContext.request.contextPath}/'"> <i class="fa fa-chevron-left" style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
+			<span style="cursor: pointer;" onclick=" location.href='${pageContext.request.contextPath}/'"> <i class="fa fa-chevron-left" style="font-size: 12px; margin-right: 5px;"></i> 커뮤니티 목록
 			</span>
 		</div>
 		<c:forEach items="${list}" var="boardList">
@@ -640,29 +828,38 @@ var slug = categoryMapping[trimmedName];
     }
 
     $(document).ready(function() {
-        var bnoValue = "${board.bno}";
-        var loginUser = "${not empty pinfo ? pinfo.user.userId : ''}"
-        var replyUL = $("#replyList");
-
-        var quill = new Quill('#replyEditor', {
-            theme: 'snow',
-            placeholder: '주제에 대한 생각을 자유롭게 댓글로 표현해 주세요.',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    ['link', 'image']
-                ]
-            }
-        });
-
-        $(".ql-toolbar").appendTo("#toolbar-container").css({
-            'border': 'none', 
-            'padding': '0',
-            'background': 'transparent'
-        });
-        $(".ql-container").css('border', 'none');
+    	
+    	console.log("--- 로그인 상태 체크 ---");
+        console.log("pinfo 존재 여부: ", "${not empty pinfo}");
+        console.log("loginUserId 값: ", "[" + $("#loginUserId").val() + "]");
+        console.log("-----------------------");
         
+        var bnoValue = "${board.bno}";
+        var loginUser = $("#loginUserId").val() || ""; 
+        
+        var replyEditorElem = document.getElementById('replyEditor');
+        var quill;
+
+        if (replyEditorElem) {
+            quill = new Quill('#replyEditor', {
+                theme: 'snow',
+                placeholder: '주제에 대한 생각을 자유롭게 댓글로 표현해 주세요.',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        ['link', 'image']
+                    ]
+                }
+            });
+
+            $(".ql-toolbar").appendTo("#toolbar-container").css({
+                'border': 'none', 
+                'padding': '0',
+                'background': 'transparent'
+            });
+            $(".ql-container").css('border', 'none');
+        }
         $("#articleDate").text(timeForToday('${board.regdate}'));
         
         $(".list-item-date").each(function() {
@@ -673,10 +870,18 @@ var slug = categoryMapping[trimmedName];
         });
         
         function showList(page) {
+        	var replyUL = $("#replyList"); 
+            var bnoValue = "${board.bno}";
+            
             replyService.getList({ bno: bnoValue, page: page || 1 }, function(list) {
                 var str = "";
+                
                 if (!list || list.length == 0) {
-                    replyUL.html("<li class='text-center py-4 text-muted'>댓글이 없습니다.</li>");
+                    if(loginUser && loginUser.trim() !== "") {
+                        replyUL.html("<li class='text-center py-5 text-muted' style='list-style:none;'>첫 번째 댓글을 남겨보세요!</li>");
+                    } else {
+                        replyUL.html(""); 
+                    }
                     return; 
                 }
 
@@ -724,7 +929,11 @@ var slug = categoryMapping[trimmedName];
             });
         }
         
-        showList(1);
+        if (loginUser && loginUser.trim() !== "") {
+            showList(1);
+        } else {
+            $("#replyList").html("<li class='text-center py-5 text-muted' style='list-style:none;'>로그인 후 댓글을 확인하실 수 있습니다.</li>");
+        }
 
         $(document).on("click", ".reply-like, .reply-dislike", function(e) {
             if(!loginUser) {
@@ -819,28 +1028,28 @@ var slug = categoryMapping[trimmedName];
         });
         
         function sendLikeRequest(url, typeName) {
+            var loginUser = $("#loginUserId").val(); 
+            var bnoValue = "${board.bno}";
+
             $.ajax({
                 type: 'post',
                 url: url,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                },
                 data: JSON.stringify({ bno: bnoValue, userid: loginUser }),
                 contentType: "application/json; charset=utf-8",
                 success: function(result) {
-                    if (result === true || result === "true") {
-                        Swal.fire({ 
-                            toast: true, position: 'center', showConfirmButton: false, timer: 800, title: typeName + ' 완료' 
-                        }).then(() => { location.reload(); });
-                    } else {
-                        Swal.fire({ title: typeName + ' 실패', text: '이미 리액션을 하였습니다.', icon: 'error' });
-                    }
-                },
-                error: function(xhr, status, err) {
-                    Swal.fire({ title: '오류 발생', text: '서버와 통신 중 문제가 발생했습니다.', icon: 'error' });
+                    Swal.fire({
+                        title: typeName + ' 처리 완료',
+                        icon: 'success',
+                        timer: 1000
+                    }).then(() => { location.reload(); }); 
                 }
             });
         }
         
         $("#likeBtn").off("click").on("click", function() { 
- 
             if(loginUser && loginUser !== "") { 
                 sendLikeRequest('${pageContext.request.contextPath}/like/update', "추천"); 
             } else { 
@@ -863,3 +1072,20 @@ var slug = categoryMapping[trimmedName];
             }
         };
     });
+    
+    </script>
+<aside class="side-banner d-none d-lg-block">
+	<div class="banner-sticky">
+		<div class="text-center" style="height: 600px; overflow: hidden;">
+			<a href="https://okky.kr" target="_blank"> <img src="${pageContext.request.contextPath}/resources/img/right.png" alt="오른쪽 광고" style="width: 100%; height: 100%; object-fit: contain;"
+				onerror="this.onerror=null; this.style.display='none';">
+			</a>
+		</div>
+	</div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

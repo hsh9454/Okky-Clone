@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.okkyclone.domain.CustomUser;
+import org.springframework.security.core.Authentication;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -241,15 +242,20 @@ public class BoardController {
 	}
 
 	@GetMapping("/get")
-	public String get(@RequestParam("bno") Long bno, Criteria cri, Model model) {
-		model.addAttribute("board", service.get(bno));
-		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("leftAds", adService.getAds("left"));
-		model.addAttribute("rightAds", adService.getAds("right"));
+	public String get(@RequestParam("bno") Long bno, Criteria cri, Model model, Authentication authentication) {
+	    model.addAttribute("board", service.get(bno));
+	    model.addAttribute("list", service.getList(cri));
+	    model.addAttribute("leftAds", adService.getAds("left"));
+	    model.addAttribute("rightAds", adService.getAds("right"));
+	    
+	    if (authentication != null) {
+	        model.addAttribute("pinfo", authentication.getPrincipal());
+	        log.info("로그인 정보 세팅 완료: " + authentication.getPrincipal());
+	    }
 
-		return "board/get";
+	    return "board/get";
 	}
-
+	    	  
 	@GetMapping("/modify")
 	public String modify(@RequestParam("bno") Long bno, Model model) {
 		model.addAttribute("board", service.get(bno));

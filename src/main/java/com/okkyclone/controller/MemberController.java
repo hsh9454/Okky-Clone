@@ -52,50 +52,17 @@ public class MemberController {
 	    System.out.println("=== 로그인 페이지로 이동 ===");
 	}
 	
-	@PostMapping("/modifyImg")
-	public String modifyImg(@RequestParam("uploadFile") MultipartFile uploadFile, // @RequestParam 추가
-			@RequestParam("userid") String userid, // @RequestParam 추가
-			RedirectAttributes rttr, HttpSession session) {
-
-		if (uploadFile == null || uploadFile.isEmpty()) {
-			return "redirect:/member/mypage";
-		}
-		String uploadFolder = "C:\\upload\\profile";
-		File uploadPath = new File(uploadFolder);
-		if (!uploadPath.exists()) {
-			uploadPath.mkdirs();
-		}
-
-		String uuid = UUID.randomUUID().toString();
-		String uploadFileName = uuid + "_" + uploadFile.getOriginalFilename();
-		File saveFile = new File(uploadPath, uploadFileName);
-
-		try {
-			uploadFile.transferTo(saveFile);
-			memberService.modifyProfileImg(userid, uploadFileName);
-
-			MemberVO user = (MemberVO) session.getAttribute("user");
-			if (user != null) {
-				user.setUserImg(uploadFileName);
-			}
-
-		} catch (Exception e) {
-			System.out.println("에러 발생: " + e.getMessage());
-			e.printStackTrace();
-		}
-		return "redirect:/member/mypage";
-	}
+	
 
 	@GetMapping("/mypage")
 	public void mypage(Principal principal, HttpSession session, Model model) {
-		if (principal != null) {
-			String userid = principal.getName();
-			MemberVO vo = memberService.read(userid);
-
-			session.setAttribute("user", vo);
-
-			model.addAttribute("user", vo);
-		}
+	    if (principal != null) {
+	        String userid = principal.getName();
+	        MemberVO vo = memberService.read(userid);
+	       
+	        session.setAttribute("loginMember", vo); 
+	        model.addAttribute("memberInfo", vo);
+	    }
 	}
 
 	@GetMapping("/display")
@@ -126,39 +93,50 @@ public class MemberController {
 		}
 		return result;
 	}
+	
+	
 	@PostMapping("/modify")
-	public String modify(MemberVO vo, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
-			HttpSession session, RedirectAttributes rttr) {
-		MemberVO sessionUser = (MemberVO) session.getAttribute("user");
-		if (sessionUser == null)
-			return "redirect:/member/login";
-		vo.setUserId(sessionUser.getUserId());
-		if (uploadFile != null && !uploadFile.isEmpty()) {
-			String uploadFolder = "C:\\upload\\profile";
-			File uploadPath = new File(uploadFolder);
+	public String modify(MemberVO vo, 
+	                     @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+	                     HttpSession session, 
+	                     RedirectAttributes rttr) {
+		System.out.println("컨트롤러에 들어온 이름: " + vo.getUserName()); // ← 이거 꼭 찍어보세요!
+	    System.out.println("컨트롤러에 들어온 직무: " + vo.getJob());
+	    MemberVO sessionUser = (MemberVO) session.getAttribute("loginMember");
+	    
+	    if (sessionUser == null) {
+	        return "redirect:/member/login";
+	    }
 
-			if (!uploadPath.exists())
-				uploadPath.mkdirs();
-			String uuid = UUID.randomUUID().toString();
-			String uploadFileName = uuid + "_" + uploadFile.getOriginalFilename();
-			File saveFile = new File(uploadPath, uploadFileName);
+	    vo.setUserId(sessionUser.getUserId());
 
-			try {
-				uploadFile.transferTo(saveFile);
-				vo.setUserImg(uploadFileName);
-			} catch (Exception e) {
-				System.out.println("파일 저장 중 에러: " + e.getMessage());
-			}
-		} else {
-			vo.setUserImg(sessionUser.getUserImg());
-		}
-		if (memberService.modifyProfile(vo)) {
-			session.setAttribute("user", memberService.read(vo.getUserId()));
-			rttr.addFlashAttribute("result", "success");
-		}
+	    if (uploadFile != null && !uploadFile.isEmpty()) {
+	        String uploadFolder = "C:\\upload\\profile";
+	        File uploadPath = new File(uploadFolder);
+	        if (!uploadPath.exists()) uploadPath.mkdirs();
 
-		return "redirect:/member/mypage";
+	        String uuid = UUID.randomUUID().toString();
+	        String uploadFileName = uuid + "_" + uploadFile.getOriginalFilename();
+	        File saveFile = new File(uploadPath, uploadFileName);
+
+	        try {
+	            uploadFile.transferTo(saveFile);
+	            vo.setUserImg(uploadFileName); 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    } else {
+	        vo.setUserImg(sessionUser.getUserImg());
+	    }
+
+	    if (memberService.updateMemberProfile(vo)) {
+	        session.setAttribute("loginMember", memberService.read(vo.getUserId()));
+	        rttr.addFlashAttribute("result", "success");
+	    }
+
+	    return "redirect:/member/mypage";
 	}
+	
 	
 	@GetMapping("/activity")
 	public String activityPage(Model model, Principal principal) {                
