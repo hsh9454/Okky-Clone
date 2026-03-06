@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.http.ResponseEntity;
 import com.okkyclone.domain.MemberVO;
 import com.okkyclone.service.BoardService;
 
@@ -23,41 +23,51 @@ public class LikeController {
 
     @PostMapping("/update")
     @ResponseBody
-    public boolean updateLike(@RequestBody Map<String, Object> params, HttpSession session) {
+    public ResponseEntity<?> updateLike(@RequestBody Map<String, Object> params, HttpSession session) {
         if (session.getAttribute("pinfo") == null) {
-            System.out.println("로그인이 필요합니다.");
-            return false;
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
         try {
             Long bno = Long.parseLong(params.get("bno").toString());
             String userid = params.get("userid").toString(); 
             
-            System.out.println("[추천 요청] BNO: " + bno + ", UserID: " + userid);
-            return service.toggleLike(bno, userid); 
+            boolean result = service.toggleLike(bno, userid);
+            
+            if (!result) {
+               
+                return ResponseEntity.badRequest().body("이미 리액션을 하였습니다.");
+            }
+            
+            return ResponseEntity.ok(result); 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return ResponseEntity.status(500).body("서버 오류");
         }
     }
 
     @PostMapping("/disupdate")
     @ResponseBody
-    public boolean updateDislike(@RequestBody Map<String, Object> params, HttpSession session) {
+    public ResponseEntity<?> updateDislike(@RequestBody Map<String, Object> params, HttpSession session) {
         if (session.getAttribute("pinfo") == null) {
-            System.out.println("로그인이 필요합니다.");
-            return false;
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
         try {
             Long bno = Long.parseLong(params.get("bno").toString());
             String userid = params.get("userid").toString();
             
-            System.out.println("[비추천 요청] BNO: " + bno + ", UserID: " + userid);
-            return service.toggleDislike(bno, userid);
+            boolean result = service.toggleDislike(bno, userid);
+            
+            if (!result) {
+                // 이미 좋아요가 눌려있는 상태에서 싫어요를 누른 경우
+                return ResponseEntity.badRequest().body("이미 리액션을 하였습니다.");
+            }
+            
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return ResponseEntity.status(500).body("서버 오류");
         }
     }
 }

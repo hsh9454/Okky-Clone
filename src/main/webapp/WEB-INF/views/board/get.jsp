@@ -10,10 +10,17 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-.body {
+body {
 	background-color: #f1f5f9 !important;
+}
+
+.container {
+	max-width: 1440px !important;
+	width: 100% !important;
+	margin: 0 auto !important;
+	padding: 0 15px !important;
 }
 
 .article-box, .reply-section, .list-under-article {
@@ -27,44 +34,62 @@
 	box-sizing: border-box;
 }
 
-.reply-form-scontainer {
-	width: 100% !important;
-	margin: 0 auto !important;
-}
-
-.list-under-article {
-	border-top: 1px solid #eef2f6 !important;
-	margin-top: 40px !important;
-}
-
-.container {
-	max-width: 1440px !important;
-	width: 100% !important;
-	margin: 0 auto !important;
-	padding: 0 15px !important;
-}
-
-#replyList {
-	margin-bottom: 10px !important;
-	padding-bottom: 0 !important;
-}
-
-.list-under-article {
-	margin-top: 40px !important;
-	padding-top: 20px;
-	border-top: 1px solid #f1f5f9;
-	position: relative;
-	z-index: 10;
-}
-
-.list-group-item {
-	height: auto !important;
-	overflow: visible !important;
-}
-
-.re-reply-box-wrapper {
+.article-title {
+	font-size: 28px;
+	font-weight: 700;
+	color: #1e293b;
 	margin-bottom: 15px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.article-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 18px !important;
+	margin-bottom: 25px !important;
+	border-bottom: 1.5px solid #e2e8f0 !important;
+}
+
+.category-tag {
+	background-color: #f1f5f9;
+	color: #64748b;
+	padding: 3px 10px;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.reaction-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 20px;
+	margin-top: 30px;
+	padding: 15px 0;
+}
+
+.reaction-item {
+	cursor: pointer;
+	color: #64748b;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: all 0.2s ease;
+	text-decoration: none;
+}
+
+.reaction-item i {
+	font-size: 20px;
+}
+
+.reaction-item span {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.reaction-item:hover {
+	color: #3b82f6;
+	transform: translateY(-2px);
 }
 
 .reply-box-wrapper {
@@ -80,23 +105,6 @@
 	border: none !important;
 }
 
-.ql-editor {
-	padding: 20px !important;
-	line-height: 1.6;
-	font-size: 15px;
-}
-
-.ql-container.ql-snow {
-	border: none !important;
-}
-
-.ql-editor.ql-blank::before {
-	font-style: normal !important;
-	color: #cbd5e1 !important;
-	left: 20px !important;
-	opacity: 1;
-}
-
 .editor-footer {
 	display: flex;
 	justify-content: space-between;
@@ -107,451 +115,22 @@
 	height: 52px;
 }
 
-#toolbar-container {
-	display: flex !important;
-	align-items: center !important;
-	flex-wrap: nowrap !important;
-}
-
-.ql-toolbar.ql-snow {
-	border: none !important;
-	padding: 0 !important;
-	background: transparent !important;
-}
-
-.ql-snow.ql-toolbar button {
-	width: 28px !important;
-	height: 28px !important;
-	padding: 4px !important;
-	margin-right: 2px !important;
-	color: #64748b !important;
-}
-
-.ql-snow.ql-toolbar button:hover {
-	color: #3b82f6 !important;
-	background: #f1f5f9;
-	border-radius: 4px;
-}
-
-.divider {
-	width: 1px;
-	height: 12px;
-	background-color: #e2e8f0;
-	margin: 0 10px;
-}
-
-.meta-text {
-	font-size: 13px;
-	color: #94a3b8;
-}
-
-#btnReplySubmit {
-	background-color: #3b82f6;
-	border: none;
-	border-radius: 8px;
-	padding: 7px 18px;
-	color: white;
-	font-weight: 600;
-	font-size: 14px;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	transition: background 0.2s;
-}
-
-#btnReplySubmit:hover {
-	background-color: #2563eb;
-}
-
-.article-header {
-	border: none !important;
-	background: transparent !important;
-	padding: 0 !important;
-}
-
-.article-title {
-	font-size: 28px;
-	font-weight: 700;
-	color: #1e293b;
-	margin-bottom: 15px;
-}
-
-.meta-divider {
-	color: #e2e8f0;
-	margin: 0 10px;
-}
-
-.category-tag {
-	background-color: #f1f5f9;
-	color: #64748b;
-	padding: 3px 10px;
-	border-radius: 6px;
-	font-size: 13px;
-	font-weight: 600;
-	text-decoration: none;
-}
-
-.board-title {
-	font-size: 26px;
-	font-weight: 700;
-	color: #1e293b;
-	margin-top: 10px;
-	letter-spacing: -0.5px;
-}
-
-.breadcrumb-box {
-	display: inline-flex;
-	align-items: center;
-	padding: 3px 10px;
-	background-color: #ffffff;
-	border: 1.5px solid #e2e8f0;
-	border-radius: 6px;
-	gap: 6px;
-}
-
-.breadcrumb-item {
-	text-decoration: none !important;
-	font-size: 13px;
-	font-weight: 500;
-	color: #64748b;
-	transition: all 0.2s ease;
-}
-
-.breadcrumb-item:hover {
-	color: #007bff;
-	text-decoration: none;
-}
-
-.breadcrumb-split {
-	color: #e2e8f0;
-	font-size: 11px;
-	font-weight: bold;
-}
-
-.board-title {
-	font-size: 24px;
-	font-weight: 700;
-	color: #1e293b;
-	margin-top: 12px;
-	letter-spacing: -0.025em;
-}
-
-.btn-group.shadow-sm {
-	background-color: #ffffff !important;
-	border: 1px solid #e2e8f0 !important;
-	border-radius: 8px !important;
-	overflow: hidden !important;
-	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-}
-
 .btn-group.shadow-sm .btn {
-	border: none !important;
-	background-color: transparent !important;
+	border: 1px solid #e2e8f0 !important;
+	background-color: #fff !important;
 	color: #64748b !important;
 	font-size: 13px !important;
 	font-weight: 500 !important;
 	padding: 7px 14px !important;
-	display: inline-flex !important;
-	align-items: center !important;
-	transition: all 0.2s ease !important;
-	box-shadow: none !important;
-}
-
-.btn-group.shadow-sm {
-	background-color: #ffffff !important;
-	border: 1px solid #e2e8f0 !important;
-	border-radius: 8px !important;
-	overflow: visible !important;
-	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-}
-
-.btn-group.shadow-sm .btn {
-	border: none !important;
-	background-color: transparent !important;
-	color: #64748b !important;
-	font-size: 13px !important;
-	font-weight: 500 !important;
-	padding: 7px 14px !important;
-	display: inline-flex !important;
-	align-items: center !important;
-	transition: all 0.2s ease !important;
-	box-shadow: none !important;
-}
-
-.btn-group.shadow-sm .btn:first-child {
-	border-top-left-radius: 8px !important;
-	border-bottom-left-radius: 8px !important;
 }
 
 .btn-group.shadow-sm .btn:hover {
 	background-color: #f1f5f9 !important;
 	color: #1e293b !important;
 }
-
-.btn-group.shadow-sm .btn:first-child {
-	border-top-left-radius: 8px !important;
-	border-bottom-left-radius: 8px !important;
-}
-
-.btn-group.shadow-sm .dropdown:last-child .btn {
-	border-top-right-radius: 8px !important;
-	border-bottom-right-radius: 8px !important;
-}
-
-.dropdown-menu.shadow {
-	border: 1px solid #e2e8f0 !important;
-	border-radius: 8px !important;
-	padding: 5px 0 !important;
-	background-color: #ffffff !important;
-}
-
-.dropdown-item {
-	font-size: 14px !important;
-	color: #475569 !important;
-	background-color: transparent !important;
-}
-
-.dropdown-item.text-danger {
-	color: #475569 !important;
-	background-color: transparent !important;
-}
-
-.dropdown-item:hover, .dropdown-item:focus, .dropdown-item:active,
-	.dropdown-item.text-danger:hover {
-	background-color: #f1f5f9 !important;
-	color: #475569 !important;
-	text-decoration: none !important;
-	outline: none !important;
-}
-
-.ad-wrapper-top {
-	width: 100%;
-	overflow: hidden;
-}
-
-.article-meta {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-bottom: 18px !important;
-	margin-bottom: 25px !important;
-	border-bottom: 1.5px solid #e2e8f0 !important;
-}
-
-.reaction-wrapper {
-	display: flex;
-	justify-content: flex-end;
-	gap: 20px;
-	margin-top: 30px;
-	padding-bottom: 10px;
-}
-
-.reaction-item {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	cursor: pointer;
-	color: #334155;
-	transition: opacity 0.2s ease;
-	user-select: none;
-}
-
-.reaction-item i {
-	font-size: 20px;
-}
-
-.reaction-item span {
-	font-size: 16px;
-	font-weight: 500;
-}
-
-.reaction-item:hover {
-	opacity: 0.5;
-	transform: none !important;
-}
-<
-input
-
-
-
-
- 
-
-
-
-
-type
-
-
-
-
-
-
-
-
-="
-hidden
-
-
-
-
-
-
-
-
-"
-id
-
-
-
-
-
-
-
-
-="
-loginUserId
-
-
-
-
-
-
-
-
-"
-value
-
-
-
-
-
-
-
-
-="<
-sec
-
-
-
-
-
-
-
-
-:authorize
-
-
-
-
- 
-
-
-
-
-access
-
-
-
-
-
-
-
-
-='
-isAuthenticated
-
-
-
-
-
-
-
-
-(
-
-
-
-
-
-
-
-
-)
-
-
-
-
-
-
-
-
-'
->
-<
-sec
-
-
-
-
-
-
-
-
-:authentication
-
-
-
-
- 
-
-
-
-
-property
-
-
-
-
-
-
-
-
-='
-principal
-
-
-
-
-
-
-
-
-.username
-
-
-
-
-
-
-
-
-'/
->
-</
-sec
-
-
-
-
-
-
-
-
-:authorize
->
-">
 </style>
+
+<input type="hidden" id="loginUserId" value="<sec:authorize access='isAuthenticated()'><sec:authentication property='principal.username'/></sec:authorize>">
 
 <div class="ad-wrapper-top mt-3 mb-2" style="max-width: 1100px; margin: 0 auto;">
 	<div class="article-header" style="padding: 20px !important; margin-bottom: 10px !important;">
@@ -611,10 +190,6 @@ sec
 						</c:if>
 					</div>
 				</div>
-
-				<c:if test="${not empty pinfo}">
-					<input type="hidden" id="loginUserId" value="${pinfo.user.userId}">
-				</c:if>
 			</div>
 		</div>
 
@@ -624,14 +199,12 @@ sec
 			<div id="likeBtn" class="reaction-item">
 				<i class="far fa-thumbs-up"></i> <span id="likeCount">${board.likecnt}</span>
 			</div>
-
 			<div id="dislikeBtn" class="reaction-item">
 				<i class="far fa-thumbs-down"></i> <span id="dislikeCount">${board.dislikecnt}</span>
 			</div>
 		</div>
+		<div class="ad-wrapper-middle mt-4"></div>
 	</div>
-	<div class="ad-wrapper-middle mt-4"></div>
-
 	<hr>
 
 	<div class="mt-4 mb-3">
@@ -835,7 +408,7 @@ var slug = categoryMapping[trimmedName];
         console.log("-----------------------");
         
         var bnoValue = "${board.bno}";
-        var loginUser = $("#loginUserId").val() || ""; 
+        var loginUser = ($("#loginUserId").val() || "").trim();
         
         var replyEditorElem = document.getElementById('replyEditor');
         var quill;
@@ -1028,47 +601,75 @@ var slug = categoryMapping[trimmedName];
         });
         
         function sendLikeRequest(url, typeName) {
-            var loginUser = $("#loginUserId").val(); 
-            var bnoValue = "${board.bno}";
+            var currentLoginUser = ($("#loginUserId").val() || "").trim();
+            var currentBno = "${board.bno}";
+
+            var csrfHeader = "${_csrf.headerName}";
+            var csrfToken = "${_csrf.token}";
+            
+            if(!currentLoginUser) {
+                alert("로그인 정보가 유효하지 않습니다.");
+                return;
+            }
 
             $.ajax({
                 type: 'post',
                 url: url,
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                    if (csrfHeader && csrfToken) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    }
                 },
-                data: JSON.stringify({ bno: bnoValue, userid: loginUser }),
+                data: JSON.stringify({ bno: currentBno, userid: currentLoginUser }),
                 contentType: "application/json; charset=utf-8",
                 success: function(result) {
                     Swal.fire({
-                        title: typeName + ' 처리 완료',
+                        title: typeName + ' 완료',
                         icon: 'success',
-                        timer: 1000
+                        timer: 1000,
+                        showConfirmButton: false
                     }).then(() => { location.reload(); }); 
+                },
+                error: function(xhr) {
+                    if (xhr.status === 400 || (xhr.responseText && xhr.responseText.includes("이미"))) {
+                        Swal.fire({
+                            title: typeName + ' 실패',
+                            text: '이미 리액션을 하였습니다. 리액션을 취소 후 다시 시도하세요.',
+                            icon: 'error',
+                            confirmButtonText: '확인',
+                            confirmButtonColor: '#ef4444' 
+                        });
+                    } else {                        
+                        console.log("Error Detail:", xhr.responseText);
+                        alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                    }
                 }
             });
         }
         
-        $("#likeBtn").off("click").on("click", function() { 
-            if(loginUser && loginUser !== "") { 
+        $(document).on("click", "#likeBtn", function(e) {
+            e.preventDefault();
+            var currentUser = ($("#loginUserId").val() || "").trim();
+            if(currentUser !== "") { 
                 sendLikeRequest('${pageContext.request.contextPath}/like/update', "추천"); 
             } else { 
                 alert("로그인 후 이용 가능합니다."); 
             } 
         });
 
-        $("#dislikeBtn").off("click").on("click", function() { 
-            if(loginUser && loginUser !== "") { 
+        $(document).on("click", "#dislikeBtn", function(e) {
+            e.preventDefault();
+            var currentUser = ($("#loginUserId").val() || "").trim();
+            if(currentUser !== "") { 
                 sendLikeRequest('${pageContext.request.contextPath}/like/disupdate', "비추천"); 
             } else { 
                 alert("로그인 후 이용 가능합니다."); 
             } 
         });
 
-     
         window.deleteBoard = function() { 
             if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-                location.href = "${pageContext.request.contextPath}/board/remove?bno=" + bnoValue; 
+                location.href = "${pageContext.request.contextPath}/board/remove?bno=${board.bno}"; 
             }
         };
     });
@@ -1087,5 +688,3 @@ var slug = categoryMapping[trimmedName];
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
