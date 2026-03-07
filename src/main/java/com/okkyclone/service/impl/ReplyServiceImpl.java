@@ -1,15 +1,17 @@
 package com.okkyclone.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.okkyclone.mapper.BoardMapper;
+
 import com.okkyclone.domain.Criteria;
+import com.okkyclone.domain.ReplyLikeVO;
 import com.okkyclone.domain.ReplyVO;
+import com.okkyclone.mapper.BoardMapper;
 import com.okkyclone.mapper.ReplyMapper;
 import com.okkyclone.service.ReplyService;
-import com.okkyclone.domain.ReplyLikeVO;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
@@ -21,10 +23,9 @@ public class ReplyServiceImpl implements ReplyService {
 	private BoardMapper boardMapper;
 
 	@Transactional
-
 	@Override
 	public int register(ReplyVO vo) {
-		System.out.println("´ñ±Û µî·Ï ¹× °Ô½Ã±Û ´ñ±Û¼ö ¾÷µ¥ÀÌÆ® È£Ãâ: " + vo);
+		System.out.println("ëŒ“ê¸€ ë“±ë¡ ë° ê²Œì‹œê¸€ ëŒ“ê¸€ìˆ˜ ì—…ë°ì´íŠ¸ í˜¸ì¶œ: " + vo);
 		int result = mapper.insert(vo);
 		boardMapper.updateReplyCnt(vo.getBno(), 1);
 		return result;
@@ -32,31 +33,43 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public List<ReplyVO> getList(Criteria cri, Long bno) {
-		System.out.println("´ñ±Û ¸ñ·Ï Á¶È¸ ¼­ºñ½º È£Ãâ (BNO): " + bno);
+		System.out.println("ëŒ“ê¸€ ëª©ë¡ ì¡°íšŒ ì„œë¹„ìŠ¤ í˜¸ì¶œ (BNO): " + bno);
 		return mapper.getListWithPaging(cri, bno);
 	}
 
 	@Override
 	public int remove(Long rno) {
-		System.out.println("´ñ±Û »èÁ¦ ¼­ºñ½º È£Ãâ (RNO): " + rno);
+		System.out.println("ëŒ“ê¸€ ì‚­ì œ ì„œë¹„ìŠ¤ í˜¸ì¶œ (RNO): " + rno);
 		return mapper.delete(rno);
 	}
 
 	@Override
 	public List<ReplyVO> getList(Long bno) {
-		System.out.println("¼­ºñ½º¿¡¼­ ´ñ±Û ¸ñ·Ï °¡Á®¿À´Â Áß... BNO: " + bno);
+		System.out.println("ì„œë¹„ìŠ¤ì—ì„œ ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ëŠ” ì¤‘... BNO: " + bno);
 		return mapper.getList(bno);
 	}
 
 	@Override
 	public int modify(ReplyVO vo) {
-		System.out.println("¼­ºñ½º¿¡¼­ ¼öÁ¤ Ã³¸® Áß... VO: " + vo);
+		System.out.println("ì„œë¹„ìŠ¤ì—ì„œ ìˆ˜ì • ì²˜ë¦¬ ì¤‘... VO: " + vo);
 		return mapper.update(vo);
 	}
 
+	@Transactional
 	@Override
 	public int updateLike(ReplyLikeVO vo) {
-		return mapper.updateLikeCount(vo.getRno());
+	    String existingType = mapper.checkReplyLike(vo); 
+	    
+	    if (existingType != null) {
+	        if (existingType.equals(vo.getLike_type())) {
+	            mapper.deleteReplyLike(vo);
+	            mapper.updateLikeCountMinus(vo.getRno(), vo.getLike_type());
+	            return 2; 
+	        } else {
+	            return 0;
+	        }
+	    }	   
+	    mapper.insertReplyLike(vo);
+	    return mapper.updateLikeCount(vo.getRno(), vo.getLike_type());
 	}
-
 }

@@ -28,7 +28,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardVO get(Long bno) {
-        // 상세 조회 시 조회수 증가 로직 포함
         mapper.updateViewCount(bno);
         return mapper.read(bno);
     }
@@ -45,10 +44,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     public boolean toggleLike(Long bno, String userid) {
-        if (mapper.checkLikeLog(bno, userid, 2) > 0) {
-            return false;
+    	if (mapper.checkLikeLog(bno, userid, 2) > 0) {
+            throw new IllegalStateException("이미 비추천을 하셨습니다. 취소 후 다시 시도하세요.");
         }
-
         int count = mapper.checkLikeLog(bno, userid, 1);
         if (count > 0) {
             mapper.removeLikeLog(bno, userid, 1);
@@ -64,10 +62,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public boolean toggleDislike(Long bno, String userid) {
-        if (mapper.checkLikeLog(bno, userid, 1) > 0) {
-            return false;
+    	if (mapper.checkLikeLog(bno, userid, 1) > 0) {
+            throw new IllegalStateException("이미 추천을 하셨습니다. 취소 후 다시 시도하세요.");
         }
-
         int count = mapper.checkLikeLog(bno, userid, 2);
         if (count > 0) {
             mapper.removeLikeLog(bno, userid, 2);

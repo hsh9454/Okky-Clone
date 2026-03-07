@@ -65,10 +65,36 @@ public class ReplyController {
     
     @PostMapping(value = "/like", consumes = "application/json")
     public ResponseEntity<String> updateLike(@RequestBody ReplyLikeVO vo) {
-        System.out.println("좋아요 클릭 RNO: " + vo.getRno());
         int result = service.updateLike(vo);
-        return result == 1 
-            ? new ResponseEntity<>("success", HttpStatus.OK)
-            : new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        
+        if (result == 1) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else if (result == 2) {
+            return new ResponseEntity<>("canceled", HttpStatus.OK);
+        } else if (result == 0) {
+            return new ResponseEntity<>("already_reacted", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+    
+    @PostMapping(value = "/dislike", consumes = "application/json")
+    public ResponseEntity<String> updateDislike(@RequestBody ReplyLikeVO vo) {
+        System.out.println("댓글 싫어요 클릭 RNO: " + vo.getRno() + ", User: " + vo.getUserId());
+        
+        int result = service.updateLike(vo);
+        
+        if (result == 1) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else if (result == 2) { 
+            return new ResponseEntity<>("canceled", HttpStatus.OK);
+        } else if (result == 0) {
+            return new ResponseEntity<>("already_reacted", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 }
+
+

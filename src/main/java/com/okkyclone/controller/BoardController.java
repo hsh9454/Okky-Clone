@@ -283,16 +283,23 @@ public class BoardController {
 	}
 
 	@PostMapping("/register")
-	public String register(BoardVO board, HttpSession session, RedirectAttributes rttr) {
-		com.okkyclone.domain.MemberVO user = (com.okkyclone.domain.MemberVO) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/member/login";
-		}
-		board.setWriter(user.getUserId());
-		log.info("register (writer 세팅 완료): " + board);
-		service.register(board);
-		rttr.addFlashAttribute("result", board.getBno());
-		return "redirect:/board/list?cat_id=" + board.getCat_id();
+	public String register(BoardVO board, Authentication authentication, RedirectAttributes rttr) {	    
+	    if (authentication == null || authentication.getPrincipal() == null) {
+	        log.warn("로그인 정보 없음 - 로그인 페이지로 이동");
+	        return "redirect:/member/login";
+	    }
+	    String userId = authentication.getName(); 
+	    
+	    board.setWriter(userId);
+	    log.info("글 등록 시도 (writer: " + userId + "): " + board);
+	    
+	    service.register(board);
+	    
+	    rttr.addFlashAttribute("result", board.getBno());	    
+	    String redirectPath = (board.getCat_id() != null) ? 
+	                          "redirect:/board/list?category=" + board.getCat_id() : 
+	                          "redirect:/board/list";                          
+	    return redirectPath;
 	}
 
 	@GetMapping("/main/categoryData")

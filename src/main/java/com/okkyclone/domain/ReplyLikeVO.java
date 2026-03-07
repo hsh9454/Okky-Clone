@@ -35,4 +35,5 @@ public class ReplyLikeVO {
     public String toString() {
         return "ReplyLikeVO [rno=" + rno + ", userid=" + userid + ", like_type=" + like_type + "]";
     }
+    
 }

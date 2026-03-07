@@ -77,21 +77,17 @@ var replyService = (function() {
     });
 }
 
-    function updateLike(data, callback, error) {
+    function updateLike(param, callback, error) {
     $.ajax({
         type: 'post',
         url: '/myFirstProject/replies/like', 
-        data: JSON.stringify(data),
+        data: JSON.stringify(param),
         contentType: "application/json; charset=utf-8",
-        success: function(result, status, xhr) {
-            if (callback) {
-                callback(result);
-            }
+        success: function(result) {
+            if (callback) callback(result);
         },
-        error: function(xhr, status, er) {
-            if (error) {
-                error(er);
-            }
+        error: function(xhr, status, err) {
+            if (error) error(xhr); 
         }
     });
 }

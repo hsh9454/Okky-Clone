@@ -13,7 +13,15 @@ public class ReplyVO {
     private Long parentRno;
     private String delYn;
     private int likecnt;
+    private int dislikecnt;
 		
+    public int getDislikecnt() {
+        return dislikecnt;
+    }
+    public void setDislikecnt(int dislikecnt) {
+        this.dislikecnt = dislikecnt;
+    }
+    
 	public int getLikecnt() {
 		return likecnt;
 	}

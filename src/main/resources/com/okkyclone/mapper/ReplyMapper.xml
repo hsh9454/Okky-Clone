@@ -6,33 +6,34 @@
 <mapper namespace="com.okkyclone.mapper.ReplyMapper">
 
 	<insert id="insert">
-		INSERT INTO tbl_reply (rno, bno, reply, replyer, parent_rno)
-		VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{parentRno,
-		jdbcType=INTEGER})
+		INSERT INTO tbl_reply (rno, bno, reply, replyer,
+		parent_rno)
+		VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer},
+		#{parentRno, jdbcType=INTEGER})
 	</insert>
 
 	<select id="getList" resultType="com.okkyclone.domain.ReplyVO">
-		SELECT rno, bno, reply, replyer, replyDate, updateDate,
-		parent_rno as parentRno, del_yn as delYn, likecnt
-		FROM tbl_reply
+		SELECT rno, bno, reply, replyer,
+		replyDate, updateDate,
+		parent_rno as parentRno, del_yn as delYn,
+		likecnt, dislikecnt FROM tbl_reply
 		WHERE bno = #{bno}
 		ORDER BY rno ASC
 	</select>
 
 	<select id="getListWithPaging"
 		resultType="com.okkyclone.domain.ReplyVO">
-        <![CDATA[
-        SELECT 
-            rno, bno, reply, replyer, replyDate, updateDate, 
-            parent_rno as parentRno, 
-            del_yn as delYn,
-            likecnt
-        FROM tbl_reply
-        WHERE bno = #{bno}
-        START WITH parent_rno IS NULL
-        CONNECT BY PRIOR rno = parent_rno
-        ORDER SIBLINGS BY rno ASC
-        ]]>
+		<![CDATA[
+		SELECT 
+		    rno, bno, reply, replyer, replyDate, updateDate, 
+		    parent_rno as parentRno, 
+		    del_yn as delYn,
+		    likecnt, dislikecnt FROM tbl_reply
+		WHERE bno = #{bno}
+		START WITH parent_rno IS NULL
+		CONNECT BY PRIOR rno = parent_rno
+		ORDER SIBLINGS BY rno ASC
+		]]>
 	</select>
 
 	<update id="delete">
@@ -41,14 +42,22 @@
 
 	<update id="update">
 		UPDATE tbl_reply
-		SET reply = #{reply}, updateDate = sysdate
+		SET reply = #{reply}, updateDate =
+		sysdate
 		WHERE rno = #{rno}
 	</update>
 
-	<update id="updateLikeCount">
-		update tbl_reply
-		set likecnt = likecnt + 1
-		where rno = #{rno}
+	<update id="updateLike">
+		UPDATE tbl_reply
+		SET
+		<choose>
+			<when test="like_type == 'L'.toString()">
+				likecnt = likecnt + 1
+			</when>
+			<when test="like_type == 'D'.toString()">
+				dislikecnt = dislikecnt + 1
+			</when>
+		</choose>
+		WHERE rno = #{rno}
 	</update>
-
 </mapper>
