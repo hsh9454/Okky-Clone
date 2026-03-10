@@ -433,7 +433,7 @@
 							<i class="bi bi-person-square fs-2 text-secondary"></i>
 						</c:otherwise>
 					</c:choose>
-					<span class="ms-2 fw-bold text-dark">${pinfo.user.nickname}님</span>
+
 				</a>
 				<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-3" aria-labelledby="userDropdown" style="min-width: 240px; border-radius: 12px;">
 					<li><div class="dropdown-header fw-bold text-dark fs-5 p-0 mb-1">${pinfo.user.nickname}</div></li>

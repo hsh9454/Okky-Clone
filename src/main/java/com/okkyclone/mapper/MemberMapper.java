@@ -17,4 +17,5 @@ public interface MemberMapper {
 	public int updateMemberProfile(MemberVO vo);
 	List<ActivityVO> selectActivityList(String memberId);
 	public MemberVO readMember(String userid);
+	public List<ActivityVO> getActivityByType(@Param("userId") String userId, @Param("type") String type);
 }

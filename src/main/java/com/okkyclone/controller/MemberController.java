@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import com.google.gson.Gson;
 
 import javax.servlet.http.HttpSession;
 
@@ -139,16 +143,54 @@ public class MemberController {
 	
 	
 	@GetMapping("/activity")
-	public String activityPage(Model model, Principal principal) {                
+	public String activityPage(Model model, Principal principal, HttpSession session) {                
+	    if (principal == null) {
+	        return "redirect:/member/login"; 
+	    }
 	    
 	    String memberId = principal.getName();
-	    System.out.println("웹 접근 사용자: " + memberId);
+	    MemberVO vo = memberService.read(memberId);
+	    session.setAttribute("loginMember", vo);
+
+	    List<ActivityVO> posts = memberService.getActivityByType(memberId, "post");
+	    List<ActivityVO> replies = memberService.getActivityByType(memberId, "reply");
 	    
-	    List<ActivityVO> activityList = memberService.getActivityList(memberId);
+	    List<ActivityVO> allActivity = new java.util.ArrayList<>();
+	    if (posts != null) allActivity.addAll(posts);
+	    if (replies != null) allActivity.addAll(replies);
+	    Map<String, Integer> dateCountMap = new HashMap<>();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    
-	    model.addAttribute("activityList", activityList);
+	    for (ActivityVO activity : allActivity) {
+	        if (activity != null && activity.getActivityDate() != null) {
+	            String dateStr = sdf.format(activity.getActivityDate());
+	            dateCountMap.put(dateStr, dateCountMap.getOrDefault(dateStr, 0) + 1);
+	        }
+	    }
+	    
+	    Gson gson = new Gson();
+	    String activityJsonData = gson.toJson(dateCountMap);
+	    
+	    // 서버 로그로 확인 (STS 콘솔에서 확인하세요)
+	    System.out.println("생성된 잔디 데이터: " + activityJsonData);
+	    
+	    model.addAttribute("activityJsonData", activityJsonData);
+	    model.addAttribute("activityList", allActivity); 
 	    
 	    return "member/activity"; 
 	}
+	
+	@GetMapping("/getActivityList")
+    @ResponseBody
+    public ResponseEntity<List<ActivityVO>> getActivityList(@RequestParam("type") String type, Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        
+        String userId = principal.getName();
+        List<ActivityVO> list = memberService.getActivityByType(userId, type);
+        
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 	
 }

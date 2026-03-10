@@ -28,23 +28,26 @@
 	</resultMap>
 
 	<select id="read" resultMap="memberMap">
-    SELECT 
-        m.userid, 
-        m.userpw, 
-        m.userName,    m.nickname, 
-        m.enabled, 
-        m.user_img, 
-        m.job, 
-        m.bio, 
-        m.link1, 
-        m.link2, 
-        m.link3, 
-        m.ad_agree, 
-        m.push_agree, 
-        a.auth
-    FROM tbl_member m 
-    LEFT OUTER JOIN tbl_member_auth a ON m.userid = a.userid
-    WHERE m.userid = #{userId} </select>
+		SELECT
+		m.userid,
+		m.userpw,
+		m.userName,
+		m.nickname,
+		m.enabled,
+		m.user_img,
+		m.job,
+		m.bio,
+		m.link1,
+		m.link2,
+		m.link3,
+		m.ad_agree,
+		m.push_agree,
+		a.auth
+		FROM tbl_member m
+		LEFT OUTER JOIN
+		tbl_member_auth a ON m.userid = a.userid
+		WHERE m.userid = #{userId}
+	</select>
 
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER
@@ -55,17 +58,73 @@
 
 	<update id="updateMemberProfile">
 		UPDATE tbl_member
-		SET userName = #{userName, jdbcType=VARCHAR},
+		SET userName = #{userName,
+		jdbcType=VARCHAR},
 		nickname = #{nickname, jdbcType=VARCHAR},
-		job = #{job, jdbcType=VARCHAR},
+		job =
+		#{job, jdbcType=VARCHAR},
 		bio = #{bio, jdbcType=VARCHAR},
-		user_img = #{userImg, jdbcType=VARCHAR},
+		user_img =
+		#{userImg, jdbcType=VARCHAR},
 		link1 = #{link1, jdbcType=VARCHAR},
-		link2 = #{link2, jdbcType=VARCHAR},
+		link2
+		= #{link2, jdbcType=VARCHAR},
 		link3 = #{link3, jdbcType=VARCHAR},
 		ad_agree = #{adAgree, jdbcType=VARCHAR},
-		push_agree = #{pushAgree, jdbcType=VARCHAR},
+		push_agree = #{pushAgree,
+		jdbcType=VARCHAR},
 		updatedate = SYSDATE
 		WHERE userid = #{userId}
 	</update>
+
+	<select id="selectActivityList"
+		resultType="com.okkyclone.domain.ActivityVO">
+		SELECT
+		bno, title, regdate, 'BOARD' as type
+		FROM tbl_board
+		WHERE writer = #{memberId}
+		ORDER BY bno DESC
+	</select>
+
+	<select id="getActivityByType"
+		resultType="com.okkyclone.domain.ActivityVO">
+		<choose>
+			<when test='type == "post"'>
+				SELECT
+				bno as "bno", title as "title",
+				regdate as "activityDate",
+				viewcnt as "viewCnt",
+				replycnt as "replyCnt",
+				'게시글' as "categoryName"
+				FROM tbl_board
+				WHERE writer = #{userId}
+				ORDER BY regdate DESC
+			</when>
+
+			<when test='type == "reply"'>
+				SELECT DISTINCT
+				b.bno as "bno", r.reply as "title",
+				r.replydate as "activityDate",
+				b.viewcnt as "viewCnt",
+				b.replycnt as "replyCnt",
+				'댓글활동' as "categoryName"
+				FROM tbl_reply r
+				JOIN tbl_board b ON r.bno = b.bno
+				WHERE r.replyer = #{userId}
+				ORDER BY r.replydate DESC
+			</when>
+
+			<otherwise>
+				SELECT bno as "bno", title as "title", regdate as
+				"regdate",
+				viewcnt as "viewCnt", replycnt as "replyCnt", '게시글' as
+				"categoryName"
+				FROM tbl_board
+				WHERE writer = #{userId}
+				ORDER BY regdate
+				DESC
+			</otherwise>
+		</choose>
+	</select>
+
 </mapper>

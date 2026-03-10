@@ -17,192 +17,152 @@ body {
     background-color: #f1f5f9 !important;
 }
 
-@keyframes jelly {
-    0% {
-        transform: scale(1, 1);
-    }
-    30% {
-        transform: scale(1.25, 0.75);
-    }
-    40% {
-        transform: scale(0.75, 1.25);
-    }
-    50% {
-        transform: scale(1.15, 0.85);
-    }
-    100% {
-        transform: scale(1, 1);
-    }
-}
-
-.jelly-interaction:hover {
-    animati
-    
-.reaction-active i {
-	animation: jelly 0.5s;
-}
-
-.reaction-active {
-	color: #3b82f6 !important;
-}
-
-.like-count, .dislike-count {
-	transition: all 0.2s;
-	font-weight: 600;
-}
-
-.swal2-popup.my-okky-popup {
-	border-radius: 8px !important;
-	padding: 2rem 1.5rem !important;
-}
-
-.swal2-title.my-okky-title {
-	font-size: 20px !important;
-	font-weight: 700 !important;
-	color: #334155 !important;
-}
-
-.swal2-html-container.my-okky-content {
-	font-size: 15px !important;
-	color: #64748b !important;
-	margin-top: 10px !important;
-}
-
-.swal2-confirm.my-okky-confirm {
-	background-color: #ef4444 !important;
-	padding: 10px 28px !important;
-	font-size: 14px !important;
-	font-weight: 600 !important;
-	border-radius: 6px !important;
-}
-
-.my-rounded-popup {
-	border-radius: 12px !important;
-}
-
-.my-right-actions {
-	justify-content: flex-end !important;
-	width: 100% !important;
-	padding-right: 15px !important;
-}
-
-.my-confirm-btn {
-	padding: 8px 25px !important;
-	font-size: 14px !important;
-	border-radius: 6px !important;
-}
-
 .container {
-	max-width: 1440px !important;
-	width: 100% !important;
-	margin: 0 auto !important;
-	padding: 0 15px !important;
+    max-width: 1440px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
 }
 
 .article-box, .reply-section, .list-under-article {
-	background-color: #ffffff !important;
-	border: 1px solid #e2e8f0 !important;
-	border-radius: 8px !important;
-	padding: 30px !important;
-	margin-bottom: 20px !important;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-	display: block;
-	box-sizing: border-box;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 30px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    display: block;
+    box-sizing: border-box;
 }
 
 .article-title {
-	font-size: 28px;
-	font-weight: 700;
-	color: #1e293b;
-	margin-bottom: 15px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 15px;
 }
 
 .article-meta {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-bottom: 18px !important;
-	margin-bottom: 25px !important;
-	border-bottom: 1.5px solid #e2e8f0 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px !important;
+    margin-bottom: 25px !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
 }
 
 .category-tag {
-	background-color: #f1f5f9;
-	color: #64748b;
-	padding: 3px 10px;
-	border-radius: 6px;
-	font-size: 13px;
-	font-weight: 600;
+    background-color: #f1f5f9;
+    color: #64748b;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .reaction-wrapper {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 20px;
-	margin-top: 30px;
-	padding: 15px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 15px 0;
 }
 
 .reaction-item {
-	cursor: pointer;
-	color: #64748b;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	transition: all 0.2s ease;
-	text-decoration: none;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
 .reaction-item i {
-	font-size: 20px;
+    font-size: 20px;
 }
 
 .reaction-item span {
-	font-size: 16px;
-	font-weight: 600;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .reaction-item:hover {
-	color: #3b82f6;
-	transform: translateY(-2px);
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+@keyframes jelly {
+    0%   { transform: scale(1, 1); }
+    30%  { transform: scale(1.25, 0.75); }
+    40%  { transform: scale(0.75, 1.25); }
+    50%  { transform: scale(1.15, 0.85); }
+    100% { transform: scale(1, 1); }
+}
+
+.reaction-active i, .jelly-interaction:hover {
+    animation: jelly 0.5s;
+}
+
+.reaction-active {
+    color: #3b82f6 !important;
 }
 
 .reply-box-wrapper {
-	border: 1px solid #e2e8f0;
-	border-radius: 12px;
-	background: #fff;
-	overflow: hidden;
-	margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
 #replyEditor {
-	height: 140px;
-	border: none !important;
+    height: 140px;
+    border: none !important;
 }
 
 .editor-footer {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-top: 1px solid #f1f5f9;
-	background-color: #fcfcfc;
-	padding: 0 15px;
-	height: 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    background-color: #fcfcfc;
+    padding: 0 15px;
+    height: 52px;
+}
+
+.swal2-popup.my-okky-popup {
+    border-radius: 12px !important;
+    padding: 2rem 1.5rem !important;
+}
+
+.swal2-title.my-okky-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+}
+
+.swal2-confirm.my-okky-confirm {
+    background-color: #3b82f6 !important;
+    padding: 10px 28px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
 }
 
 .btn-group.shadow-sm .btn {
-	border: 1px solid #e2e8f0 !important;
-	background-color: #fff !important;
-	color: #64748b !important;
-	font-size: 13px !important;
-	font-weight: 500 !important;
-	padding: 7px 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #fff !important;
+    color: #64748b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 7px 14px !important;
 }
 
 .btn-group.shadow-sm .btn:hover {
-	background-color: #f1f5f9 !important;
-	color: #1e293b !important;
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
 }
 </style>
 
@@ -636,11 +596,7 @@ $(document).ready(function() {
         }
     };
 });
-
-
-    
 </script>
-
 
 <aside class="side-banner d-none d-lg-block">
 	<div class="banner-sticky">

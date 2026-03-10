@@ -15,5 +15,6 @@ public interface MemberService {
 	public boolean modifyProfile(MemberVO vo);
 	List<ActivityVO> getActivityList(String memberId);
 	public boolean updateMemberProfile(MemberVO vo);
+	public List<ActivityVO> getActivityByType(String userId, String type);
 	
 }

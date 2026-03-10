@@ -67,4 +67,9 @@ public class MemberServiceImpl implements MemberService {
     public boolean updateMemberProfile(MemberVO vo) {
         return mapper.updateMemberProfile(vo) == 1; 
     }
+    
+    @Override
+    public List<ActivityVO> getActivityByType(String userId, String type) {
+        return mapper.getActivityByType(userId, type);
+    }
 }

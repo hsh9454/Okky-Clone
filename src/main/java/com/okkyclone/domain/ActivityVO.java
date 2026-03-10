@@ -7,7 +7,53 @@ public class ActivityVO {
 	private String activityType;
 	private Date activityDate;
 	private int activityCount;
+	
+	private Long bno;
+    private String title;
+    private String categoryName;
+    private int viewCnt;
+    private int replyCnt;
+    
+    
+	public Long getBno() {
+		return bno;
+	}
 
+	public void setBno(Long bno) {
+		this.bno = bno;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public int getViewCnt() {
+		return viewCnt;
+	}
+
+	public void setViewCnt(int viewCnt) {
+		this.viewCnt = viewCnt;
+	}
+
+	public int getReplyCnt() {
+		return replyCnt;
+	}
+
+	public void setReplyCnt(int replyCnt) {
+		this.replyCnt = replyCnt;
+	}
 	public ActivityVO() {
 	}
 
