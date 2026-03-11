@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -38,59 +38,75 @@
 }
 
 .mega-dropdown-panel .container-fluid {
-    display: grid !important;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0;
-    align-items: start;
+	display: grid !important;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 0;
+	align-items: start;
 }
 
 .menu-col {
-    padding: 0 20px;
-    border-right: 1px solid #f0f0f0;
-    min-height: 250px;
+	padding: 0 20px;
+	border-right: 1px solid #f0f0f0;
+	min-height: 250px;
 }
 
 .menu-col:last-child {
-    border-right: none;
+	border-right: none;
 }
 
-.menu-col.bootcamp h6 a, .menu-col.bootcamp h6 { color: #ff5c00 !important; }
-.menu-col.jobs h6 a, .menu-col.jobs h6 { color: #6d31ed !important; }
+.menu-col.bootcamp h6 a, .menu-col.bootcamp h6 {
+	color: #ff5c00 !important;
+}
 
-.menu-col ul { list-style: none; padding: 0; margin: 0; }
-.menu-col ul li { margin-bottom: 8px; }
+.menu-col.jobs h6 a, .menu-col.jobs h6 {
+	color: #6d31ed !important;
+}
+
+.menu-col ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menu-col ul li {
+	margin-bottom: 8px;
+}
 
 .menu-col ul li a.dropdown-item {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    padding: 4px 0;
-    background: transparent !important;
-    gap: 6px;
-    width: auto;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	padding: 4px 0;
+	background: transparent !important;
+	gap: 6px;
+	width: auto;
 }
 
-.menu-col ul li a.dropdown-item:hover,
-.menu-col h6 a:hover,
-.nav-link:hover {
+.menu-col ul li a.dropdown-item:hover, .menu-col h6 a:hover, .nav-link:hover
+	{
 	color: #0d6efd !important;
 }
 
-.menu-col.bootcamp h6 a:hover { color: #e65300 !important; }
-.menu-col.jobs h6 a:hover { color: #5b28c7 !important; }
+.menu-col.bootcamp h6 a:hover {
+	color: #e65300 !important;
+}
+
+.menu-col.jobs h6 a:hover {
+	color: #5b28c7 !important;
+}
 
 .menu-col .badge {
-    display: inline-flex;
-    align-items: center;
-    background-color: #e3f2fd !important;
-    color: #0d6efd !important;
-    font-size: 10px !important;
-    font-weight: bold;
-    padding: 2px 5px !important;
-    border-radius: 4px;
-    flex-shrink: 0;
-    margin: 0 !important;
-    line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	background-color: #e3f2fd !important;
+	color: #0d6efd !important;
+	font-size: 10px !important;
+	font-weight: bold;
+	padding: 2px 5px !important;
+	border-radius: 4px;
+	flex-shrink: 0;
+	margin: 0 !important;
+	line-height: 1;
 }
 </style>
 
@@ -100,14 +116,10 @@
 	</div>
 
 	<div class="d-none d-lg-flex gap-3 okky-nav-group ms-4 nav-item dropdown align-items-center flex-grow-1">
-		<a href="/myFirstProject/board/list?group=qna" class="nav-link text-dark fw-bold small">Q&amp;A</a> 
-		<a href="/myFirstProject/board/list?group=knowledge" class="nav-link text-dark fw-bold small">지식</a> 
-		<a href="/myFirstProject/board/list?group=community" class="nav-link text-dark fw-bold small">커뮤니티</a> 
-		<a href="/myFirstProject/board/list?group=event" class="nav-link text-dark fw-bold small">이벤트</a> 
-		<a href="/myFirstProject/board/list?group=group" class="nav-link text-danger fw-bold small">부트캠프</a> 
-		<a href="/myFirstProject/board/list?group=jobs" class="nav-link text-dark fw-bold small">Jobs</a> 
-		<span style="color: #eee; font-size: 12px; margin: 0 5px;">|</span> 
-		<a href="/myFirstProject/board/list?group=contact" class="nav-link text-dark fw-bold small">Contact</a>
+		<a href="/myFirstProject/board/list?group=qna" class="nav-link text-dark fw-bold small">Q&amp;A</a> <a href="/myFirstProject/board/list?group=knowledge" class="nav-link text-dark fw-bold small">지식</a>
+		<a href="/myFirstProject/board/list?group=community" class="nav-link text-dark fw-bold small">커뮤니티</a> <a href="/myFirstProject/board/list?group=event" class="nav-link text-dark fw-bold small">이벤트</a>
+		<a href="/myFirstProject/board/list?group=group" class="nav-link text-danger fw-bold small">부트캠프</a> <a href="/myFirstProject/board/list?group=jobs" class="nav-link text-dark fw-bold small">Jobs</a>
+		<span style="color: #eee; font-size: 12px; margin: 0 5px;">|</span> <a href="/myFirstProject/board/list?group=contact" class="nav-link text-dark fw-bold small">Contact</a>
 
 		<div style="flex-grow: 1;"></div>
 
@@ -151,7 +163,8 @@
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
-							<a href="/myFirstProject/board/list?category=21" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Tech 뉴스</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=21" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Tech 뉴스</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 21 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -183,7 +196,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=25" class="dropdown-item d-flex align-items-center justify-content-between"> <span>IT보도자료</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=25" class="dropdown-item d-flex align-items-center justify-content-between"> <span>IT보도자료</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 25 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -230,7 +244,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=35" class="dropdown-item d-flex align-items-center justify-content-between"> <span>IT 정책토론</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=35" class="dropdown-item d-flex align-items-center justify-content-between"> <span>IT 정책토론</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 35 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -268,7 +283,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=53" class="dropdown-item d-flex align-items-center justify-content-between"> <span>모각코·모각공</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=53" class="dropdown-item d-flex align-items-center justify-content-between"> <span>모각코·모각공</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 53 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -276,7 +292,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=54" class="dropdown-item d-flex align-items-center justify-content-between"> <span>멘토링·튜터링</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=54" class="dropdown-item d-flex align-items-center justify-content-between"> <span>멘토링·튜터링</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 54 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -284,7 +301,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=55" class="dropdown-item d-flex align-items-center justify-content-between"> <span>모임·네트워킹</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=55" class="dropdown-item d-flex align-items-center justify-content-between"> <span>모임·네트워킹</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 55 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -292,7 +310,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=56" class="dropdown-item d-flex align-items-center justify-content-between"> <span>공모전·해커톤</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=56" class="dropdown-item d-flex align-items-center justify-content-between"> <span>공모전·해커톤</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 56 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -344,7 +363,8 @@
 
 				<div class="menu-col jobs">
 					<h6 class="fw-bold mb-3 text-purple d-flex align-items-center">
-						<i class="bi bi-rocket-takeoff-fill me-1"></i> <a href="/myFirstProject/board/list?group=jobs" class="text-decoration-none text-purple">OKKY JOBS</a> <i class="bi bi-box-arrow-up-right small ms-1"></i>
+						<i class="bi bi-rocket-takeoff-fill me-1"></i> <a href="/myFirstProject/board/list?group=jobs" class="text-decoration-none text-purple">OKKY JOBS</a> <i
+							class="bi bi-box-arrow-up-right small ms-1"></i>
 					</h6>
 					<ul class="list-unstyled small">
 						<li>
@@ -364,7 +384,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=73" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Talent</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=73" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Talent</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 73 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -372,7 +393,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=74" class="dropdown-item d-flex align-items-center justify-content-between"> <span>좋은회사/나쁜회사</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=74" class="dropdown-item d-flex align-items-center justify-content-between"> <span>좋은회사/나쁜회사</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 74 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -395,7 +417,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=82" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Releases</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=82" class="dropdown-item d-flex align-items-center justify-content-between"> <span>Releases</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 82 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -403,7 +426,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=83" class="dropdown-item d-flex align-items-center justify-content-between"> <span>버그 및 제안</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=83" class="dropdown-item d-flex align-items-center justify-content-between"> <span>버그 및 제안</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 83 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -411,7 +435,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=84" class="dropdown-item d-flex align-items-center justify-content-between"> <span>게시판 생성 요청</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=84" class="dropdown-item d-flex align-items-center justify-content-between"> <span>게시판 생성 요청</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 84 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -419,7 +444,8 @@
 							</a>
 						</li>
 						<li>
-							<a href="/myFirstProject/board/list?category=85" class="dropdown-item d-flex align-items-center justify-content-between"> <span>OKKY 행사</span> <c:forEach items="${headerMenuData}" var="board">
+							<a href="/myFirstProject/board/list?category=85" class="dropdown-item d-flex align-items-center justify-content-between"> <span>OKKY 행사</span> <c:forEach items="${headerMenuData}"
+									var="board">
 									<c:if test="${board.cat_id == 85 && board.isNew}">
 										<span class="badge" style="background-color: #e3f2fd; color: #0d6efd; font-size: 0.6rem; padding: 0.2rem 0.4rem; border-radius: 4px;">신규</span>
 									</c:if>
@@ -432,91 +458,135 @@
 		</div>
 
 		<div class="d-flex align-items-center gap-2" style="min-width: 200px; justify-content: flex-end;">
-	<form action="/myFirstProject/board/list" method="get" class="d-flex align-items-center">
-		<input type="text" name="keyword" class="form-control form-control-sm me-2" placeholder="검색" value='<c:out value="${pageMaker.cri.keyword}"/>'>
-		<input type="hidden" name="type" value="TC">
-		<input type="hidden" name="amount" value="10">
-	</form>
+			<form action="/myFirstProject/board/list" method="get" class="d-flex align-items-center">
+				<input type="text" name="keyword" class="form-control form-control-sm me-2" placeholder="검색" value='<c:out value="${pageMaker.cri.keyword}"/>'> <input type="hidden" name="type" value="TC">
+				<input type="hidden" name="amount" value="10">
+			</form>
 
-	<sec:authorize access="isAnonymous()">
-		<a href="/myFirstProject/member/login" class="btn btn-sm btn-outline-secondary border-0 fw-bold">로그인</a>
-		<a href="/myFirstProject/member/join" class="btn btn-sm btn-primary px-3 fw-bold shadow-sm">회원가입</a>
-	</sec:authorize>
+			<sec:authorize access="isAnonymous()">
+				<a href="/myFirstProject/member/login" class="btn btn-sm btn-outline-secondary border-0 fw-bold">로그인</a>
+				<a href="/myFirstProject/member/join" class="btn btn-sm btn-primary px-3 fw-bold shadow-sm">회원가입</a>
+			</sec:authorize>
 
-	<sec:authorize access="isAuthenticated()">
-		<div class="d-flex align-items-center gap-2">
-			<div class="dropdown">
-				<button class="btn btn-primary d-flex align-items-center px-3" type="button" id="writeMenu" data-bs-toggle="dropdown" style="border-radius: 8px; height: 38px;">
-					<i class="bi bi-plus-lg fw-bold"></i><i class="bi bi-chevron-down small ms-1"></i>
-				</button>
-				<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2" style="min-width: 220px;">
-					<li><div class="dropdown-header fw-bold text-dark mb-1">새글 쓰기</div></li>
-					<li><hr class="dropdown-divider mx-2"></li>
-					<li><a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=qna"><span style="flex-grow: 1;"><b class="text-dark">Q&amp;A</b>에 글쓰기</span><i class="bi bi-question-circle text-muted ms-3"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=knowledge"><span style="flex-grow: 1;"><b class="text-dark">지식</b>에 글쓰기</span><i class="bi bi-newspaper text-muted ms-3"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=community"><span style="flex-grow: 1;"><b class="text-dark">커뮤니티</b>에 글쓰기</span><i class="bi bi-emoji-smile text-muted ms-3"></i></a></li>
-					<li><hr class="dropdown-divider mx-2"></li>
-					<li><a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=event"><span style="flex-grow: 1;"><b class="text-dark text-danger">이벤트</b>에 글쓰기</span><i class="bi bi-fire text-danger ms-3"></i></a></li>
-				</ul>
-			</div>
+			<sec:authorize access="isAuthenticated()">
+				<div class="d-flex align-items-center gap-2">
+					<div class="dropdown">
+						<button class="btn btn-primary d-flex align-items-center px-3" type="button" id="writeMenu" data-bs-toggle="dropdown" style="border-radius: 8px; height: 38px;">
+							<i class="bi bi-plus-lg fw-bold"></i><i class="bi bi-chevron-down small ms-1"></i>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2" style="min-width: 220px;">
+							<li>
+								<div class="dropdown-header fw-bold text-dark mb-1">새글 쓰기</div>
+							</li>
+							<li>
+								<hr class="dropdown-divider mx-2">
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=qna"><span style="flex-grow: 1;"><b class="text-dark">Q&amp;A</b>에 글쓰기</span><i
+									class="bi bi-question-circle text-muted ms-3"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=knowledge"><span style="flex-grow: 1;"><b class="text-dark">지식</b>에 글쓰기</span><i
+									class="bi bi-newspaper text-muted ms-3"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=community"><span style="flex-grow: 1;"><b class="text-dark">커뮤니티</b>에 글쓰기</span><i
+									class="bi bi-emoji-smile text-muted ms-3"></i></a>
+							</li>
+							<li>
+								<hr class="dropdown-divider mx-2">
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center py-2" href="/myFirstProject/board/write?group=event"><span style="flex-grow: 1;"><b class="text-dark text-danger">이벤트</b>에 글쓰기</span><i
+									class="bi bi-fire text-danger ms-3"></i></a>
+							</li>
+						</ul>
+					</div>
 
-			<a href="/myFirstProject/member/activity" class="btn btn-white border text-secondary d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px; border-radius: 8px; background-color: #fff;"><i class="bi bi-bookmark fs-5"></i></a>
-			<a href="/myFirstProject/member/mypage#activity" class="btn btn-white border text-secondary d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px; border-radius: 8px; background-color: #fff;"><i class="bi bi-bell fs-5"></i></a>
+					<a href="/myFirstProject/member/activity" class="btn btn-white border text-secondary d-flex align-items-center justify-content-center shadow-sm"
+						style="width: 38px; height: 38px; border-radius: 8px; background-color: #fff;"><i class="bi bi-bookmark fs-5"></i></a> <a href="/myFirstProject/member/mypage#activity"
+						class="btn btn-white border text-secondary d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px; border-radius: 8px; background-color: #fff;"><i
+						class="bi bi-bell fs-5"></i></a>
 
-			<div class="dropdown">
-				<a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown" data-bs-toggle="dropdown">
-					<sec:authentication property="principal" var="pinfo" />
-					<c:choose>
-						<c:when test="${not empty pinfo.user.userImg}">
-							<img src="/myFirstProject/member/display?fileName=${pinfo.user.userImg}" class="rounded-2 border shadow-sm" style="width: 38px; height: 38px; object-fit: cover;">
-						</c:when>
-						<c:otherwise>
-							<i class="bi bi-person-square fs-2 text-secondary"></i>
-						</c:otherwise>
-					</c:choose>
+					<div class="dropdown">
+						<a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown" data-bs-toggle="dropdown"> <sec:authentication property="principal" var="pinfo" /> <c:choose>
+								<c:when test="${not empty loginMember.userImg}">
+									
+									<img src="${pageContext.request.contextPath}/member/display?fileName=${loginMember.userImg}" class="header-profile-img"
+										style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+								</c:when>
+								<c:otherwise>
+									
+									<img src="${pageContext.request.contextPath}/resources/img/default_profile.jpg" class="header-profile-img" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+								</c:otherwise>
+							</c:choose>
 
-				</a>
-				<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-3" aria-labelledby="userDropdown" style="min-width: 240px; border-radius: 12px;">
-					<li><div class="dropdown-header fw-bold text-dark fs-5 p-0 mb-1">${pinfo.user.nickname}</div></li>
-					<li><div class="text-muted small mb-3">내 계정</div></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="/myFirstProject/member/mypage"><span>프로필</span><i class="bi bi-person text-muted"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>계정 관리</span><i class="bi bi-gear text-muted"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="/myFirstProject/member/mypage"><span>마이페이지</span><i class="bi bi-arrow-repeat text-muted"></i></a></li>
-					<li><hr class="dropdown-divider my-3"></li>
-					<li><div class="text-muted small mb-2">Jobs</div></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>이력서 관리</span><i class="bi bi-file-earmark-text text-muted"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>구직 내역 관리</span><i class="bi bi-briefcase text-muted"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>관심 포지션</span><i class="bi bi-bookmark text-muted"></i></a></li>
-					<li><a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>포지션 지원이력</span><i class="bi bi-card-list text-muted"></i></a></li>
-					<li><hr class="dropdown-divider my-3"></li>
-					<li>
-						<form action="/myFirstProject/logout" method="post" class="m-0 p-0">
-							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-							<button type="submit" class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0 text-danger fw-bold" style="border: none; background: none; width: 100%;">
-								<span>로그아웃</span><i class="bi bi-box-arrow-right"></i>
-							</button>
-						</form>
-					</li>
-				</ul>
-			</div>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-3" aria-labelledby="userDropdown" style="min-width: 240px; border-radius: 12px;">
+							<li>
+								<div class="dropdown-header fw-bold text-dark fs-5 p-0 mb-1">${pinfo.user.nickname}</div>
+							</li>
+							<li>
+								<div class="text-muted small mb-3">내 계정</div>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="/myFirstProject/member/mypage"><span>프로필</span><i class="bi bi-person text-muted"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>계정 관리</span><i class="bi bi-gear text-muted"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="/myFirstProject/member/mypage"><span>마이페이지</span><i class="bi bi-arrow-repeat text-muted"></i></a>
+							</li>
+							<li>
+								<hr class="dropdown-divider my-3">
+							</li>
+							<li>
+								<div class="text-muted small mb-2">Jobs</div>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>이력서 관리</span><i class="bi bi-file-earmark-text text-muted"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>구직 내역 관리</span><i class="bi bi-briefcase text-muted"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>관심 포지션</span><i class="bi bi-bookmark text-muted"></i></a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0" href="#"><span>포지션 지원이력</span><i class="bi bi-card-list text-muted"></i></a>
+							</li>
+							<li>
+								<hr class="dropdown-divider my-3">
+							</li>
+							<li>
+								<form action="/myFirstProject/logout" method="post" class="m-0 p-0">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<button type="submit" class="dropdown-item d-flex align-items-center justify-content-between py-2 px-0 text-danger fw-bold" style="border: none; background: none; width: 100%;">
+										<span>로그아웃</span><i class="bi bi-box-arrow-right"></i>
+									</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</sec:authorize>
 		</div>
-	</sec:authorize>
-</div>
 
-<script>
-	$(document).ready(function() {
-		let timer;
-		const $panel = $('.mega-dropdown-panel');
-		const $mainNavLinks = $('.okky-nav-group > a.nav-link');
-		const fadeOutDelay = 300;
+		<script>
+			$(document).ready(function() {
+				let timer;
+				const $panel = $('.mega-dropdown-panel');
+				const $mainNavLinks = $('.okky-nav-group > a.nav-link');
+				const fadeOutDelay = 300;
 
-		$mainNavLinks.add($panel).hover(function() {
-			clearTimeout(timer);
-			$panel.addClass('show');
-		}, function() {
-			timer = setTimeout(function() {
-				$panel.removeClass('show');
-			}, fadeOutDelay);
-		});
-	});
-</script>
+				$mainNavLinks.add($panel).hover(function() {
+					clearTimeout(timer);
+					$panel.addClass('show');
+				}, function() {
+					timer = setTimeout(function() {
+						$panel.removeClass('show');
+					}, fadeOutDelay);
+				});
+			});
+		</script>

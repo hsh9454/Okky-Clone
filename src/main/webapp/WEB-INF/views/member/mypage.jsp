@@ -4,38 +4,41 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <style>
-.body {
+body {
 	background-color: #ffffff !important;
 	margin: 0;
 	padding: 0;
 	font-family: -apple-system, sans-serif;
 }
 
-#right-sidebar, .right-ad-section, aside, .ad-column, [class*="RIGHT_AD"],
-	[class*="LEFT_AD"] {
+.mypage-wrapper #right-sidebar, .mypage-wrapper .right-ad-section,
+	.mypage-wrapper aside, .mypage-wrapper .ad-column, .mypage-wrapper [class*="RIGHT_AD"],
+	.mypage-wrapper [class*="LEFT_AD"], .mypage-wrapper .left-ad-column,
+	.mypage-wrapper .right-ad-column {
 	display: none !important;
+	width: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex: 0 0 0 !important;
 }
 
-.okky-full-container {
+.mypage-wrapper.okky-full-container {
 	display: flex;
-	width: 100%;
-	min-height: 100vh;
-	justify-content: ;
+	width: 100% !important;
+	justify-content: center !important;
 }
 
 .okky-sidebar {
 	width: 280px;
 	background-color: #f9fafb;
-	border-right: 1px solid #e5e7eb;
-	padding-top: 30px;
+	s padding-top: 30px;
 	flex-shrink: 0;
 }
 
-.okky-main-content {
+.mypage-wrapper .okky-main-content {
 	flex: 1;
-	max-width: 900px;
-	padding: 50px 80px;
-	position: relative;
+	max-width: 1100px;
+	margin: 0 auto !important;
 }
 
 .main-title {
@@ -53,21 +56,21 @@
 }
 
 .form-fields {
-    flex: 1;
-    max-width: 600px;
-    margin-right: 180px;
+	flex: 1;
+	max-width: 600px;
+	margin-right: 180px;
 }
 
 .profile-img-wrapper {
-    position: relative;
-    float: right;    
-    margin-top: 20px;
-    z-index: 10;
+	position: relative;
+	float: right;
+	margin-top: 20px;
+	z-index: 10;
 }
 
 .name-input-group {
-    clear: both;    
-    width: 70%;    
+	clear: both;
+	width: 70%;
 }
 
 .profile-box {
@@ -292,10 +295,46 @@ input:checked+.slider:before {
 	float: right;
 	cursor: pointer;
 }
+
+.tag-input-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	background: #fff;
+	min-height: 48px;
+	align-items: center;
+}
+
+.tag-item {
+	display: inline-flex;
+	align-items: center;
+	background: #e3f2fd;
+	color: #0d6efd;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.tag-item .tag-close {
+	margin-left: 6px;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.tag-hidden-input {
+	border: none;
+	outline: none;
+	flex: 1;
+	min-width: 100px;
+	font-size: 14px;
+}
 </style>
 
-
-<div class="okky-full-container">
+<div class="okky-full-container mypage-wrapper">
 	<div class="okky-sidebar">
 		<p class="side-section-title">내 계정</p>
 		<a href="#" class="side-nav-item active"><i class="bi bi-person"></i> 프로필</a> <a href="#" class="side-nav-item"><i class="bi bi-gear"></i> 계정 관리</a>
@@ -331,12 +370,15 @@ input:checked+.slider:before {
 					<div class="form-group">
 						<label class="okky-label">관심 있는 기술 태그 입력</label>
 						<p class="help-text">사용 중인 기술이나 관심있는 기술 태그를 선택해주세요.</p>
-						<div style="border: 1px solid #d1d5db; border-radius: 8px; padding: 15px; color: #9ca3af; font-size: 14px; background: #fff;">기술 태그를 입력하세요...</div>
+						<input type="hidden" name="techTags" id="techTagsHidden" value="${loginMember.techTags}">
+						<div class="tag-input-wrapper" id="tagContainer">
+							<input type="text" class="tag-hidden-input" id="tagInput" placeholder="기술 태그를 입력하고 엔터를 누르세요">
+						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="okky-label">한 줄 소개 <span style="float: right; font-weight: 400;">0/150</span></label>
-						<textarea name="bio" class="okky-input" rows="4" placeholder="나를 소개해 주세요.">${loginMember.bio}</textarea>
+						<label class="okky-label">한 줄 소개 <span id="bioCount" style="float: right; font-weight: 400;">0/150</span></label>
+						<textarea name="bio" id="bioTextarea" class="okky-input" rows="4" maxlength="150" placeholder="나를 소개해 주세요.">${loginMember.bio}</textarea>
 					</div>
 
 					<div class="form-group">
@@ -356,14 +398,14 @@ input:checked+.slider:before {
 				<div class="profile-box">
 					<div class="profile-img-circle" onclick="toggleProfilePopup(event)">
 						<c:choose>
+
 							<c:when test="${not empty loginMember.userImg}">
 								<img src="${pageContext.request.contextPath}/member/display?fileName=${loginMember.userImg}" id="profilePreview" style="width: 100%; height: 100%; object-fit: cover;">
 							</c:when>
+
+
 							<c:otherwise>
-								<div class="default-avatar" id="defaultIcon" style="padding-top: 25px;">
-									<i class="bi bi-person-fill"></i>
-								</div>
-								<img id="profilePreview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+								<img src="${pageContext.request.contextPath}/resources/img/default_profile.jpg" id="profilePreview" style="width: 100%; height: 100%; object-fit: cover;">
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -404,6 +446,53 @@ input:checked+.slider:before {
 </div>
 
 <script>
+
+const bioTextarea = document.getElementById('bioTextarea');
+const bioCount = document.getElementById('bioCount');
+
+function updateBioCount() {
+    bioCount.innerText = `${bioTextarea.value.length}/150`;
+}
+
+bioTextarea.addEventListener('input', updateBioCount);
+window.addEventListener('load', updateBioCount); 
+
+const tagInput = document.getElementById('tagInput');
+const tagContainer = document.getElementById('tagContainer');
+const techTagsHidden = document.getElementById('techTagsHidden');
+let tags = techTagsHidden.value ? techTagsHidden.value.split(',').filter(t => t !== "") : [];
+
+function renderTags() {
+    document.querySelectorAll('.tag-item').forEach(el => el.remove());
+    
+    tags.forEach((tag, index) => {
+        const span = document.createElement('span');
+        span.className = 'tag-item';
+        span.innerHTML = `${tag} <i class="bi bi-x tag-close" onclick="removeTag(${index})"></i>`;
+        tagContainer.insertBefore(span, tagInput);
+    });
+    techTagsHidden.value = tags.join(',');
+}
+
+tagInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const value = tagInput.value.trim();
+        if (value && !tags.includes(value)) {
+            tags.push(value);
+            renderTags();
+            tagInput.value = '';
+        }
+    }
+});
+
+function removeTag(index) {
+    tags.splice(index, 1);
+    renderTags();
+}
+
+renderTags();
+
 	function toggleProfilePopup(event) {
 		event.stopPropagation();
 		document.getElementById('profilePopup').classList.toggle('active');

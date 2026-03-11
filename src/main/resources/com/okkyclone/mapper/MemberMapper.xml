@@ -3,50 +3,35 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.okkyclone.mapper.MemberMapper">
-
 	<insert id="join">
-		INSERT INTO tbl_member (userid, userpw, nickname,
-		social_type)
-		VALUES (#{userId}, #{userPw}, #{nickname}, 'LOCAL')
+		INSERT INTO TBL_MEMBER (USER_ID, USER_PW, USER_NAME,
+		NICKNAME, ENABLED)
+		VALUES (#{userId}, #{userPw}, #{userName},
+		#{nickname}, 1)
 	</insert>
 
 	<resultMap id="memberMap"
 		type="com.okkyclone.domain.MemberVO">
-		<id property="userId" column="userid" />
-		<result property="userPw" column="userpw" />
-		<result property="userName" column="userName" />
-		<result property="nickname" column="nickname" />
-		<result property="job" column="job" />
-		<result property="bio" column="bio" />
-		<result property="userImg" column="user_img" />
+		<id property="userId" column="USERID" />
+		<result property="userPw" column="USERPW" />
+		<result property="userName" column="USERNAME" />
+		<result property="nickname" column="NICKNAME" />
+		<result property="enabled" column="ENABLED" />
 		<collection property="authList" resultMap="authMap" />
 	</resultMap>
 
 	<resultMap id="authMap" type="com.okkyclone.domain.AuthVO">
-		<result property="userid" column="userid" />
-		<result property="auth" column="auth" />
+		<result property="userid" column="USERID" />
+		<result property="auth" column="AUTH" />
 	</resultMap>
 
 	<select id="read" resultMap="memberMap">
 		SELECT
-		m.userid,
-		m.userpw,
-		m.userName,
-		m.nickname,
-		m.enabled,
-		m.user_img,
-		m.job,
-		m.bio,
-		m.link1,
-		m.link2,
-		m.link3,
-		m.ad_agree,
-		m.push_agree,
-		a.auth
-		FROM tbl_member m
-		LEFT OUTER JOIN
-		tbl_member_auth a ON m.userid = a.userid
-		WHERE m.userid = #{userId}
+		M.USERID, M.USERPW, M.USERNAME, M.NICKNAME, M.ENABLED,
+		A.USERID AS AUTH_USERID, A.AUTH
+		FROM TBL_MEMBER M
+		LEFT OUTER JOIN TBL_MEMBER_AUTH A ON M.USERID = A.USERID
+		WHERE M.USERID = #{userId}
 	</select>
 
 	<update id="updateProfileImg">
@@ -57,25 +42,18 @@
 	</update>
 
 	<update id="updateMemberProfile">
-		UPDATE tbl_member
-		SET userName = #{userName,
-		jdbcType=VARCHAR},
-		nickname = #{nickname, jdbcType=VARCHAR},
-		job =
-		#{job, jdbcType=VARCHAR},
-		bio = #{bio, jdbcType=VARCHAR},
-		user_img =
-		#{userImg, jdbcType=VARCHAR},
-		link1 = #{link1, jdbcType=VARCHAR},
-		link2
-		= #{link2, jdbcType=VARCHAR},
-		link3 = #{link3, jdbcType=VARCHAR},
-		ad_agree = #{adAgree, jdbcType=VARCHAR},
-		push_agree = #{pushAgree,
-		jdbcType=VARCHAR},
-		updatedate = SYSDATE
-		WHERE userid = #{userId}
-	</update>
+    UPDATE TBL_MEMBER 
+    SET 
+        USERNAME = #{userName, jdbcType=VARCHAR},
+        NICKNAME = #{nickname, jdbcType=VARCHAR},
+        JOB = #{job, jdbcType=VARCHAR},
+        BIO = #{bio, jdbcType=VARCHAR},
+        USER_IMG = #{userImg, jdbcType=VARCHAR},  USERIMG = #{userImg, jdbcType=VARCHAR},   LINK1 = #{link1, jdbcType=VARCHAR},
+        LINK2 = #{link2, jdbcType=VARCHAR},
+        LINK3 = #{link3, jdbcType=VARCHAR},
+        UPDATEDATE = SYSDATE
+    WHERE USERID = #{userId, jdbcType=VARCHAR}
+</update>
 
 	<select id="selectActivityList"
 		resultType="com.okkyclone.domain.ActivityVO">
@@ -92,13 +70,16 @@
 			<when test='type == "post"'>
 				SELECT
 				bno as "bno", title as "title",
-				regdate as "activityDate",
+				regdate as
+				"activityDate",
 				viewcnt as "viewCnt",
 				replycnt as "replyCnt",
-				'게시글' as "categoryName"
+				'게시글' as
+				"categoryName"
 				FROM tbl_board
 				WHERE writer = #{userId}
-				ORDER BY regdate DESC
+				ORDER BY regdate
+				DESC
 			</when>
 
 			<when test='type == "reply"'>
@@ -106,10 +87,12 @@
 				b.bno as "bno", r.reply as "title",
 				r.replydate as "activityDate",
 				b.viewcnt as "viewCnt",
-				b.replycnt as "replyCnt",
+				b.replycnt as
+				"replyCnt",
 				'댓글활동' as "categoryName"
 				FROM tbl_reply r
-				JOIN tbl_board b ON r.bno = b.bno
+				JOIN tbl_board b
+				ON r.bno = b.bno
 				WHERE r.replyer = #{userId}
 				ORDER BY r.replydate DESC
 			</when>

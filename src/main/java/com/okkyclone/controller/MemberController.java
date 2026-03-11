@@ -71,8 +71,8 @@ public class MemberController {
 
 	@GetMapping("/display")
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile(String fileName) {
-		
+	public ResponseEntity<byte[]> getFile(@RequestParam("fileName") String fileName) { // @RequestParam 추가!
+	    System.out.println("★ 사진 요청 왔음! 파일명: " + fileName);
 		if (fileName == null || fileName.trim().isEmpty() || fileName.equals("null")) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -171,7 +171,7 @@ public class MemberController {
 	    Gson gson = new Gson();
 	    String activityJsonData = gson.toJson(dateCountMap);
 	    
-	    // 서버 로그로 확인 (STS 콘솔에서 확인하세요)
+
 	    System.out.println("생성된 잔디 데이터: " + activityJsonData);
 	    
 	    model.addAttribute("activityJsonData", activityJsonData);

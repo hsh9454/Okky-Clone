@@ -3,7 +3,8 @@ package com.okkyclone.domain;
 import java.util.Date;
 import java.util.List;
 
-public class MemberVO {
+public class MemberVO implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
     
     private String userId;      
     private String userPw;     
@@ -25,8 +26,16 @@ public class MemberVO {
     private String link1;
     private String link2;
     private String link3;
+    private String techTags;
+    
+    public String getTechTags() {
+		return techTags;
+	}
+	public void setTechTags(String techTags) {
+		this.techTags = techTags;
+	}
 
-    private List<AuthVO> authList;
+	private List<AuthVO> authList;
 
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }

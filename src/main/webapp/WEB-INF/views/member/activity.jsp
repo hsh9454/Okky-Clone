@@ -189,14 +189,15 @@
 				<c:set var="myImg" value="${sessionScope.loginMember.userImg}" />
 
 				<c:choose>
-					<c:when test="${not empty myImg}">
-						<img src="${pageContext.request.contextPath}/member/display?fileName=${myImg}&t=<%=System.currentTimeMillis()%>" class="profile-img" style="width: 100%; height: 100%; object-fit: cover;"
-							onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';">
-					</c:when>
-					<c:otherwise>
-						<i class="bi bi-person-circle text-secondary" style="font-size: 140px;"></i>
-					</c:otherwise>
-				</c:choose>
+        <c:when test="${not empty loginMember.userImg}">
+            <img src="${pageContext.request.contextPath}/member/display?fileName=${loginMember.userImg}" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
+        </c:when>
+        <c:otherwise>
+            <img src="${pageContext.request.contextPath}/resources/img/default_profile.jpg" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
+        </c:otherwise>
+    </c:choose>
 			</div>
 		</div>
 	</div>

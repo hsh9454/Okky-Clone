@@ -1,29 +1,31 @@
 package com.okkyclone.domain;
 
-import java.util.stream.Collectors;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import java.util.stream.Collectors;
 
 public class CustomUser extends User {
 
     private static final long serialVersionUID = 1L;
-    private MemberVO user; 
+    private MemberVO member; 
+
     public CustomUser(MemberVO vo) {
-       
         super(vo.getUserId(), vo.getUserPw(), 
               vo.getAuthList().stream()
-                .map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
+                .map(auth -> new org.springframework.security.core.authority.SimpleGrantedAuthority(auth.getAuth()))
                 .collect(Collectors.toList()));
         
-        this.user = vo; 
+        this.member = vo;
+    }
+
+    public MemberVO getMember() {
+        return member;
     }
 
     public MemberVO getUser() {
-        return user;
+        return member;
     }
 
-    public void setUser(MemberVO user) {
-        this.user = user;
+    public void setMember(MemberVO member) {
+        this.member = member;
     }
 }
