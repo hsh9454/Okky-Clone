@@ -7,36 +7,25 @@
 <style>
 .menu-col h6 a, .menu-col ul li a {
 	white-space: nowrap;
-}
-
-.menu-col h6 {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-}
-
-.menu-col h6 a {
-	display: flex;
-	align-items: center;
-}
-
-.okky-nav-group {
-	position: relative;
-	justify-content: flex-start !important;
+	text-decoration: none !important;
+	color: #333;
+	transition: color 0.2s ease-in-out;
 }
 
 .mega-dropdown-panel {
 	display: none;
 	position: absolute;
 	top: 100%;
-	left: 0;
-	width: 100%;
-	min-width: 1000px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 95%;
+	max-width: 1200px;
 	background: white;
-	padding: 20px;
+	padding: 30px;
 	z-index: 2000;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-	border-top: 1px solid #0d6efd;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	border: 1px solid #f0f0f0;
 	pointer-events: none;
 	opacity: 0;
 	transition: opacity 0.2s;
@@ -48,8 +37,60 @@
 	opacity: 1;
 }
 
+.mega-dropdown-panel .container-fluid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    align-items: start;
+}
+
+.menu-col {
+    padding: 0 20px;
+    border-right: 1px solid #f0f0f0;
+    min-height: 250px;
+}
+
+.menu-col:last-child {
+    border-right: none;
+}
+
+.menu-col.bootcamp h6 a, .menu-col.bootcamp h6 { color: #ff5c00 !important; }
+.menu-col.jobs h6 a, .menu-col.jobs h6 { color: #6d31ed !important; }
+
+.menu-col ul { list-style: none; padding: 0; margin: 0; }
+.menu-col ul li { margin-bottom: 8px; }
+
+.menu-col ul li a.dropdown-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 4px 0;
+    background: transparent !important;
+    gap: 6px;
+    width: auto;
+}
+
+.menu-col ul li a.dropdown-item:hover,
+.menu-col h6 a:hover,
 .nav-link:hover {
 	color: #0d6efd !important;
+}
+
+.menu-col.bootcamp h6 a:hover { color: #e65300 !important; }
+.menu-col.jobs h6 a:hover { color: #5b28c7 !important; }
+
+.menu-col .badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e3f2fd !important;
+    color: #0d6efd !important;
+    font-size: 10px !important;
+    font-weight: bold;
+    padding: 2px 5px !important;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin: 0 !important;
+    line-height: 1;
 }
 </style>
 
@@ -285,7 +326,7 @@
 					</ul>
 				</div>
 
-				<div class="menu-col">
+				<div class="menu-col bootcamp">
 					<h6 class="fw-bold mb-3 text-orange">
 						<i class="bi bi-mortarboard-fill me-1"></i> <a href="/myFirstProject/board/list?group=education" class="text-decoration-none text-orange">부트캠프</a>
 					</h6>
@@ -301,7 +342,7 @@
 					</ul>
 				</div>
 
-				<div class="menu-col">
+				<div class="menu-col jobs">
 					<h6 class="fw-bold mb-3 text-purple d-flex align-items-center">
 						<i class="bi bi-rocket-takeoff-fill me-1"></i> <a href="/myFirstProject/board/list?group=jobs" class="text-decoration-none text-purple">OKKY JOBS</a> <i class="bi bi-box-arrow-up-right small ms-1"></i>
 					</h6>
