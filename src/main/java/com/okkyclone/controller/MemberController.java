@@ -104,8 +104,6 @@ public class MemberController {
 	                     @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 	                     HttpSession session, 
 	                     RedirectAttributes rttr) {
-		System.out.println("컨트롤러에 들어온 이름: " + vo.getUserName()); // ← 이거 꼭 찍어보세요!
-	    System.out.println("컨트롤러에 들어온 직무: " + vo.getJob());
 	    MemberVO sessionUser = (MemberVO) session.getAttribute("loginMember");
 	    
 	    if (sessionUser == null) {
@@ -136,6 +134,8 @@ public class MemberController {
 	    if (memberService.updateMemberProfile(vo)) {
 	        session.setAttribute("loginMember", memberService.read(vo.getUserId()));
 	        rttr.addFlashAttribute("result", "success");
+	    } else {
+	        System.out.println("수정 실패! 서비스에서 false 반환됨");
 	    }
 
 	    return "redirect:/member/mypage";

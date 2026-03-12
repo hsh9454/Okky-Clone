@@ -17,6 +17,13 @@
 		<result property="userName" column="USERNAME" />
 		<result property="nickname" column="NICKNAME" />
 		<result property="enabled" column="ENABLED" />
+		<result property="job" column="JOB" />
+		<result property="bio" column="BIO" />
+		<result property="techTags" column="TECH_TAGS" />
+		<result property="userImg" column="USER_IMG" />
+		<result property="link1" column="LINK1" />
+		<result property="link2" column="LINK2" />
+		<result property="link3" column="LINK3" />
 		<collection property="authList" resultMap="authMap" />
 	</resultMap>
 
@@ -27,13 +34,19 @@
 
 	<select id="read" resultMap="memberMap">
 		SELECT
-		M.USERID, M.USERPW, M.USERNAME, M.NICKNAME, M.ENABLED,
-		A.USERID AS AUTH_USERID, A.AUTH
-		FROM TBL_MEMBER M
+		M.USERID,
+		M.USERPW,
+		M.USERNAME,
+		M.NICKNAME,
+		M.ENABLED,
+		M.JOB, M.BIO, M.TECH_TAGS, M.USER_IMG, M.LINK1, M.LINK2, M.LINK3, A.USERID
+		AS AUTH_USERID,
+		A.AUTH
+		FROM
+		TBL_MEMBER M
 		LEFT OUTER JOIN TBL_MEMBER_AUTH A ON M.USERID = A.USERID
 		WHERE M.USERID = #{userId}
 	</select>
-
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER
 		SET USER_IMG = #{userImg},
@@ -42,18 +55,20 @@
 	</update>
 
 	<update id="updateMemberProfile">
-    UPDATE TBL_MEMBER 
-    SET 
-        USERNAME = #{userName, jdbcType=VARCHAR},
-        NICKNAME = #{nickname, jdbcType=VARCHAR},
-        JOB = #{job, jdbcType=VARCHAR},
-        BIO = #{bio, jdbcType=VARCHAR},
-        USER_IMG = #{userImg, jdbcType=VARCHAR},  USERIMG = #{userImg, jdbcType=VARCHAR},   LINK1 = #{link1, jdbcType=VARCHAR},
-        LINK2 = #{link2, jdbcType=VARCHAR},
-        LINK3 = #{link3, jdbcType=VARCHAR},
-        UPDATEDATE = SYSDATE
-    WHERE USERID = #{userId, jdbcType=VARCHAR}
-</update>
+		UPDATE TBL_MEMBER
+		SET
+		USERNAME = #{userName, jdbcType=VARCHAR},
+		NICKNAME = #{nickname, jdbcType=VARCHAR},
+		JOB = #{job, jdbcType=VARCHAR},
+		BIO = #{bio, jdbcType=VARCHAR},
+		TECH_TAGS = #{techTags, jdbcType=VARCHAR},
+		USER_IMG = #{userImg, jdbcType=VARCHAR},
+		LINK1 = #{link1, jdbcType=VARCHAR},
+		LINK2 = #{link2, jdbcType=VARCHAR},
+		LINK3 = #{link3, jdbcType=VARCHAR},
+		UPDATEDATE = SYSDATE
+		WHERE USERID = #{userId, jdbcType=VARCHAR}
+	</update>
 
 	<select id="selectActivityList"
 		resultType="com.okkyclone.domain.ActivityVO">

@@ -11,21 +11,35 @@ body {
 	font-family: -apple-system, sans-serif;
 }
 
-.mypage-wrapper #right-sidebar, .mypage-wrapper .right-ad-section,
-	.mypage-wrapper aside, .mypage-wrapper .ad-column, .mypage-wrapper [class*="RIGHT_AD"],
-	.mypage-wrapper [class*="LEFT_AD"], .mypage-wrapper .left-ad-column,
-	.mypage-wrapper .right-ad-column {
+div[class*="ad-column"], div[class*="AD-COLUMN"], div[class*="right-ad"],
+	div[class*="left-ad"], aside, .right-ad-section, .left-ad-section,
+	#right-sidebar {
 	display: none !important;
 	width: 0 !important;
+	height: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	flex: 0 0 0 !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+.mypage-wrapper #right-sidebar, .mypage-wrapper .right-ad-section,
+	.mypage-wrapper aside, .mypage-wrapper .ad-column, .mypage-wrapper [class*="AD"],
+	.mypage-wrapper [class*="ad-"], .left-ad-column, .right-ad-column {
+	display: none !important;
+	visibility: hidden !important;
+	width: 0 !important;
+	height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	position: absolute !important;
 }
 
 .mypage-wrapper.okky-full-container {
 	display: flex;
 	width: 100% !important;
-	justify-content: center !important;
+	justify-content: flex-start !important;
+	padding-left: 20px;
 }
 
 .okky-sidebar {
@@ -37,8 +51,8 @@ body {
 
 .mypage-wrapper .okky-main-content {
 	flex: 1;
-	max-width: 1100px;
-	margin: 0 auto !important;
+	max-width: 1200px;
+	margin: 0 40px !important;
 }
 
 .main-title {
@@ -446,16 +460,20 @@ input:checked+.slider:before {
 </div>
 
 <script>
-
 const bioTextarea = document.getElementById('bioTextarea');
 const bioCount = document.getElementById('bioCount');
 
 function updateBioCount() {
-    bioCount.innerText = `${bioTextarea.value.length}/150`;
+    const length = bioTextarea.value.length;
+    bioCount.innerText = length + '/150';
+    if (length >= 140) {
+        bioCount.style.color = '#ef4444'; 
+    } else {
+        bioCount.style.color = '#6b7280'; 
+    }
 }
-
 bioTextarea.addEventListener('input', updateBioCount);
-window.addEventListener('load', updateBioCount); 
+window.addEventListener('load', updateBioCount);
 
 const tagInput = document.getElementById('tagInput');
 const tagContainer = document.getElementById('tagContainer');
@@ -463,33 +481,35 @@ const techTagsHidden = document.getElementById('techTagsHidden');
 let tags = techTagsHidden.value ? techTagsHidden.value.split(',').filter(t => t !== "") : [];
 
 function renderTags() {
-    document.querySelectorAll('.tag-item').forEach(el => el.remove());
-    
+    document.querySelectorAll('.tag-item').forEach(el => el.remove());   
     tags.forEach((tag, index) => {
         const span = document.createElement('span');
         span.className = 'tag-item';
-        span.innerHTML = `${tag} <i class="bi bi-x tag-close" onclick="removeTag(${index})"></i>`;
+        span.innerHTML = tag + ' <i class="bi bi-x tag-close" onclick="removeTag(' + index + ')"></i>';
         tagContainer.insertBefore(span, tagInput);
     });
-    techTagsHidden.value = tags.join(',');
+    const tagValue = tags.join(',');
+    document.getElementById('techTagsHidden').value = tagValue; 
+    
+    console.log("현재 담긴 태그 데이터:", tagValue);
 }
 
 tagInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
-        e.preventDefault();
+        e.preventDefault(); 
         const value = tagInput.value.trim();
         if (value && !tags.includes(value)) {
             tags.push(value);
             renderTags();
-            tagInput.value = '';
+            tagInput.value = ''; 
         }
     }
 });
 
-function removeTag(index) {
+window.removeTag = function(index) {
     tags.splice(index, 1);
     renderTags();
-}
+};
 
 renderTags();
 
