@@ -57,7 +57,6 @@ public class MemberController {
 	}
 	
 	
-
 	@GetMapping("/mypage")
 	public void mypage(Principal principal, HttpSession session, Model model) {
 	    if (principal != null) {
@@ -141,6 +140,31 @@ public class MemberController {
 	    return "redirect:/member/mypage";
 	}
 	
+	@PostMapping("/modifyPw")
+	@ResponseBody 
+	public ResponseEntity<String> modifyPassword(
+	        @RequestParam("currentPw") String currentPw,
+	        @RequestParam("newPw") String newPw,
+	        Principal principal) {
+	    
+	    System.out.println("=== 비밀번호 변경 요청 진입 ===");
+	    
+	    if (principal == null) {
+	        return new ResponseEntity<>("fail_auth", HttpStatus.UNAUTHORIZED);
+	    }
+
+	    String userId = principal.getName();
+	    
+	    boolean isChanged = memberService.modifyPassword(userId, currentPw, newPw);
+	    
+	    if (isChanged) {
+	        System.out.println("비밀번호 변경 성공!");
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } else {
+	        System.out.println("비밀번호 변경 실패 (비밀번호 불일치)");
+	        return new ResponseEntity<>("fail_pw", HttpStatus.OK);
+	    }
+	}
 	
 	@GetMapping("/activity")
 	public String activityPage(Model model, Principal principal, HttpSession session) {                
@@ -193,4 +217,8 @@ public class MemberController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 	
-}
+	@GetMapping("/account") 
+	public String accountPage() {
+	    System.out.println("=== 계정 관리 페이지 컨트롤러 진입 성공 ===");
+	    return "member/account"; 
+	}}

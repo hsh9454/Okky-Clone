@@ -10,6 +10,8 @@ import com.okkyclone.domain.MemberVO;
 import com.okkyclone.domain.ReplyVO;
 import com.okkyclone.mapper.MemberMapper;
 import com.okkyclone.service.MemberService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -22,6 +24,19 @@ public class MemberServiceImpl implements MemberService {
 	
     @Autowired
     private MemberMapper mapper;
+    
+    @Autowired
+    private BCryptPasswordEncoder pwEncoder;
+    
+    public boolean modifyPassword(String userId, String currentPw, String newPw) {
+        MemberVO user = mapper.read(userId);
+        
+        if (pwEncoder.matches(currentPw, user.getUserPw())) {
+            String encryptedPw = pwEncoder.encode(newPw);
+            return mapper.updatePassword(userId, encryptedPw) == 1; 
+        }
+        return false;
+    }
     
     @Override
     public List<ActivityVO> getActivityList(String memberId) {

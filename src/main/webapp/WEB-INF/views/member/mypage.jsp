@@ -11,23 +11,10 @@ body {
 	font-family: -apple-system, sans-serif;
 }
 
-div[class*="ad-column"], div[class*="AD-COLUMN"], div[class*="right-ad"],
-	div[class*="left-ad"], aside, .right-ad-section, .left-ad-section,
-	#right-sidebar {
+aside, .right-ad-section, .left-ad-section, .left-ad-column,
+	.right-ad-column, div[class*="ad-column"], div[class*="AD-COLUMN"], div[class*="right-ad"],
+	div[class*="left-ad"], #right-sidebar, [class*="AD"] {
 	display: none !important;
-	width: 0 !important;
-	height: 0 !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	opacity: 0 !important;
-	pointer-events: none !important;
-}
-
-.mypage-wrapper #right-sidebar, .mypage-wrapper .right-ad-section,
-	.mypage-wrapper aside, .mypage-wrapper .ad-column, .mypage-wrapper [class*="AD"],
-	.mypage-wrapper [class*="ad-"], .left-ad-column, .right-ad-column {
-	display: none !important;
-	visibility: hidden !important;
 	width: 0 !important;
 	height: 0 !important;
 	margin: 0 !important;
@@ -39,20 +26,33 @@ div[class*="ad-column"], div[class*="AD-COLUMN"], div[class*="right-ad"],
 	display: flex;
 	width: 100% !important;
 	justify-content: flex-start !important;
-	padding-left: 20px;
 }
 
 .okky-sidebar {
 	width: 280px;
 	background-color: #f9fafb;
-	s padding-top: 30px;
+	padding-top: 30px;
 	flex-shrink: 0;
 }
 
 .mypage-wrapper .okky-main-content {
 	flex: 1;
-	max-width: 1200px;
-	margin: 0 40px !important;
+	width: 100%;
+	max-width: none !important;
+	margin: 0 60px !important;
+}
+
+.form-container-flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.form-fields {
+	flex: 1;
+	max-width: 1000px;
+	margin-right: 60px;
 }
 
 .main-title {
@@ -62,36 +62,16 @@ div[class*="ad-column"], div[class*="AD-COLUMN"], div[class*="right-ad"],
 	color: #111827;
 }
 
-.form-container-flex {
-	display: flex;
-	position: relative;
-	width: 100%;
-	align-items: flex-start;
-}
-
-.form-fields {
-	flex: 1;
-	max-width: 600px;
-	margin-right: 180px;
-}
-
-.profile-img-wrapper {
-	position: relative;
-	float: right;
-	margin-top: 20px;
-	z-index: 10;
-}
-
-.name-input-group {
-	clear: both;
-	width: 70%;
-}
-
 .profile-box {
-	position: absolute;
-	right: 0;
-	top: 0;
+	position: relative !important;
+	width: 150px;
+	flex-shrink: 0;
 	text-align: center;
+	margin-top: 20px;
+}
+
+.name-input-group, .form-group {
+	width: 100%;
 }
 
 .profile-img-circle {
@@ -346,12 +326,17 @@ input:checked+.slider:before {
 	min-width: 100px;
 	font-size: 14px;
 }
-</style>
 
+.name-input-group {
+	clear: both;
+	width: 100%;
+}
+</style>
 <div class="okky-full-container mypage-wrapper">
 	<div class="okky-sidebar">
 		<p class="side-section-title">내 계정</p>
-		<a href="#" class="side-nav-item active"><i class="bi bi-person"></i> 프로필</a> <a href="#" class="side-nav-item"><i class="bi bi-gear"></i> 계정 관리</a>
+		<a href="#" class="side-nav-item active"><i class="bi bi-person"></i> 프로필</a> <a href="${pageContext.request.contextPath}/member/account" class="side-nav-item"> <i class="bi bi-gear"></i> 계정 관리
+		</a>
 		<p class="side-section-title">Jobs</p>
 		<a href="#" class="side-nav-item"><i class="bi bi-file-earmark-person"></i> 이력서 관리</a> <a href="#" class="side-nav-item"><i class="bi bi-briefcase"></i> 구직 내역 관리</a> <a href="#"
 			class="side-nav-item"><i class="bi bi-bookmark-star"></i> 관심 포지션</a> <a href="#" class="side-nav-item"><i class="bi bi-send-check"></i> 포지션 지원 이력</a>

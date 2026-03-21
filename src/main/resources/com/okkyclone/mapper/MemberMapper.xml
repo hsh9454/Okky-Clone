@@ -39,13 +39,16 @@
 		M.USERNAME,
 		M.NICKNAME,
 		M.ENABLED,
-		M.JOB, M.BIO, M.TECH_TAGS, M.USER_IMG, M.LINK1, M.LINK2, M.LINK3, A.USERID
+		M.JOB, M.BIO, M.TECH_TAGS, M.USER_IMG, M.LINK1,
+		M.LINK2, M.LINK3, A.USERID
 		AS AUTH_USERID,
 		A.AUTH
 		FROM
 		TBL_MEMBER M
-		LEFT OUTER JOIN TBL_MEMBER_AUTH A ON M.USERID = A.USERID
-		WHERE M.USERID = #{userId}
+		LEFT
+		OUTER JOIN TBL_MEMBER_AUTH A ON M.USERID = A.USERID
+		WHERE M.USERID =
+		#{userId}
 	</select>
 	<update id="updateProfileImg">
 		UPDATE TBL_MEMBER
@@ -57,17 +60,21 @@
 	<update id="updateMemberProfile">
 		UPDATE TBL_MEMBER
 		SET
-		USERNAME = #{userName, jdbcType=VARCHAR},
+		USERNAME = #{userName,
+		jdbcType=VARCHAR},
 		NICKNAME = #{nickname, jdbcType=VARCHAR},
-		JOB = #{job, jdbcType=VARCHAR},
+		JOB =
+		#{job, jdbcType=VARCHAR},
 		BIO = #{bio, jdbcType=VARCHAR},
-		TECH_TAGS = #{techTags, jdbcType=VARCHAR},
+		TECH_TAGS =
+		#{techTags, jdbcType=VARCHAR},
 		USER_IMG = #{userImg, jdbcType=VARCHAR},
 		LINK1 = #{link1, jdbcType=VARCHAR},
 		LINK2 = #{link2, jdbcType=VARCHAR},
 		LINK3 = #{link3, jdbcType=VARCHAR},
 		UPDATEDATE = SYSDATE
-		WHERE USERID = #{userId, jdbcType=VARCHAR}
+		WHERE USERID =
+		#{userId, jdbcType=VARCHAR}
 	</update>
 
 	<select id="selectActivityList"
@@ -124,5 +131,12 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<update id="updatePassword">
+		UPDATE tbl_member
+		SET userpw = #{userPw}
+		WHERE userid =
+		#{userId}
+	</update>
 
 </mapper>

@@ -16,5 +16,5 @@ public interface MemberService {
 	List<ActivityVO> getActivityList(String memberId);
 	public boolean updateMemberProfile(MemberVO vo);
 	public List<ActivityVO> getActivityByType(String userId, String type);
-	
+	public boolean modifyPassword(String userId, String currentPw, String newPw);
 }
