@@ -231,6 +231,10 @@ public class BoardController {
 		}
 
 		System.out.println("DB로 보낼 실제 ID: " + category);
+		if (group != null) {
+	        model.addAttribute("subCategories", getCategoryList(group));
+	    }
+	    model.addAttribute("currentGroup", group);
 		List<BoardVO> list = service.getListWithCategory(cri, category, group);
 		list.forEach(board -> {
 			board.setNew(board.checkIsNew());
