@@ -111,8 +111,13 @@ public class BoardController {
 	private AdService adService;
 
 	@GetMapping("/list")
-	public void list(Criteria cri, @RequestParam(value = "category", required = false) String category,
-			@RequestParam(value = "group", required = false) String group, Model model) {
+	public void list(Criteria cri, 
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "group", required = false) String group,
+            @RequestParam(value = "sort", required = false, defaultValue = "newest") String sort, 
+            Model model) {
+
+cri.setSort(sort);
 
 		if (category != null) {
 			switch (category) {

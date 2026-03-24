@@ -5,6 +5,15 @@ public class Criteria {
 	private int amount;
 	private String type;
 	private String keyword;
+	private String sort;
+	
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 
 	public int getPageStart() {
 		return (this.pageNum - 1) * this.amount;
@@ -39,12 +48,17 @@ public class Criteria {
 	}
 
 	public Criteria() {
-		this(1, 10);
+		this(1, 10, "newest"); 
 	}
 
 	public Criteria(int pageNum, int amount) {
+		this(pageNum, amount, "newest");
+	}
+
+	public Criteria(int pageNum, int amount, String sort) {
 		this.pageNum = pageNum;
 		this.amount = amount;
+		this.sort = sort;
 	}
 
 	public int getPageNum() {

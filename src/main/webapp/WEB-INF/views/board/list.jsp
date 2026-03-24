@@ -9,30 +9,82 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <style>
+.dropdown-menu {
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 8px 0;
+	min-width: 120px;
+	margin-top: 8px !important;
+}
+
+.dropdown-item {
+	font-size: 14px;
+	color: #4b5563;
+	padding: 8px 16px;
+	transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+	background-color: #f9fafb;
+	color: #111827;
+}
+
+.dropdown-item.active {
+	background-color: transparent !important;
+	color: #00b0ff !important;
+	font-weight: 700;
+	position: relative;
+}
+
+.dropdown-item.active::before {
+	content: '●';
+	font-size: 8px;
+	position: absolute;
+	left: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.top-ad-banner {
+	width: 100%;
+	margin-bottom: 20px;
+	border-radius: 12px;
+	overflow: hidden;
+	background-color: #f3f4f6;
+}
+
+.top-ad-banner img {
+	width: 100%;
+	height: auto;
+	max-height: 120px;
+	display: block;
+	object-fit: cover;
+}
 
 .top-banner-area {
-    width: 100%;
-    margin-bottom: 15px; 
-    border-radius: 12px;
-    overflow: hidden; 
-    background-color: #1f2937; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	width: 100%;
+	margin-bottom: 15px;
+	border-radius: 12px;
+	overflow: hidden;
+	background-color: #1f2937;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .top-banner-area img {
-    width: 100%;
-    max-height: 120px;
-    object-fit: cover; 
-    display: block;
+	width: 100%;
+	max-height: 120px;
+	object-fit: cover;
+	display: block;
 }
 
 .board-wrapper {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 16px;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .community-header {
@@ -77,9 +129,9 @@
 	gap: 8px;
 }
 
-.icon-action-btn {
-	width: 36px;
-	height: 36px;
+.icon-btn-okky {
+	width: 38px;
+	height: 38px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -117,8 +169,10 @@
 	align-items: center;
 }
 
-.action-icon-btn:hover {
-	color: #4b5563;
+.icon-btn-okky:hover {
+	background-color: #f9fafb;
+	border-color: #d1d5db;
+	color: #111827;
 }
 
 .write-btn-okky {
@@ -140,11 +194,11 @@
 }
 
 .board-wrapper {
-	padding: 0;
+	padding: 20px;
 	background-color: #fff;
-	border-radius: 12px;
+	border-radius: 16px;
 	border: 1px solid #e5e7eb;
-	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .list-header {
@@ -200,24 +254,42 @@
 </style>
 
 <div class="board-wrapper">
-	<div class="top-banner-area">
-		<a href="#"> <img src="${pageContext.request.contextPath}/resources/img/banner_sample.png" alt="광고 배너" onerror="this.src='https://via.placeholder.com/900x120?text=Global+Top+50+Hansem+Global'">
+	<div class="top-ad-banner">
+		<a href="https://okky.kr/articles/1510255" target="_blank"> <img src="https://img.okky.kr/banner/1710313838423.png" alt="광고 이미지"
+			onerror="this.src='https://placehold.jp/24/1f2937/ffffff/1000x120.png?text=OKKY+AD+BANNER'">
 		</a>
 	</div>
 
 	<div class="community-header">
 		<div class="sub-menu-tabs">
-			<a href="${pageContext.request.contextPath}/board/list?group=${currentGroup}" class="tab-item ${empty param.category ? 'active' : ''}">전체</a>
+			<c:if test="${not empty currentGroup}">
+				<a href="${pageContext.request.contextPath}/board/list?group=${currentGroup}" class="tab-item ${empty param.category ? 'active' : ''}">전체</a>
+			</c:if>
 
 			<c:forEach items="${subCategories}" var="sub">
 				<a href="${pageContext.request.contextPath}/board/list?group=${currentGroup}&category=${sub.id}" class="tab-item ${param.category == sub.id ? 'active' : ''}"> ${sub.name} </a>
 			</c:forEach>
 		</div>
-
 		<div class="header-actions">
-			<button type="button" class="icon-btn-okky" title="정렬 방식">
-				<i class="bi bi-filter-left"></i>
-			</button>
+			<div class="dropdown">
+				<button type="button" class="icon-btn-okky" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="정렬 방식">
+					<i class="bi bi-filter-left"></i>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="sortDropdown">
+					<li>
+						<a class="dropdown-item ${param.sort == 'newest' || empty param.sort ? 'active' : ''}" href="?group=${currentGroup}&category=${param.category}&sort=newest">최신순</a>
+					</li>
+					<li>
+						<a class="dropdown-item ${param.sort == 'recommended' ? 'active' : ''}" href="?group=${currentGroup}&category=${param.category}&sort=recommended">추천순</a>
+					</li>
+					<li>
+						<a class="dropdown-item ${param.sort == 'comments' ? 'active' : ''}" href="?group=${currentGroup}&category=${param.category}&sort=comments">댓글순</a>
+					</li>
+					<li>
+						<a class="dropdown-item ${param.sort == 'views' ? 'active' : ''}" href="?group=${currentGroup}&category=${param.category}&sort=views">조회순</a>
+					</li>
+				</ul>
+			</div>
 
 			<button type="button" class="icon-btn-okky" title="게시판 설정">
 				<i class="bi bi-gear"></i>
